@@ -6,7 +6,7 @@ namespace GeneticAlgorithm
 {
     public class GeneticAlgo
     {
-        private const float MutationRate = 0.01f;
+        private const float MutationRate = 0.05f;
         private const int TotalPopulation = 2000;
         private static readonly Random Random = new Random();
         private IDna<char>[] _population;
@@ -39,7 +39,7 @@ namespace GeneticAlgorithm
 
         private void Setup()
         {
-            _target = "Genetic Algorithms are working just fine, I guess!";
+            _target = "Deine Mutti, riecht nach Kugeleis!";
             _population = new IDna<char>[TotalPopulation];
 
             for (var i = 0; i < _population.Length; i++)
