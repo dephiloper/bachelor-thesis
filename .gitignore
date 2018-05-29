@@ -3,3 +3,6 @@ bin/
 .idea/
 Library/
 Temp/
+SteamVR/
+Plugins/
+SteamVR.meta
