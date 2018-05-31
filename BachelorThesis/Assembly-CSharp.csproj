@@ -52,8 +52,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\PhysicsScript.cs" />
+    <Compile Include="Assets\Reflektion.cs" />
     <Compile Include="Assets\Scripts\BallResetScript.cs" />
+    <Compile Include="Assets\Scripts\DontGoThroughThings.cs" />
+    <Compile Include="Assets\Scripts\PhysicsScript.cs" />
     <Compile Include="Assets\Scripts\VelocityScript.cs" />
     <Compile Include="Assets\SteamVR\Extras\SteamVR_GazeTracker.cs" />
     <Compile Include="Assets\SteamVR\Extras\SteamVR_LaserPointer.cs" />

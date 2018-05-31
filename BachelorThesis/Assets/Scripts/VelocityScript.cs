@@ -6,8 +6,9 @@ using Valve.VR.InteractionSystem;
 
 public class VelocityScript : MonoBehaviour
 {
-	private Queue<Vector3[]> _velocities;
 	private const int Capacity = 10;
+	
+	private Queue<Vector3[]> _velocities;
 	private SteamVR_TrackedObject _trackedObj;
 	private SteamVR_Controller.Device TrackedDevice => SteamVR_Controller.Input((int) _trackedObj.index);
 
