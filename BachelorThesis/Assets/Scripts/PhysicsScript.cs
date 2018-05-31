@@ -13,4 +13,9 @@ public class PhysicsScript : MonoBehaviour
 	void Update()
 	{
 	}
+
+	private void OnTriggerEnter(Collider other)
+	{
+		print(other.name);
+	}
 }
