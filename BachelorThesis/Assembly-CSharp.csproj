@@ -52,7 +52,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Reflektion.cs" />
+    <Compile Include="Assets\Reflexion.cs" />
     <Compile Include="Assets\Scripts\BallResetScript.cs" />
     <Compile Include="Assets\Scripts\DontGoThroughThings.cs" />
     <Compile Include="Assets\Scripts\PhysicsScript.cs" />

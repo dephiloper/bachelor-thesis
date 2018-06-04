@@ -3,18 +3,21 @@ using UnityEngine;
 
 public class BallResetScript : MonoBehaviour
 {
+    public float Speed = 1f;
     private Rigidbody _ballRb;
+    private Vector3 _startPos;
     
     private void OnEnable()
     {
         _ballRb = GetComponent<Rigidbody>();
+        _startPos = transform.position;
         InvokeRepeating(nameof(RelocateBall), 0f, 4.0f); 
         InvokeRepeating(nameof(LaunchBall), 2.0f, 4.0f);
     }
     
     private void RelocateBall()
     {
-        transform.position = new Vector3(0, 1.1f, 1);
+        transform.position = _startPos;
         _ballRb.angularVelocity = Vector3.zero;
         _ballRb.transform.rotation = Quaternion.identity;
         _ballRb.useGravity = false;
@@ -25,6 +28,6 @@ public class BallResetScript : MonoBehaviour
     {
         _ballRb.useGravity = true;
         _ballRb.isKinematic = false;
-        _ballRb.AddForce(Vector3.back * 1.5f);
+        _ballRb.AddForce(Vector3.forward * Speed);
     }
 }
