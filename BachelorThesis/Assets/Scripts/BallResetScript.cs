@@ -1,5 +1,4 @@
-﻿using System.Linq.Expressions;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class BallResetScript : MonoBehaviour
 {
@@ -34,6 +33,7 @@ public class BallResetScript : MonoBehaviour
         transform.position = _startPosition;
         _ballRigidbody.angularVelocity = Vector3.zero;
         _ballRigidbody.transform.rotation = Quaternion.identity;
+        _ballRigidbody.transform.Rotate(Vector3.up * (Random.value - 0.5f) * 20);
         _ballRigidbody.useGravity = false;
         _ballRigidbody.isKinematic = true;
     }
@@ -45,6 +45,6 @@ public class BallResetScript : MonoBehaviour
     {
         _ballRigidbody.useGravity = true;
         _ballRigidbody.isKinematic = false;
-        _ballRigidbody.AddForce(Vector3.forward * Speed);
+        _ballRigidbody.AddForce(transform.forward * Speed);
     }
 }

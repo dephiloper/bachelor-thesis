@@ -53,6 +53,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\BallResetScript.cs" />
+    <Compile Include="Assets\Scripts\EnemyMovementScript.cs" />
+    <Compile Include="Assets\Scripts\FiniteStateMachine\Interfaces\ITransition.cs" />
+    <Compile Include="Assets\Scripts\FiniteStateMachine\State.cs" />
+    <Compile Include="Assets\Scripts\FiniteStateMachine\StateMachine.cs" />
+    <Compile Include="Assets\Scripts\FiniteStateMachine\Transition.cs" />
+    <Compile Include="Assets\Scripts\Interfaces\IIntelligence.cs" />
     <Compile Include="Assets\SteamVR\Extras\SteamVR_GazeTracker.cs" />
     <Compile Include="Assets\SteamVR\Extras\SteamVR_LaserPointer.cs" />
     <Compile Include="Assets\SteamVR\Extras\SteamVR_Teleporter.cs" />
