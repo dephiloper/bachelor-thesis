@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using FiniteStateMachine.States;
 using Interfaces;
 
 namespace FiniteStateMachine
 {
     public class StateMachine : IIntelligence
     {
-        private State CurrentState { get; set; }
+        private BaseState CurrentState { get; set; }
 
-        public StateMachine(State initialState)
+        public StateMachine(BaseState initialState)
         {
             CurrentState = initialState;
         }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Interfaces
 {
-    internal interface IIntelligence
+    public interface IIntelligence
     {
         List<Action> Update();
     }
