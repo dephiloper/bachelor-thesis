@@ -7,4 +7,5 @@ SteamVR/
 Plugins/
 SteamVR.meta
 steamvr_unity_plugin/
-encog-dotnet-core.3.4.0/
+Nuget*
+Packages/
