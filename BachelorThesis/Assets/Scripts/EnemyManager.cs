@@ -33,6 +33,7 @@ public class EnemyManager : MonoBehaviour
     {
         var idle = new IdleState(transform);
         var seek = new SeekState(transform);
+        var hit = new HitState(transform);
        
         idle.Transitions.AddRange(new[]
         {
@@ -42,6 +43,12 @@ public class EnemyManager : MonoBehaviour
         seek.Transitions.AddRange(new[]
         {
             new Transition(idle, seek.IsBallSeekable, true),
+            new Transition(hit, hit.IsBallHittable), 
+        });
+        
+        hit.Transitions.AddRange(new []
+        {
+            new Transition(idle, hit.IsBallHittable, true), 
         });
 
         _enemyAi = new StateMachine(idle);
@@ -63,9 +70,16 @@ public class EnemyManager : MonoBehaviour
     
     private void OnDrawGizmos()
     {
+        // seek distance
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, SeekDistance);
+        
+        // hit distance
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, HitDistance);
+
+        // move space
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireCube(StartPosition, MaxMoveSpace);
     }
 }

@@ -669,12 +669,12 @@ Prefab:
     - target: {fileID: 114777756285184680, guid: 5c8897a20cd2f4573b977b91b625b699,
         type: 2}
       propertyPath: HitDistance
-      value: 0.8
+      value: 0.4
       objectReference: {fileID: 0}
     - target: {fileID: 114777756285184680, guid: 5c8897a20cd2f4573b977b91b625b699,
         type: 2}
       propertyPath: MoveBatSpeed
-      value: 5
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5c8897a20cd2f4573b977b91b625b699, type: 2}

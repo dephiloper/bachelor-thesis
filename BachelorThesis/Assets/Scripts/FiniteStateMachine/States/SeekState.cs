@@ -9,12 +9,8 @@ namespace FiniteStateMachine.States
             Setup();
         }
 
-        private void Setup()
-        {
-            Actions.Add(FollowBall);
-            Actions.Add(FlipPaddle);
-        }
-
+        #region Action
+        
         private void FollowBall()
         {
             var target = Enemy.Target;
@@ -32,16 +28,30 @@ namespace FiniteStateMachine.States
             var step = Enemy.MoveBatSpeed * Time.deltaTime;
             Rigidbody.MovePosition(Vector3.MoveTowards(Transform.position, newPosition, step));
         }
+        
+        #endregion
 
-        internal bool IsBallSeekable()
+        #region Conditions
+
+        public bool IsBallSeekable()
         {
-            var dist = CalulateDistance();
-            return dist <= Enemy.SeekDistance;
+            var dist = Vector3.Distance(Enemy.Target.position, Transform.position);
+            if (dist <= Enemy.SeekDistance)
+            {
+                var heading = Enemy.Target.position - Transform.position;
+                var dot = Vector3.Dot(heading, Transform.forward);
+                return dot > 0;
+            }
+
+            return false;
         }
 
-        private float CalulateDistance()
+        #endregion
+        
+        private void Setup()
         {
-            return Vector3.Distance(Enemy.Target.position, Transform.position);
+            Actions.Add(FollowBall);
+            Actions.Add(FlipPaddle);
         }
     }
 }

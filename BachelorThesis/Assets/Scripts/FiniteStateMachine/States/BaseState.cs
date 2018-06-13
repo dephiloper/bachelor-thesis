@@ -16,7 +16,6 @@ namespace FiniteStateMachine.States
         protected readonly Rigidbody Rigidbody;
         protected readonly EnemyManager Enemy;
 
-
         protected BaseState(Transform transform)
         {
             Transform = transform;
