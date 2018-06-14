@@ -53,10 +53,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\Ant.cs" />
+    <Compile Include="Assets\Scripts\Brain.cs" />
     <Compile Include="Assets\Scripts\GameManager.cs" />
     <Compile Include="Assets\Scripts\Program.cs" />
     <Compile Include="Assets\Scripts\SampleScript.cs" />
-    <Compile Include="Assets\Scripts\SteeringBehaviour.cs" />
     <Reference Include="UnityEditor.StandardEvents">
       <HintPath>/Users/Philipp/Development/University/bachelor-thesis-prep/Neuroevolution/SampleNeuroevolution/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
     </Reference>
