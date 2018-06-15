@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class Ant : MonoBehaviour
 {
@@ -24,6 +25,10 @@ public class Ant : MonoBehaviour
     {
         _rigidbody.velocity = transform.up * VelocityFactor;
         _environment = DetermineEnvironment();
+        if (_environment == null)
+        {
+            Console.WriteLine();
+        }
         AdjustRotation();
         Brain.Score += 8;
     }
