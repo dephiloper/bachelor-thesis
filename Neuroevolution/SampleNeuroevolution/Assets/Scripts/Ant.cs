@@ -25,7 +25,7 @@ public class Ant : MonoBehaviour
         _rigidbody.velocity = transform.up * VelocityFactor;
         _environment = DetermineEnvironment();
         AdjustRotation();
-        Brain.Score++;
+        Brain.Score += 8;
     }
 
     private double[] DetermineEnvironment()
@@ -40,6 +40,14 @@ public class Ant : MonoBehaviour
         };
     }
 
+    private float ShootRay(Vector2 direction)
+    {
+        var hit = Physics2D.Raycast(transform.position, direction, 1f, LayerMask.GetMask("Wall"));
+        if (!hit.collider) return -1f;
+
+        return Vector2.Distance(hit.point, transform.position);
+    }
+    
     private void DrawTentacleSenses()
     {
         if (_environment == null) return;
@@ -59,14 +67,6 @@ public class Ant : MonoBehaviour
             _rigidbody.rotation += RotationStepSize;
         else
             _rigidbody.rotation -= RotationStepSize;
-    }
-
-    private float ShootRay(Vector2 direction)
-    {
-        var hit = Physics2D.Raycast(transform.position, direction, 1f, LayerMask.GetMask("Wall"));
-        if (!hit.collider) return -1f;
-
-        return Vector2.Distance(hit.point, transform.position);
     }
 
     private void OnTriggerEnter2D(Collider2D other) => Destroy(gameObject);

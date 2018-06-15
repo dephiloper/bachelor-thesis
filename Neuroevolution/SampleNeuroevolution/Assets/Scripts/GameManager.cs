@@ -1,11 +1,15 @@
-﻿using System.Linq;
+﻿using System;
+using System.IO;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 public class GameManager : MonoBehaviour
 {
     public GameObject AntPrefab;
-    public Text Label;
+    public Text MainLabel;
+    public Text AvgLabel;
     public int AntCount = 5;
     public int MaxLifeTime = 500;
     public int LifeTime;
@@ -13,6 +17,9 @@ public class GameManager : MonoBehaviour
     private GameObject[] _ants;
     private Brain[] _brains;
     private int _generation;
+    private long _sumScore;
+    private int _avgScore;
+    private Brain _bestBrain;
 
     private void Start()
     {
@@ -41,9 +48,21 @@ public class GameManager : MonoBehaviour
 
     private void DisplayText()
     {
-        Label.text = $"Generation: {_generation}\n" +
-                     $"Max Fitness: {_brains.ToList().Max(x => x.Fitness):F}\n" +
-                     $"Max Score: {_brains.ToList().Max(x => x.Score)}";
+        _bestBrain = _brains.ToList().OrderByDescending(x => x.Score).FirstOrDefault();
+        var maxScore = _brains.ToList().Max(x => x.Score);
+        _sumScore += maxScore;
+
+        var oldAvgScore = _avgScore;
+        _avgScore = (int)_sumScore / (_generation + 1);
+        
+        AvgLabel.color = _avgScore > oldAvgScore ? Color.green : Color.red;
+        
+        MainLabel.text = $"Generation: {_generation}\n" +
+                     $"Top Fitness: {_brains.ToList().Max(x => x.Fitness):F}\n" +
+                     $"Top Score: {maxScore}\n";
+        AvgLabel.text = $"Avg Score: {_avgScore} (avg of top)";
+
+        
         _generation++;
     }
 
@@ -100,5 +119,24 @@ public class GameManager : MonoBehaviour
 
         for (var i = 0; i < AntCount; i++)
             _brains[i].Fitness = _brains[i].Score / sum;
+    }
+
+    private void OnApplicationQuit()
+    {
+        if (_bestBrain == null) return;
+
+        using (var writer = new BinaryWriter(File.Open("weights.bin", FileMode.Create)))
+        {
+            var bytes = GetBytes(_bestBrain.Network.Flat.Weights);
+            writer.Write(bytes.Length);
+            writer.Write(bytes);
+        }
+    }
+
+    static byte[] GetBytes(double[] values)
+    {
+        var result = new byte[values.Length * sizeof(double)];
+        Buffer.BlockCopy(values, 0, result, 0, result.Length);
+        return result;
     }
 }
