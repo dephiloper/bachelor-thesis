@@ -12,8 +12,6 @@ public class Brain
     public double Fitness { get; set; }
     public double Score { get; set; }
 
-    private const double MutationRate = 0.1f;
-
     public BasicNetwork Network { get; private set; }
 
     public Brain()
@@ -48,7 +46,7 @@ public class Brain
     public void Mutate()
     {
         for (var i = 0; i < Network.Flat.Weights.Length; i++)
-            if (Random.value < MutationRate) {
+            if (Random.value < GameManager.Instance.MutationRate) {
                 Network.Flat.Weights[i] = Network.Flat.Weights[i] + (Random.value - 0.5f);
             }
     }
