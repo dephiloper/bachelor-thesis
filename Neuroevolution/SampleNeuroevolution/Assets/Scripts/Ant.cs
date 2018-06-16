@@ -1,9 +1,10 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Ant : MonoBehaviour
 {
     public float VelocityFactor = 1.75f;
+    public float ScoreFactor = 5f;
+    public int GoalReward = 2;
     public float RotationStepSize = 3.5f;
     public Brain Brain { private get; set; }
     private Rigidbody2D _rigidbody;
@@ -25,12 +26,15 @@ public class Ant : MonoBehaviour
     {
         _rigidbody.velocity = transform.up * VelocityFactor;
         _environment = DetermineEnvironment();
-        if (_environment == null)
-        {
-            Console.WriteLine();
-        }
         AdjustRotation();
-        Brain.Score += 8;
+        
+        //      \  |  /    distances 
+        //       \ | /
+        //         o
+        //        i0i
+        //         0
+        // add the distances of all three rays, so the more distance to the wall, the better
+        Brain.Score += (long)(_environment[0] + _environment[1] + _environment[2]);
     }
 
     private double[] DetermineEnvironment()
@@ -48,7 +52,7 @@ public class Ant : MonoBehaviour
     private float ShootRay(Vector2 direction)
     {
         var hit = Physics2D.Raycast(transform.position, direction, 1f, LayerMask.GetMask("Wall"));
-        if (!hit.collider) return -1f;
+        if (!hit.collider) return 2f; // normally max distance is 1, so 2 means like free to go there
 
         return Vector2.Distance(hit.point, transform.position);
     }
@@ -74,5 +78,11 @@ public class Ant : MonoBehaviour
             _rigidbody.rotation -= RotationStepSize;
     }
 
-    private void OnTriggerEnter2D(Collider2D other) => Destroy(gameObject);
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.tag.Equals("Goal"))
+            Brain.Score *= GoalReward;
+        else
+            Destroy(gameObject);
+    }    
 }

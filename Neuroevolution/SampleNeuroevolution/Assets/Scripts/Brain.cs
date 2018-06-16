@@ -10,7 +10,7 @@ using Random = UnityEngine.Random;
 public class Brain
 {
     public double Fitness { get; set; }
-    public long Score { get; set; }
+    public double Score { get; set; }
 
     private const double MutationRate = 0.1f;
 

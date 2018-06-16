@@ -17,7 +17,7 @@ public class GameManager : MonoBehaviour
     private GameObject[] _ants;
     private Brain[] _brains;
     private int _generation;
-    private long _sumScore;
+    private double _sumScore;
     private int _avgScore;
     private Brain _bestBrain;
 
