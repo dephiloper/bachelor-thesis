@@ -6,8 +6,8 @@ namespace GeneticAlgorithm
 {
     public class GeneticAlgo
     {
-        private const float MutationRate = 0.05f;
-        private const int TotalPopulation = 2000;
+        private const float MutationRate = 0.005f;
+        private const int TotalPopulation = 5000;
         private static readonly Random Random = new Random();
         private IDna<char>[] _population;
         private List<IDna<char>> _normalisationMap;
@@ -15,18 +15,18 @@ namespace GeneticAlgorithm
         private const int MaxGeneration = 5000;
 
 
-        public static void Main(string[] args)
+        public static void Main(string[] args) => new GeneticAlgo().Run(args);
+
+        private void Run(string[] args)
         {
-            new GeneticAlgo().Run();
-        }
-        
-        public void Run()
-        {
+            if (args.Length < 1)
+                _target = "So many books, so little time. - Frank Zappa";
+            else 
+                _target = args[0];
             Setup();
+
             foreach (var entity in _population)
-            {
                 entity.CalculateFitness(_target.ToCharArray());
-            }
 
             for (var i = 0; i < MaxGeneration; i++)
             {
@@ -35,17 +35,16 @@ namespace GeneticAlgorithm
                 Console.WriteLine($"{max} - fitness: {max?.Fitness} - generation: {i}");
                 if (max?.Fitness >= 1) break;
             }
+
+            Console.ReadLine();
         }
 
         private void Setup()
         {
-            _target = "Deine Mutti, riecht nach Kugeleis!";
             _population = new IDna<char>[TotalPopulation];
 
             for (var i = 0; i < _population.Length; i++)
-            {
                 _population[i] = new PhraseDna(_target.Length);
-            }
         }
 
         private void Update()

@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Emit;
 using UnityEngine;
+using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 public class GeneticAlgorithm : MonoBehaviour
@@ -13,7 +15,9 @@ public class GeneticAlgorithm : MonoBehaviour
     public int CurrentFrame;
     public float MutationRate = 0.01f;
     public IDna<Vector2>[] Population;
-    public bool ShowOnlyBestFitness = false;
+    public bool ShowOnlyBestFitness;
+    public Text LabelGeneration;
+    public Text LabelLifeTime;
 
     private Vector2 _target;
     private GameObject[] _bloops;
@@ -30,7 +34,6 @@ public class GeneticAlgorithm : MonoBehaviour
         {
             Population[i] = new VectorDna(LifeSpan);
             _bloops[i] = Instantiate(BloopPrefab, transform);
-            _bloops[i].GetComponent<BloopScript>().BloopNumber = i;
         }
     }
 
@@ -42,13 +45,18 @@ public class GeneticAlgorithm : MonoBehaviour
             if (CurrentFrame < LifeSpan)
             {
                 var bloopRigidbody2D = _bloops[i].transform.GetComponent<Rigidbody2D>();
+                if (!bloopRigidbody2D) continue;
+                
                 bloopRigidbody2D.AddForce(Population[i].Genes[CurrentFrame]);
                 var dir = bloopRigidbody2D.velocity;
                 var angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg + 90f;
                 _bloops[i].transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
                 Population[i].CalculateFitness(_bloops[i].transform.GetPosition2D(), _target);
-                if (Vector2.Distance(_bloops[i].transform.position, _target) < 0.5)
-                    Population[i].Fitness *= 1.5f;
+                if (Vector2.Distance(_bloops[i].transform.position, _target) < 0.25) {
+                    Population[i].Fitness *= 5f;
+                    Destroy(_bloops[i].GetComponent<Rigidbody2D>());
+                    _bloops[i].transform.position = _target;
+                }
             }
             else
             {
@@ -59,6 +67,7 @@ public class GeneticAlgorithm : MonoBehaviour
         }
         
         CurrentFrame++;
+        LabelLifeTime.text = $"Life Time: {CurrentFrame}/{LifeSpan}";
         
         if (_restart) {
             CurrentFrame = 0;
@@ -76,7 +85,7 @@ public class GeneticAlgorithm : MonoBehaviour
         var normalisationMap = new List<IDna<Vector2>>();
 
         var max = Population.Max(x => x.Fitness);
-        print(string.Format("max fitness: {0} on generation: {1}", max, _generationCounter));
+        var avg = Population.Average(x => x.Fitness);
 
         foreach (var entity in Population)
         {
@@ -100,6 +109,7 @@ public class GeneticAlgorithm : MonoBehaviour
         }
 
         _generationCounter++;
+        LabelGeneration.text = $"Generation: {_generationCounter}\nMax Fitness: {max}\nAvg Fitness: {avg}";
     }
 
     private void HighlightClosest()

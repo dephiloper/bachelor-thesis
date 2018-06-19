@@ -1,11 +1,13 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Vehicle : MonoBehaviour
 {
     public float MaxSpeed = 2f;
     public Transform TargetTransform;
-
+    public Text SteeringBehaviourText;
+    
     public Vector2 Position => transform.position;
     public Vector2 Velocity => transform.GetComponent<Rigidbody2D>().velocity;
     public Vector2 Target => TargetTransform.position;
@@ -46,21 +48,31 @@ public class Vehicle : MonoBehaviour
         {
             _steeringFunction = _steeringBehaviour.Wander;
             TargetTransform.GetComponent<FollowScript>().enabled = false;
+            SteeringBehaviourText.text = $"Current Steering Behaviour\nWander";
         }
         else if (Input.GetKeyDown(KeyCode.A))
         {
             _steeringFunction = _steeringBehaviour.Arrive;
             TargetTransform.GetComponent<FollowScript>().enabled = true;
+            SteeringBehaviourText.text = $"Current Steering Behaviour\nArrive";
         }
         else if (Input.GetKeyDown(KeyCode.S))
         {
             _steeringFunction = _steeringBehaviour.Seek;
             TargetTransform.GetComponent<FollowScript>().enabled = true;
+            SteeringBehaviourText.text = $"Current Steering Behaviour\nSeek";
         }
         else if (Input.GetKeyDown(KeyCode.F))
         {
             _steeringFunction = _steeringBehaviour.Flee;
             TargetTransform.GetComponent<FollowScript>().enabled = true;
+            SteeringBehaviourText.text = $"Current Steering Behaviour\nFlee";
+        }
+
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+            TargetTransform.GetComponent<SpriteRenderer>().enabled =
+                !TargetTransform.GetComponent<SpriteRenderer>().enabled;
         }
     }
 

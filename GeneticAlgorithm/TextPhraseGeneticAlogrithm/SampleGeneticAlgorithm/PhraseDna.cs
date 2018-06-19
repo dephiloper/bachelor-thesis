@@ -7,7 +7,7 @@ namespace GeneticAlgorithm
         public char[] Genes { get; set; }
         public float Fitness { get; set; }
 
-        private const string Chars = "1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZÄÜÖ?!abcdefghijklmnopqrstuvwxyzäüöß,. ";
+        private const string Chars = "1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZÄÜÖ?!abcdefghijklmnopqrstuvwxyzäüöß,.- ";
         private static readonly Random Random = new Random();
 
         public PhraseDna(int count)
