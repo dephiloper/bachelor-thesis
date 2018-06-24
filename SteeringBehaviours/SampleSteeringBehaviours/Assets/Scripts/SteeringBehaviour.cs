@@ -11,8 +11,6 @@ public class SteeringBehaviour
 
     public Vector2 Seek(Vehicle vehicle)
     {
-        var v = new Vector2(3, 2);
-        v.Normalize();
         var desiredVelocity = vehicle.Target - vehicle.Position; // calulate desired velocity 
         desiredVelocity.Normalize();
         desiredVelocity *= vehicle.MaxSpeed;
