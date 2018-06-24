@@ -17,7 +17,8 @@ namespace Car
 
         private void FixedUpdate()
         {
-            PerformHover();
+            if (_carRigidbody)
+                PerformHover();
         }
 
         private void PerformHover()

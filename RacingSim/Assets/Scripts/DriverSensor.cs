@@ -30,7 +30,7 @@ public class DriverSensor
 	/// distance -45 degree (3), 0 degree (4), 45 degree (5)(distance Enemy)
 	/// current velocity x (6) and y (7)
 	/// </returns>
-	public Percept PerceiveEnvironment ()
+	public Percept PerceiveEnvironment()
 	{
 		var percept = new Percept
 		{

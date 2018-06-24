@@ -53,14 +53,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\Action.cs" />
+    <Compile Include="Assets\Scripts\Agent.cs" />
     <Compile Include="Assets\Scripts\Brain.cs" />
     <Compile Include="Assets\Scripts\CameraUtils\CameraPositionChanger.cs" />
     <Compile Include="Assets\Scripts\CameraUtils\CameraStabilizer.cs" />
-    <Compile Include="Assets\Scripts\Car\Agent.cs" />
     <Compile Include="Assets\Scripts\Car\CarBehaviour.cs" />
     <Compile Include="Assets\Scripts\DriverSensor.cs" />
     <Compile Include="Assets\Scripts\GameManager.cs" />
     <Compile Include="Assets\Scripts\Percept.cs" />
+    <Compile Include="Assets\Scripts\Waypoint.cs" />
     <Compile Include="Assets\SteamVR\Extras\SteamVR_GazeTracker.cs" />
     <Compile Include="Assets\SteamVR\Extras\SteamVR_LaserPointer.cs" />
     <Compile Include="Assets\SteamVR\Extras\SteamVR_Teleporter.cs" />

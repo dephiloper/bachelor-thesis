@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
-using Car;
+﻿using System.Linq;
 using UnityEngine;
+using UnityScript.Lang;
+using Valve.VR.InteractionSystem;
 
 public class GameManager : MonoBehaviour
 {
@@ -14,7 +15,7 @@ public class GameManager : MonoBehaviour
     private int _lifetime;
     private Brain[] _brains;
     private Agent[] _agents;
-    
+
     private void Awake()
     {
         if (!Instance)
@@ -25,18 +26,21 @@ public class GameManager : MonoBehaviour
     {
         _brains = new Brain[PopulationSize];
         _agents = new Agent[PopulationSize];
-        
+
         for (var i = 0; i < PopulationSize; i++)
             _brains[i] = new Brain();
-        
+
         SpawnAgents();
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
-        if (_lifetime < MaxLifespan)
-            _lifetime++;
-        else
+        _lifetime++;
+        var bestAgent = _agents[BestAgentIndex()];
+        Camera.main.transform.position = new Vector3(bestAgent.transform.position.x, Camera.main.transform.position.y,
+            bestAgent.transform.position.z);
+
+        if (_lifetime >= MaxLifespan || _agents.All(x => x.GetComponent<Rigidbody>() == null))
         {
             CalculateFitness();
             DestroyAgents();
@@ -48,38 +52,34 @@ public class GameManager : MonoBehaviour
 
     private void DestroyAgents()
     {
-        for (var i = 0; i < _agents.Count; i++)
+        foreach (var agent in _agents)
         {
-            Destroy(_agents[i].gameObject); 
+            Destroy(agent.gameObject);
         }
     }
 
     private void SpawnAgents()
     {
-        _agents.Clear();
-        
+        _agents = new Agent[PopulationSize];
+
         for (var i = 0; i < PopulationSize; i++)
         {
-            _agents[i] = 
-                Instantiate(AgentPrefab).GetComponent<Agent>();
+            _agents[i] = Instantiate(AgentPrefab).GetComponent<Agent>();
             _agents[i].Brain = _brains[i];
         }
     }
-    
+
     private void CalculateFitness()
     {
-        var sum = 0d;
-
-        foreach (var brain in _brains)
-            sum += brain.Score;
+        var sum = _brains.Sum(brain => brain.Score);
 
         for (var i = 0; i < PopulationSize; i++)
             _brains[i].Fitness = _brains[i].Score / sum;
     }
-    
-    private List<Brain> Repopulate()
+
+    private Brain[] Repopulate()
     {
-        var fittestBrains = new List<Brain>(PopulationSize);
+        var fittestBrains = new Brain[PopulationSize];
         for (var i = 0; i < PopulationSize; i++)
         {
             var leftBrain = SelectBrainOnProbabilty();
@@ -92,7 +92,7 @@ public class GameManager : MonoBehaviour
 
         return fittestBrains;
     }
-    
+
     private Brain SelectBrainOnProbabilty()
     {
         var random = Random.value;
@@ -107,4 +107,20 @@ public class GameManager : MonoBehaviour
         return null;
     }
 
+    private int BestAgentIndex()
+    {
+        var maxScore = -1d;
+        var maxScoreIndex = 0;
+
+        for (var i = 0; i < _agents.Length; i++)
+        {
+            if (_agents[i] != null && maxScore < _agents[i].Brain.Score)
+            {
+                maxScore = _agents[i].Brain.Score;
+                maxScoreIndex = i;
+            }
+        }
+
+        return maxScoreIndex;
+    }
 }
