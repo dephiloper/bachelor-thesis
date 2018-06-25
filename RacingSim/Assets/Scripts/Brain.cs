@@ -7,9 +7,9 @@ using Random = UnityEngine.Random;
 public class Brain
 {
     public double Fitness { get; set; }
-    public double Score { get; set; }
+    public int Score { get; set; }
 
-    public BasicNetwork Network { get; private set; }
+    private BasicNetwork Network { get; set; }
 
     public Brain()
     {

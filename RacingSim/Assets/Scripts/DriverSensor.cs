@@ -4,7 +4,7 @@ using UnityEngine;
 public class DriverSensor
 {
 	
-	private const float RayDistance = 10f;
+	private const float RayDistance = 5f;
 	private const float NoCollisionDistance = RayDistance * 2f;
 	
 	private readonly LayerMask _wallMask;
@@ -30,26 +30,30 @@ public class DriverSensor
 	/// distance -45 degree (3), 0 degree (4), 45 degree (5)(distance Enemy)
 	/// current velocity x (6) and y (7)
 	/// </returns>
-	public Percept PerceiveEnvironment()
+	public Percept PerceiveEnvironment(bool onTrack)
 	{
 		var percept = new Percept
 		{
-			WallDistances = new List<double>
-			{
-				ShootRay((_transform.forward - _transform.right).normalized, _wallMask),
-				ShootRay(_transform.forward.normalized, _wallMask),
-				ShootRay((_transform.forward + _transform.right).normalized, _wallMask)
-			},
 			PlayerDistances = new List<double>
 			{
 				ShootRay((_transform.forward - _transform.right).normalized, _carMask),
 				ShootRay(_transform.forward.normalized, _carMask),
 				ShootRay((_transform.forward + _transform.right).normalized, _carMask)
 			},
+			WallDistances = new List<double>
+			{
+				ShootRay((_transform.forward - _transform.right).normalized, _wallMask),
+				ShootRay(_transform.forward.normalized, _wallMask),
+				ShootRay((_transform.forward + _transform.right).normalized, _wallMask)
+			},
 			//TODO: see if the 0 at y is a good idea
 			Velocity = new Vector3(_rigidbody.velocity.x, 0, _rigidbody.velocity.z)
 		};
-		
+
+		if (!onTrack)
+			for (var i = 0; i < percept.WallDistances.Count; i++)
+				percept.WallDistances[i] = percept.WallDistances[i] > RayDistance ? 0 : NoCollisionDistance;
+
 		DrawSensors(percept);
 		return percept;
 	}

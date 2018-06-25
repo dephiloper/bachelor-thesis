@@ -3,9 +3,9 @@ bin/
 .idea/
 Library/
 Temp/
-SteamVR/
 Plugins/
-SteamVR.meta
+SteamVR*
 steamvr_unity_plugin/
-Nuget*
+NuGet*
 Packages/
+AutoSave*

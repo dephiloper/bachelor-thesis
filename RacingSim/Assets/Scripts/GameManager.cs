@@ -1,7 +1,7 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using UnityEngine;
-using UnityScript.Lang;
-using Valve.VR.InteractionSystem;
+using Random = UnityEngine.Random;
 
 public class GameManager : MonoBehaviour
 {
@@ -11,8 +11,15 @@ public class GameManager : MonoBehaviour
     public float MutationRate = 0.01f;
     public int PopulationSize = 100;
     public int MaxLifespan = 1000;
+    public bool IncreaseLifespan = false;
 
-    private int _lifetime;
+    [SerializeField] private int _lifetime;
+
+    [SerializeField] private double _topScore;
+    [SerializeField] private double _topFitness;
+    [SerializeField] private int _generation;
+
+
     private Brain[] _brains;
     private Agent[] _agents;
 
@@ -37,15 +44,21 @@ public class GameManager : MonoBehaviour
     {
         _lifetime++;
         var bestAgent = _agents[BestAgentIndex()];
-        Camera.main.transform.position = new Vector3(bestAgent.transform.position.x, Camera.main.transform.position.y,
-            bestAgent.transform.position.z);
+        
+        Camera.main.transform.position = new Vector3(bestAgent.transform.position.x,
+            Camera.main.transform.position.y, bestAgent.transform.position.z);
+        
+        _topScore = _brains.Max(x => x.Score);
 
         if (_lifetime >= MaxLifespan || _agents.All(x => x.GetComponent<Rigidbody>() == null))
         {
             CalculateFitness();
+            _topFitness = _brains.Max(x => x.Fitness);
+            _generation++;
             DestroyAgents();
             _brains = Repopulate();
             SpawnAgents();
+            MaxLifespan = IncreaseLifespan ? Convert.ToInt32(MaxLifespan * 1.1d) : MaxLifespan;
             _lifetime = 0;
         }
     }
@@ -74,7 +87,7 @@ public class GameManager : MonoBehaviour
         var sum = _brains.Sum(brain => brain.Score);
 
         for (var i = 0; i < PopulationSize; i++)
-            _brains[i].Fitness = _brains[i].Score / sum;
+            _brains[i].Fitness = (double)_brains[i].Score / sum;
     }
 
     private Brain[] Repopulate()
