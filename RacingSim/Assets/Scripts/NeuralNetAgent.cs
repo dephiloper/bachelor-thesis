@@ -54,7 +54,7 @@ public class NeuralNetAgent : Agent
     public void WaypointCrossed(int waypointIdentifier, int lastWaypointIdentifier)
     {
         // waypoint already satisfied
-        if (ReachedWaypointIds.Contains(waypointIdentifier)) return;
+        if (ReachedWaypointIds.Contains(waypointIdentifier) || !_isTrained) return;
         
         var maxId = ReachedWaypointIds.Count > 0 ? ReachedWaypointIds.Max() : 0;
 
