@@ -9,7 +9,7 @@ public struct Percept
 
     public double[] ToDoubleArray()
     {
-        var arr = WallDistances./*Concat(PlayerDistances).*/ToList();
+        var arr = WallDistances.ToList();
         arr.Add(Velocity.x);
         arr.Add(Velocity.z);
 

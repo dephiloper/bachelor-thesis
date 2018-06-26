@@ -6393,8 +6393,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Type: 0
   EditorProperties:
+    MaxSpeed: 7.5
+    TurnSpeed: 2
+    Score: 0
+    Speed: 0
+    HAxis: HorizontalP1
+    VAxis: VerticalP1
+    SelectedHAxis: 2
+    SelectedVAxis: 6
     BrainAsset: {fileID: 0}
-    PlayerId: 1
+    IsTrained: 0
+    ReachedWaypointIds: 
+    IsExclude: 0
 --- !u!54 &518014190
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -14538,8 +14548,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Type: 0
   EditorProperties:
+    MaxSpeed: 7.5
+    TurnSpeed: 2
+    Score: 0
+    Speed: 0
+    HAxis: HorizontalP0
+    VAxis: VerticalP0
+    SelectedHAxis: 1
+    SelectedVAxis: 5
     BrainAsset: {fileID: 0}
-    PlayerId: 0
+    IsTrained: 0
+    ReachedWaypointIds: 
+    IsExclude: 0
 --- !u!54 &1159512622
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -18148,8 +18168,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Type: 4
   EditorProperties:
+    MaxSpeed: 7.5
+    TurnSpeed: 2
+    Score: 0
+    Speed: 0
+    HAxis: 
+    VAxis: 
+    SelectedHAxis: 0
+    SelectedVAxis: 0
     BrainAsset: {fileID: 4900000, guid: 4579d1b1da3904dfbaf917b1e4b2a77e, type: 3}
-    PlayerId: 0
+    IsTrained: 0
+    ReachedWaypointIds: 
+    IsExclude: 0
 --- !u!54 &1436489684
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -23396,8 +23426,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Type: 0
   EditorProperties:
+    MaxSpeed: 7.5
+    TurnSpeed: 2
+    Score: 0
+    Speed: 0
+    HAxis: HorizontalP2
+    VAxis: VerticalP2
+    SelectedHAxis: 3
+    SelectedVAxis: 7
     BrainAsset: {fileID: 0}
-    PlayerId: 2
+    IsTrained: 0
+    ReachedWaypointIds: 
+    IsExclude: 0
 --- !u!54 &1856585060
 Rigidbody:
   m_ObjectHideFlags: 0

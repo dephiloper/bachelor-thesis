@@ -1,23 +1,21 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class DriverSensor
+public class Sensor
 {
 	
 	private const float RayDistance = 7.5f;
 	private const float NoCollisionDistance = RayDistance * 2f;
 	
 	private readonly LayerMask _wallMask;
-	private readonly LayerMask _carMask;
 	private readonly Rigidbody _rigidbody;
 	private readonly Transform _transform;
 
-	public DriverSensor(Transform transform)
+	public Sensor(Transform transform)
 	{
 		_transform = transform;
 		_rigidbody = transform.GetComponent<Rigidbody>();
 		_wallMask = LayerMask.GetMask("Wall");
-		_carMask = LayerMask.GetMask("Car");
 	}
 	
 	public Percept PerceiveEnvironment(bool onTrack)

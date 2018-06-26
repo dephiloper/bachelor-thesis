@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Agent;
+using UnityEngine;
 
 public class Waypoint : MonoBehaviour
 {

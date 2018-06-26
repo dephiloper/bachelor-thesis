@@ -1,14 +1,16 @@
-﻿using UnityEngine;
+﻿using Agent;
+using CustomEditors;
+using UnityEngine;
 
 public class AgentScript : MonoBehaviour
 {
     public AgentType Type;
     public AgentEditorProperties EditorProperties;
-    public Agent Agent { get; private set; }
+    public BaseAgent Agent { get; private set; }
     
     private void Start()
     {
-        Agent = Type.NewInstance(transform, EditorProperties);
+        Agent = Type.NewInstance(this);
     }
 
     private void FixedUpdate()
