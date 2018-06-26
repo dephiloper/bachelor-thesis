@@ -3,25 +3,27 @@ using System.Linq;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class GameManager : MonoBehaviour
+public class TrainManager : MonoBehaviour
 {
-    public static GameManager Instance;
+    public static TrainManager Instance;
 
     public GameObject AgentPrefab;
     public float MutationRate = 0.01f;
     public int PopulationSize = 100;
     public int MaxLifespan = 1000;
-    public bool IncreaseLifespan = false;
+    public bool IncreaseLifespan;
+    public int GenSaveInterval = 10;
 
-    [SerializeField] private int _lifetime;
-
-    [SerializeField] private double _topScore;
-    [SerializeField] private double _topFitness;
+    [HeaderAttribute("Current Gen Information")]
     [SerializeField] private int _generation;
+    [SerializeField] private int _lifetime;
+    [SerializeField] private double _topScore;
+    [SerializeField] private double _lastTopFitness;
 
 
     private Brain[] _brains;
-    private Agent[] _agents;
+    private NeuralNetAgent[] _agents;
+    private int _bestIndex;
 
     private void Awake()
     {
@@ -32,7 +34,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         _brains = new Brain[PopulationSize];
-        _agents = new Agent[PopulationSize];
+        _agents = new NeuralNetAgent[PopulationSize];
 
         for (var i = 0; i < PopulationSize; i++)
             _brains[i] = new Brain();
@@ -42,18 +44,27 @@ public class GameManager : MonoBehaviour
 
     private void FixedUpdate()
     {
+        _bestIndex = BestScoreIndex();
+        
         _lifetime++;
-        var bestAgent = _agents[BestAgentIndex()];
-        
-        Camera.main.transform.position = new Vector3(bestAgent.transform.position.x,
-            Camera.main.transform.position.y, bestAgent.transform.position.z);
-        
+        var bestAgent = _agents[_bestIndex];
+
+        Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, 
+            new Vector3(bestAgent.Transform.position.x, Camera.main.transform.position.y,
+                bestAgent.Transform.position.z), 0.1f);
+
         _topScore = _brains.Max(x => x.Score);
 
-        if (_lifetime >= MaxLifespan || _agents.All(x => x.GetComponent<Rigidbody>() == null))
+        if (_lifetime >= MaxLifespan)
         {
             CalculateFitness();
-            _topFitness = _brains.Max(x => x.Fitness);
+            _lastTopFitness = _brains.Max(x => x.Fitness);
+            
+            if ((_generation + 1) % GenSaveInterval == 0) {
+                _agents[_bestIndex].Brain.Save(_generation, MaxLifespan);
+                print("Model Saved"); // TODO: remove debug msg
+            }
+            
             _generation++;
             DestroyAgents();
             _brains = Repopulate();
@@ -67,17 +78,17 @@ public class GameManager : MonoBehaviour
     {
         foreach (var agent in _agents)
         {
-            Destroy(agent.gameObject);
+            Destroy(agent.Transform.gameObject);
         }
     }
 
     private void SpawnAgents()
     {
-        _agents = new Agent[PopulationSize];
+        _agents = new NeuralNetAgent[PopulationSize];
 
         for (var i = 0; i < PopulationSize; i++)
         {
-            _agents[i] = Instantiate(AgentPrefab).GetComponent<Agent>();
+            _agents[i] = Instantiate(AgentPrefab).GetComponent<AgentScript>().Agent as NeuralNetAgent;
             _agents[i].Brain = _brains[i];
         }
     }
@@ -120,7 +131,7 @@ public class GameManager : MonoBehaviour
         return null;
     }
 
-    private int BestAgentIndex()
+    private int BestScoreIndex()
     {
         var maxScore = -1d;
         var maxScoreIndex = 0;

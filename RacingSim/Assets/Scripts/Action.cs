@@ -15,8 +15,8 @@
 
     public Action(double verticalAxis, double horizontalAxis)
     {
-        AccelerateForward = horizontalAxis < 0d;
-        AccelerateBackward = horizontalAxis > 0d;
+        AccelerateForward = horizontalAxis > 0d;
+        AccelerateBackward = horizontalAxis < 0d;
         SteerLeft = verticalAxis < 0d;
         SteerRight = verticalAxis > 0d;
     }

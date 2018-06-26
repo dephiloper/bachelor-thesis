@@ -4,7 +4,7 @@ using UnityEngine;
 public class DriverSensor
 {
 	
-	private const float RayDistance = 5f;
+	private const float RayDistance = 7.5f;
 	private const float NoCollisionDistance = RayDistance * 2f;
 	
 	private readonly LayerMask _wallMask;
@@ -20,63 +20,43 @@ public class DriverSensor
 		_carMask = LayerMask.GetMask("Car");
 	}
 	
-	/// <summary>
-	/// Collects information about the environment of the car (sorroundings like distances to walls,
-	/// distances to other cars, current velocity).
-	/// </summary>
-	/// <returns>
-	/// Returns collected distance and velocity information.
-	/// distance -45 degree (0), 0 degree (1), 45 degree (2)(distance Wall)
-	/// distance -45 degree (3), 0 degree (4), 45 degree (5)(distance Enemy)
-	/// current velocity x (6) and y (7)
-	/// </returns>
 	public Percept PerceiveEnvironment(bool onTrack)
 	{
-		var percept = new Percept
+			var percept = new Percept
 		{
-			PlayerDistances = new List<double>
-			{
-				ShootRay((_transform.forward - _transform.right).normalized, _carMask),
-				ShootRay(_transform.forward.normalized, _carMask),
-				ShootRay((_transform.forward + _transform.right).normalized, _carMask)
-			},
 			WallDistances = new List<double>
 			{
-				ShootRay((_transform.forward - _transform.right).normalized, _wallMask),
-				ShootRay(_transform.forward.normalized, _wallMask),
-				ShootRay((_transform.forward + _transform.right).normalized, _wallMask)
+				CalculateDistanceWithRay((-_transform.right).normalized, _wallMask, onTrack),
+				CalculateDistanceWithRay((_transform.forward * 0.5f - _transform.right).normalized, _wallMask, onTrack),
+				CalculateDistanceWithRay((_transform.forward - _transform.right).normalized, _wallMask, onTrack),
+				CalculateDistanceWithRay((_transform.forward - _transform.right * 0.5f).normalized, _wallMask, onTrack),
+				CalculateDistanceWithRay(_transform.forward.normalized, _wallMask, onTrack),
+				CalculateDistanceWithRay((_transform.forward + _transform.right).normalized, _wallMask, onTrack),
+				CalculateDistanceWithRay((_transform.forward + _transform.right * 0.5f).normalized, _wallMask, onTrack),
+				CalculateDistanceWithRay((_transform.forward * 0.5f + _transform.right).normalized, _wallMask, onTrack),
+				CalculateDistanceWithRay((_transform.right).normalized, _wallMask, onTrack)
 			},
-			//TODO: see if the 0 at y is a good idea
 			Velocity = new Vector3(_rigidbody.velocity.x, 0, _rigidbody.velocity.z)
 		};
 
-		if (!onTrack)
-			for (var i = 0; i < percept.WallDistances.Count; i++)
-				percept.WallDistances[i] = percept.WallDistances[i] > RayDistance ? 0 : NoCollisionDistance;
-
-		DrawSensors(percept);
 		return percept;
 	}
 	
-	private double ShootRay(Vector3 direction, LayerMask layerMask)
+	private double CalculateDistanceWithRay(Vector3 direction, LayerMask layerMask, bool onTrack)
 	{
 		RaycastHit hit;
-		
-		if (!Physics.Raycast(_transform.position, direction, out hit, RayDistance, layerMask)) 
-			return NoCollisionDistance; 	// normally max distance is RayDistance, so times 2 means like free to go there
-		
-		return Vector3.Distance(hit.point, _transform.position);
-	}
 	
-	private void DrawSensors(Percept percept)
-	{
-		if (percept == null) return;
-        
-		Debug.DrawRay(_transform.position, (_transform.forward - _transform.right).normalized * RayDistance,
-			percept.WallDistances[0] < NoCollisionDistance ? Color.red : Color.green);
-		Debug.DrawRay(_transform.position, _transform.forward.normalized * RayDistance, 
-			percept.WallDistances[1] < NoCollisionDistance ? Color.red : Color.green);
-		Debug.DrawRay(_transform.position, (_transform.forward + _transform.right).normalized * RayDistance,
-			percept.WallDistances[2] < NoCollisionDistance ? Color.red : Color.green);
+		// normally max distance is RayDistance, so times 2 means like free to go there
+		var distance = (Physics.Raycast(_transform.position, direction, out hit, RayDistance, layerMask)) ?
+			Vector3.Distance(hit.point, _transform.position) : NoCollisionDistance; 
+
+		// if not on track flip distance
+		if (!onTrack)
+			distance = distance > RayDistance ? 0 : NoCollisionDistance;
+
+		Debug.DrawRay(_rigidbody.position, direction * RayDistance,
+			distance < NoCollisionDistance ? Color.red : Color.green);
+
+		return distance;
 	}
 }

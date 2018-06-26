@@ -6,11 +6,11 @@ public class Waypoint : MonoBehaviour
     
     private void OnTriggerEnter(Collider other)
     {
-        var agent = other.GetComponent<Agent>();
+        var agentScript = other.GetComponent<AgentScript>();
         
-        if (agent != null)
+        if (agentScript != null)
         {
-            agent.WaypointCrossed(WaypointIdentifier, transform.parent.childCount);
+            (agentScript.Agent as NeuralNetAgent)?.WaypointCrossed(WaypointIdentifier, transform.parent.childCount);
         }
     }
 }
