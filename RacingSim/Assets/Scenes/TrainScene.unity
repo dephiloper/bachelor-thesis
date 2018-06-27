@@ -2346,6 +2346,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   WaypointIdentifier: 8
+  PassedCounter: 0
 --- !u!1 &183665040
 GameObject:
   m_ObjectHideFlags: 0
@@ -4320,6 +4321,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   WaypointIdentifier: 1
+  PassedCounter: 0
 --- !u!1 &338782752
 GameObject:
   m_ObjectHideFlags: 0
@@ -4601,6 +4603,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   WaypointIdentifier: 3
+  PassedCounter: 0
 --- !u!1 &352285898
 GameObject:
   m_ObjectHideFlags: 0
@@ -6929,6 +6932,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   WaypointIdentifier: 5
+  PassedCounter: 0
 --- !u!1 &576133997
 GameObject:
   m_ObjectHideFlags: 0
@@ -10082,6 +10086,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   WaypointIdentifier: 9
+  PassedCounter: 0
 --- !u!1 &804330198
 GameObject:
   m_ObjectHideFlags: 0
@@ -11071,6 +11076,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   WaypointIdentifier: 2
+  PassedCounter: 0
 --- !u!1 &864255756
 GameObject:
   m_ObjectHideFlags: 0
@@ -11633,6 +11639,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   WaypointIdentifier: 6
+  PassedCounter: 0
 --- !u!1 &915580594
 GameObject:
   m_ObjectHideFlags: 0
@@ -14528,6 +14535,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   WaypointIdentifier: 7
+  PassedCounter: 0
 --- !u!1 &1177501200
 GameObject:
   m_ObjectHideFlags: 0
@@ -22739,6 +22747,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   WaypointIdentifier: 4
+  PassedCounter: 0
 --- !u!1 &1861989384
 GameObject:
   m_ObjectHideFlags: 0
@@ -24779,11 +24788,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AgentPrefab: {fileID: 1516547272574836, guid: 876eaf72875834218bcc158111334107,
     type: 2}
+  FastRepopulate: 0
   MutationRate: 0.05
-  PopulationSize: 100
+  PopulationSize: 200
   MaxLifespan: 500
   IncreaseLifespan: 1
   GenSaveInterval: 10
+  Speed: 0
+  AvgSpeed: 0
+  Waypoints:
+  - {fileID: 801138205}
+  - {fileID: 336939215}
+  - {fileID: 859459907}
+  - {fileID: 349175268}
+  - {fileID: 1861919380}
+  - {fileID: 573617930}
+  - {fileID: 900877324}
+  - {fileID: 1177001224}
+  - {fileID: 175689697}
   _generation: 0
   _lifetime: 0
   _topScore: 0

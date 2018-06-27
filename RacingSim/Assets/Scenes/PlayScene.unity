@@ -2346,6 +2346,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   WaypointIdentifier: 8
+  PassedCounter: 0
 --- !u!1 &183665040
 GameObject:
   m_ObjectHideFlags: 0
@@ -4397,6 +4398,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   WaypointIdentifier: 1
+  PassedCounter: 0
 --- !u!1 &338782752
 GameObject:
   m_ObjectHideFlags: 0
@@ -4678,6 +4680,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   WaypointIdentifier: 3
+  PassedCounter: 0
 --- !u!1 &352285898
 GameObject:
   m_ObjectHideFlags: 0
@@ -6393,7 +6396,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Type: 0
   EditorProperties:
-    MaxSpeed: 7.5
+    MaxSpeed: 10
     TurnSpeed: 2
     Score: 0
     Speed: 0
@@ -7212,6 +7215,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   WaypointIdentifier: 5
+  PassedCounter: 0
 --- !u!1 &576133997
 GameObject:
   m_ObjectHideFlags: 0
@@ -10335,6 +10339,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   WaypointIdentifier: 9
+  PassedCounter: 0
 --- !u!1 &804330198
 GameObject:
   m_ObjectHideFlags: 0
@@ -11367,6 +11372,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   WaypointIdentifier: 2
+  PassedCounter: 0
 --- !u!1 &864255756
 GameObject:
   m_ObjectHideFlags: 0
@@ -11972,6 +11978,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   WaypointIdentifier: 6
+  PassedCounter: 0
 --- !u!1 &915580594
 GameObject:
   m_ObjectHideFlags: 0
@@ -14548,7 +14555,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Type: 0
   EditorProperties:
-    MaxSpeed: 7.5
+    MaxSpeed: 10
     TurnSpeed: 2
     Score: 0
     Speed: 0
@@ -15008,6 +15015,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   WaypointIdentifier: 7
+  PassedCounter: 0
 --- !u!1 &1177501200
 GameObject:
   m_ObjectHideFlags: 0
@@ -18168,7 +18176,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Type: 4
   EditorProperties:
-    MaxSpeed: 7.5
+    MaxSpeed: 10
     TurnSpeed: 2
     Score: 0
     Speed: 0
@@ -18176,7 +18184,7 @@ MonoBehaviour:
     VAxis: 
     SelectedHAxis: 0
     SelectedVAxis: 0
-    BrainAsset: {fileID: 4900000, guid: 4579d1b1da3904dfbaf917b1e4b2a77e, type: 3}
+    BrainAsset: {fileID: 4900000, guid: a101415dad3c14449a1e470fd64013b0, type: 3}
     IsTrained: 0
     ReachedWaypointIds: 
     IsExclude: 0
@@ -23426,7 +23434,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Type: 0
   EditorProperties:
-    MaxSpeed: 7.5
+    MaxSpeed: 10
     TurnSpeed: 2
     Score: 0
     Speed: 0
@@ -23631,6 +23639,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   WaypointIdentifier: 4
+  PassedCounter: 0
 --- !u!1 &1861989384
 GameObject:
   m_ObjectHideFlags: 0

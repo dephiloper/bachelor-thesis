@@ -5,10 +5,10 @@ using Agent;
 using UnityEditor;
 using UnityEngine;
 
-namespace CustomEditors
+namespace Editor
 {
     [CustomEditor(typeof(AgentScript))]
-    public class AgentEditor : Editor
+    public class AgentEditor : UnityEditor.Editor
     {
         public override void OnInspectorGUI()
         {
@@ -24,7 +24,7 @@ namespace CustomEditors
             {
                 case AgentType.Player:
                     var axes = ReadAxes();
-                    editorProps.SelectedHAxis = EditorGUILayout.Popup("HorizontalAxis", editorProps.SelectedHAxis, axes); 
+                    editorProps.SelectedHAxis = EditorGUILayout.Popup("HorizontalAxis", editorProps.SelectedHAxis, axes);
                     editorProps.SelectedVAxis = EditorGUILayout.Popup("VerticalAxis", editorProps.SelectedVAxis, axes);
                     editorProps.HAxis = axes[editorProps.SelectedHAxis];
                     editorProps.VAxis = axes[editorProps.SelectedVAxis];
@@ -42,15 +42,15 @@ namespace CustomEditors
                     GUI.enabled = false;
                     EditorGUILayout.Toggle("Excluded", editorProps.IsExclude);
                     EditorGUILayout.Toggle("Is Trained", editorProps.IsTrained);
-                    var maxWaypoint = editorProps.ReachedWaypointIds.Count == 0 ? 0 :  editorProps.ReachedWaypointIds.Max();
+                    var maxWaypoint = editorProps.ReachedWaypointIds.Count == 0 ? 0 : editorProps.ReachedWaypointIds.Max();
                     EditorGUILayout.IntField("Reached Waypoint", maxWaypoint);
                     GUI.enabled = true;
-                    
+
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
-            
+
             EditorGUILayout.LabelField("Agent Properties");
             editorProps.MaxSpeed = EditorGUILayout.FloatField("Max Speed", editorProps.MaxSpeed);
             editorProps.TurnSpeed = EditorGUILayout.FloatField("Turn Speed", editorProps.TurnSpeed);
@@ -58,9 +58,8 @@ namespace CustomEditors
             EditorGUILayout.FloatField("Speed", editorProps.Speed);
             EditorGUILayout.IntField("Score", editorProps.Score);
             GUI.enabled = true;
-
         }
-        
+
         private static string[] ReadAxes()
         {
             var inputManager = AssetDatabase.LoadAllAssetsAtPath("ProjectSettings/InputManager.asset")[0];
@@ -68,8 +67,8 @@ namespace CustomEditors
             var axisArray = obj.FindProperty("m_Axes");
 
             var names = new List<string>();
-            
-            for(var i = 0; i < axisArray.arraySize; ++i)
+
+            for (var i = 0; i < axisArray.arraySize; ++i)
             {
                 var axis = axisArray.GetArrayElementAtIndex(i);
                 names.Add(axis.FindPropertyRelative("m_Name").stringValue);

@@ -8,9 +8,7 @@ namespace Agent
     public class NeuralNetAgent : BaseAgent
     {
         public Brain Brain { get; set; }
-    
         private const float ScoreReduction = 0.05f;
-    
 
         public NeuralNetAgent(AgentScript agentScript) : base(agentScript)
         {
@@ -44,17 +42,18 @@ namespace Agent
         {
             var vel = new Vector2(Rigidbody.velocity.x, Rigidbody.velocity.z).magnitude;
             if (OnTrack)
-                Brain.Score += Convert.ToInt32(Percept.WallDistances.Sum() * ScoreReduction + vel);
+                Brain.Score += ScoreReduction * vel;
+                //Brain.Score += Convert.ToInt32(Percept.WallDistances.Sum() * ScoreReduction * vel);
             else
                 EditorProps.IsExclude = true;
 
-            EditorProps.Score = Brain.Score;
+            EditorProps.Score = Convert.ToInt32(Brain.Score);
         }
 
-        public void WaypointCrossed(int waypointIdentifier, int lastWaypointIdentifier)
+        public void WaypointCrossed(int waypointIdentifier, int lastWaypointIdentifier, int passedCounter)
         {
             // waypoint already satisfied
-            if (EditorProps.ReachedWaypointIds.Contains(waypointIdentifier) || !EditorProps.IsTrained) return;
+            if (EditorProps.ReachedWaypointIds.Contains(waypointIdentifier) || EditorProps.IsTrained) return;
         
             var maxId = EditorProps.ReachedWaypointIds.Count > 0 ? EditorProps.ReachedWaypointIds.Max() : 0;
 
@@ -64,9 +63,11 @@ namespace Agent
             if (maxId + 1 == waypointIdentifier)
             {
                 EditorProps.ReachedWaypointIds.Add(waypointIdentifier);
-                Brain.Score = Convert.ToInt32(Brain.Score * 2f);
+                Brain.Score *= 1 + 1 / passedCounter;
             }
             //TODO improvement: else would be moving in the wrong direction
+            else if (maxId != waypointIdentifier)
+                EditorProps.IsExclude = true;
 
             // all waypoints reached
             if (EditorProps.ReachedWaypointIds.Contains(lastWaypointIdentifier))

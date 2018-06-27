@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Agent;
 using UnityEngine;
@@ -9,15 +10,19 @@ public class TrainManager : MonoBehaviour
     public static TrainManager Instance;
 
     public GameObject AgentPrefab;
+    public bool FastRepopulate = false;
     public float MutationRate = 0.01f;
     public int PopulationSize = 100;
     public int MaxLifespan = 1000;
     public bool IncreaseLifespan;
     public int GenSaveInterval = 10;
+    public float Speed;
+    public float AvgSpeed;
+    public List<Waypoint> Waypoints;
 
     [HeaderAttribute("Current Gen Information")]
     [SerializeField] private int _generation;
-    [SerializeField] private int _lifetime;
+    [SerializeField] private long _lifetime;
     [SerializeField] private double _topScore;
     [SerializeField] private double _lastTopFitness;
 
@@ -25,6 +30,8 @@ public class TrainManager : MonoBehaviour
     private Brain[] _brains;
     private NeuralNetAgent[] _agents;
     private int _bestIndex;
+    private long _speedSum;
+    private long _frames;
 
     private void Awake()
     {
@@ -49,15 +56,18 @@ public class TrainManager : MonoBehaviour
         
         _lifetime++;
         var bestAgent = _agents[_bestIndex];
-
+        Speed = bestAgent.EditorProps.Speed;
+        _speedSum += (long)Speed / 2;
+        AvgSpeed = (float)_speedSum / _lifetime * 2;
         Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, 
             new Vector3(bestAgent.Transform.position.x, Camera.main.transform.position.y,
                 bestAgent.Transform.position.z), 0.1f);
 
         _topScore = _brains.Max(x => x.Score);
 
-        if (_lifetime >= MaxLifespan)
+        if (_lifetime >= MaxLifespan || FastRepopulate)
         {
+            FastRepopulate = false;
             CalculateFitness();
             _lastTopFitness = _brains.Max(x => x.Fitness);
             
@@ -71,7 +81,9 @@ public class TrainManager : MonoBehaviour
             _brains = Repopulate();
             SpawnAgents();
             MaxLifespan = IncreaseLifespan ? Convert.ToInt32(MaxLifespan * 1.1d) : MaxLifespan;
+            Waypoints.ForEach(x => x.PassedCounter = 0);
             _lifetime = 0;
+            _speedSum = 0;
         }
     }
 

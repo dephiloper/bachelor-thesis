@@ -10,7 +10,7 @@ using UnityEngine;
 public class Brain
 {
     public double Fitness { get; set; }
-    public int Score { get; set; }
+    public float Score { get; set; }
     private BasicNetwork Network { get; set; }
 
     public Brain()
@@ -93,7 +93,7 @@ public class Brain
 
         public SerializableBrain(Brain brain, int generation, int maxLifespan)
         {
-            _score = brain.Score;
+            _score = Convert.ToInt32(brain.Score);
             _weights = brain.Network.Flat.Weights;
             _generation = generation;
             _maxLifespan = maxLifespan;
