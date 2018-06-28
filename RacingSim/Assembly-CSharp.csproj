@@ -9,7 +9,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <RootNamespace></RootNamespace>
+    <RootNamespace>
+    </RootNamespace>
     <ProjectGuid>{C378171A-42B7-CB74-21ED-C43DD3ADD582}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -53,8 +54,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\Action.cs" />
-    <Compile Include="Assets\Scripts\AgentEditorProperties.cs" />
     <Compile Include="Assets\Scripts\AgentScript.cs" />
+    <Compile Include="Assets\Scripts\Agent\AgentEditorProperties.cs" />
     <Compile Include="Assets\Scripts\Agent\BaseAgent.cs" />
     <Compile Include="Assets\Scripts\Agent\AgentType.cs" />
     <Compile Include="Assets\Scripts\Agent\NeuralNetAgent.cs" />
