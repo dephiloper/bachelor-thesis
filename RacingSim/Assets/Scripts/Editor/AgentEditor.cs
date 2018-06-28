@@ -40,7 +40,6 @@ namespace Editor
                         EditorGUILayout.ObjectField("Trained Network", editorProps.BrainAsset, typeof(TextAsset), true);
 
                     GUI.enabled = false;
-                    EditorGUILayout.Toggle("Excluded", editorProps.IsExclude);
                     EditorGUILayout.Toggle("Is Trained", editorProps.IsTrained);
                     var maxWaypoint = editorProps.ReachedWaypointIds.Count == 0 ? 0 : editorProps.ReachedWaypointIds.Max();
                     EditorGUILayout.IntField("Reached Waypoint", maxWaypoint);

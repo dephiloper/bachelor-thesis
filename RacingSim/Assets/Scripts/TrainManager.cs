@@ -18,7 +18,7 @@ public class TrainManager : MonoBehaviour
     public int GenSaveInterval = 10;
     public float Speed;
     public float AvgSpeed;
-    public List<Waypoint> Waypoints;
+    public NeuralNetAgent BestAgent { get; private set; }
 
     [HeaderAttribute("Current Gen Information")]
     [SerializeField] private int _generation;
@@ -52,16 +52,12 @@ public class TrainManager : MonoBehaviour
 
     private void FixedUpdate()
     {
-        _bestIndex = BestScoreIndex();
-        
         _lifetime++;
-        var bestAgent = _agents[_bestIndex];
-        Speed = bestAgent.EditorProps.Speed;
+        
+        BestAgent = _agents[BestScoreIndex()];
+        Speed = BestAgent.EditorProps.Speed;
         _speedSum += (long)Speed / 2;
         AvgSpeed = (float)_speedSum / _lifetime * 2;
-        Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, 
-            new Vector3(bestAgent.Transform.position.x, Camera.main.transform.position.y,
-                bestAgent.Transform.position.z), 0.1f);
 
         _topScore = _brains.Max(x => x.Score);
 
@@ -72,7 +68,7 @@ public class TrainManager : MonoBehaviour
             _lastTopFitness = _brains.Max(x => x.Fitness);
             
             if ((_generation + 1) % GenSaveInterval == 0) {
-                _agents[_bestIndex].Brain.Save(_generation, MaxLifespan);
+                BestAgent.Brain.Save(_generation, MaxLifespan);
                 print("Model Saved"); // TODO: remove debug msg
             }
             
@@ -81,7 +77,6 @@ public class TrainManager : MonoBehaviour
             _brains = Repopulate();
             SpawnAgents();
             MaxLifespan = IncreaseLifespan ? Convert.ToInt32(MaxLifespan * 1.1d) : MaxLifespan;
-            Waypoints.ForEach(x => x.PassedCounter = 0);
             _lifetime = 0;
             _speedSum = 0;
         }

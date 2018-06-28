@@ -28,29 +28,12 @@ namespace Agent
 
         public override void Compute()
         {
-            if (EditorProps.IsExclude) return;
-        
             base.Compute();
             var action = Brain.Think(Percept);
-            if (!EditorProps.IsTrained)
-                ApplyScore();
-        
             PerformAction(action);
         }
 
-        private void ApplyScore()
-        {
-            var vel = new Vector2(Rigidbody.velocity.x, Rigidbody.velocity.z).magnitude;
-            if (OnTrack)
-                Brain.Score += ScoreReduction * vel;
-                //Brain.Score += Convert.ToInt32(Percept.WallDistances.Sum() * ScoreReduction * vel);
-            else
-                EditorProps.IsExclude = true;
-
-            EditorProps.Score = Convert.ToInt32(Brain.Score);
-        }
-
-        public void WaypointCrossed(int waypointIdentifier, int lastWaypointIdentifier, int passedCounter)
+        public void WaypointCrossed(int waypointIdentifier, int lastWaypointIdentifier)
         {
             // waypoint already satisfied
             if (EditorProps.ReachedWaypointIds.Contains(waypointIdentifier) || EditorProps.IsTrained) return;
@@ -63,11 +46,11 @@ namespace Agent
             if (maxId + 1 == waypointIdentifier)
             {
                 EditorProps.ReachedWaypointIds.Add(waypointIdentifier);
-                Brain.Score *= 1 + 1 / passedCounter;
+                var vel = new Vector2(Rigidbody.velocity.x, Rigidbody.velocity.z).magnitude;
+                Brain.Score += vel;
             }
-            //TODO improvement: else would be moving in the wrong direction
             else if (maxId != waypointIdentifier)
-                EditorProps.IsExclude = true;
+                Brain.Score -= EditorProps.MaxSpeed;
 
             // all waypoints reached
             if (EditorProps.ReachedWaypointIds.Contains(lastWaypointIdentifier))

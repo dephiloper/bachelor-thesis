@@ -9,8 +9,10 @@ namespace Agent
 
         protected readonly Rigidbody Rigidbody;
         protected Percept Percept;
-        protected bool OnTrack;
-    
+        private bool _onTrack;
+
+        private const float BackwardSpeedReduction = 0.1f;
+        
         private readonly Sensor _sensor;
         private readonly float _onTrackSpeed;
         private readonly float _offTrackSpeed;
@@ -29,13 +31,12 @@ namespace Agent
 
         public virtual void Compute()
         {
-            //if (_frames % 5 == 0)
-                Percept = _sensor.PerceiveEnvironment(OnTrack);
+            Percept = _sensor.PerceiveEnvironment(_onTrack);
             if (_frames % 30 == 0)
-                OnTrack = IsOnTrack();
+                _onTrack = IsOnTrack();
 
             _frames++;
-            EditorProps.MaxSpeed = OnTrack ? _onTrackSpeed : _offTrackSpeed;
+            EditorProps.MaxSpeed = _onTrack ? _onTrackSpeed : _offTrackSpeed;
             EditorProps.Speed = new Vector2(Rigidbody.velocity.x, Rigidbody.velocity.z).magnitude;
         }
 
@@ -44,7 +45,7 @@ namespace Agent
             if (action.AccelerateForward)
                 Rigidbody.AddForce(Transform.forward * EditorProps.MaxSpeed);
             if (action.AccelerateBackward)
-                Rigidbody.AddForce(-Transform.forward * EditorProps.MaxSpeed * 0.1f);
+                Rigidbody.AddForce(-Transform.forward * EditorProps.MaxSpeed * BackwardSpeedReduction);
             if (action.SteerLeft)
                 Rigidbody.MoveRotation(
                     Quaternion.Euler(Transform.rotation.eulerAngles - Transform.up * EditorProps.TurnSpeed));

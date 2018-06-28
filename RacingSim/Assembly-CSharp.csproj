@@ -9,8 +9,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <RootNamespace>
-    </RootNamespace>
+    <RootNamespace></RootNamespace>
     <ProjectGuid>{C378171A-42B7-CB74-21ED-C43DD3ADD582}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -61,10 +60,12 @@
     <Compile Include="Assets\Scripts\Agent\NeuralNetAgent.cs" />
     <Compile Include="Assets\Scripts\Agent\PlayerAgent.cs" />
     <Compile Include="Assets\Scripts\Brain.cs" />
+    <Compile Include="Assets\Scripts\CameraMovement.cs" />
     <Compile Include="Assets\Scripts\CameraUtils\CameraPositionChanger.cs" />
     <Compile Include="Assets\Scripts\CameraUtils\CameraStabilizer.cs" />
     <Compile Include="Assets\Scripts\Car\CarBehaviour.cs" />
     <Compile Include="Assets\Scripts\Editor\AgentEditor.cs" />
+    <Compile Include="Assets\Scripts\OrderScript.cs" />
     <Compile Include="Assets\Scripts\Sensor.cs" />
     <Compile Include="Assets\Scripts\TrainManager.cs" />
     <Compile Include="Assets\Scripts\Percept.cs" />

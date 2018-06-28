@@ -28,7 +28,6 @@ public class AgentEditorProperties
     public TextAsset BrainAsset;
     public bool IsTrained;
     public List<int> ReachedWaypointIds;
-    public bool IsExclude;
 
     #endregion
 }
