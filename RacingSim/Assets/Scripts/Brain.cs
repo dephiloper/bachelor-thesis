@@ -49,22 +49,27 @@ public class Brain
             }
     }
 
-    public Brain Crossover(Brain partner)
+    public Brain[] Crossover(Brain partner)
     {
         var weights = Network.Flat.Weights;
         var partnerWeights = partner.Network.Flat.Weights;
         
-        var midpoint = Random.value * partnerWeights.Length;
-        
-        var childWeights = new double[partnerWeights.Length];
-            
-        for (var i = 0; i < partnerWeights.Length; i++)
-        {
-            if (i < midpoint) childWeights[i] = partnerWeights[i];
-            else childWeights[i] = weights[i];
-        }
+        var midpoint = Random.value * weights.Length;
+        // creates two children with the DNA of each of the parents
+        var childOne = (double[])weights.Clone();
+        var childTwo = (double[])weights.Clone();
+        if (Random.value < TrainManager.Instance.CrossoverProbabilty) {
+            for (var i = 0; i < weights.Length; i++)
+            {
+                if (i < midpoint)
+                    childOne[i] = partnerWeights[i];
+                else
+                    childTwo[i] = partnerWeights[i];
 
-        return new Brain(childWeights);
+            }
+        }
+        
+        return new[]{new Brain(childOne), new Brain(childTwo) };
         
     }
 

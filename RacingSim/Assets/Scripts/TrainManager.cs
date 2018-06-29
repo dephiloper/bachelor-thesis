@@ -12,6 +12,7 @@ public class TrainManager : MonoBehaviour
     public GameObject AgentPrefab;
     public bool FastRepopulate = false;
     public float MutationRate = 0.01f;
+    public double CrossoverProbabilty = 0.6f;
     public int PopulationSize = 100;
     public int MaxLifespan = 1000;
     public bool IncreaseLifespan;
@@ -68,8 +69,8 @@ public class TrainManager : MonoBehaviour
             _lastTopFitness = _brains.Max(x => x.Fitness);
             
             if ((_generation + 1) % GenSaveInterval == 0) {
-                BestAgent.Brain.Save(_generation, MaxLifespan);
-                print("Model Saved"); // TODO: remove debug msg
+                //BestAgent.Brain.Save(_generation, MaxLifespan);
+                //print("Model Saved"); // TODO: remove debug msg
             }
             
             _generation++;
@@ -85,9 +86,7 @@ public class TrainManager : MonoBehaviour
     private void DestroyAgents()
     {
         foreach (var agent in _agents)
-        {
             Destroy(agent.Transform.gameObject);
-        }
     }
 
     private void SpawnAgents()
@@ -112,14 +111,16 @@ public class TrainManager : MonoBehaviour
     private Brain[] Repopulate()
     {
         var fittestBrains = new Brain[PopulationSize];
-        for (var i = 0; i < PopulationSize; i++)
+        for (var i = 0; i < PopulationSize; i+=2)
         {
             var leftBrain = SelectBrainOnProbabilty();
             var rightBrain = SelectBrainOnProbabilty();
-            var child = leftBrain.Crossover(rightBrain);
-            child.Mutate();
+            var childs = leftBrain.Crossover(rightBrain);
+            foreach (var child in childs)
+                child.Mutate();
 
-            fittestBrains[i] = child;
+            fittestBrains[i] = childs[0];
+            fittestBrains[i+1] = childs[1];
         }
 
         return fittestBrains;

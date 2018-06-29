@@ -184,7 +184,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 583561837}
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 36.4, y: 2, z: 0}
+  m_LocalPosition: {x: 36.4, y: 10, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2100599808}
@@ -2622,7 +2622,8 @@ MonoBehaviour:
   AgentPrefab: {fileID: 1516547272574836, guid: 876eaf72875834218bcc158111334107,
     type: 2}
   FastRepopulate: 0
-  MutationRate: 0.05
+  MutationRate: 0.01
+  CrossoverProbabilty: 0.6
   PopulationSize: 200
   MaxLifespan: 500
   IncreaseLifespan: 1
