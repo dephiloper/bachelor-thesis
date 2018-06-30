@@ -29,7 +29,7 @@ public class Brain
         Network = new BasicNetwork();
         Network.AddLayer(new BasicLayer(null, true, 9));
         Network.AddLayer(new BasicLayer(new ActivationReLU(), true, 18));
-        Network.AddLayer(new BasicLayer(new ActivationSigmoid(), false, 4));
+        Network.AddLayer(new BasicLayer(new ActivationLinear(), false, 4));
         Network.Structure.FinalizeStructure();
         Network.Reset();
     }
@@ -44,43 +44,66 @@ public class Brain
     public void Mutate()
     {
         for (var i = 0; i < Network.Flat.Weights.Length; i++)
-            if (Random.value < TrainManager.Instance.MutationRate) {
+            if (Random.value < TrainManager.Instance.MutationRate)
+            {
                 Network.Flat.Weights[i] = Network.Flat.Weights[i] + (Random.value - 0.5f);
             }
     }
 
-    public Brain[] Crossover(Brain partner)
+    public Brain[] OnePointCrossover(Brain partner)
     {
         var weights = Network.Flat.Weights;
-        var partnerWeights = partner.Network.Flat.Weights;
-        
+            var partnerWeights = partner.Network.Flat.Weights;
+
         var midpoint = Random.value * weights.Length;
         // creates two children with the DNA of each of the parents
-        var childOne = (double[])weights.Clone();
-        var childTwo = (double[])weights.Clone();
-        if (Random.value < TrainManager.Instance.CrossoverProbabilty) {
+        var childOne = (double[]) weights.Clone();
+        var childTwo = (double[]) weights.Clone();
+        if (Random.value < TrainManager.Instance.CrossoverProbabilty)
+        {
             for (var i = 0; i < weights.Length; i++)
             {
                 if (i < midpoint)
                     childOne[i] = partnerWeights[i];
                 else
                     childTwo[i] = partnerWeights[i];
-
             }
         }
-        
-        return new[]{new Brain(childOne), new Brain(childTwo) };
-        
+
+        return new[] {new Brain(childOne), new Brain(childTwo)};
+    }
+    
+    public Brain[] UniformCrossover(Brain partner)
+    {
+        var weights = Network.Flat.Weights;
+        var partnerWeights = partner.Network.Flat.Weights;
+
+        var midpoint = Random.value * weights.Length;
+        // creates two children with the DNA of each of the parents
+        var childOne = (double[]) weights.Clone();
+        var childTwo = (double[]) weights.Clone();
+        if (Random.value < TrainManager.Instance.CrossoverProbabilty)
+        {
+            for (var i = 0; i < weights.Length; i++)
+            {
+                if (Random.value < TrainManager.Instance.UniformCrossoverProbability)
+                    childOne[i] = partnerWeights[i];
+                else
+                    childTwo[i] = partnerWeights[i];
+            }
+        }
+
+        return new[] {new Brain(childOne), new Brain(childTwo)};
     }
 
     public void Save(int generation, int maxLifespan, string path = "./Assets/Brains/")
     {
         var serializableBrain = new SerializableBrain(this, generation, maxLifespan);
-        var jsonBrain =  JsonUtility.ToJson(serializableBrain);
+        var jsonBrain = JsonUtility.ToJson(serializableBrain);
         path = $"{path}{DateTime.Now:yyyy-MM-dd-HH-mm-ss}gen-{generation}-score-{Score}-brain.json";
         File.WriteAllText(path, jsonBrain);
     }
-    
+
     public static Brain Load(string json)
     {
         var serializableBrain = JsonUtility.FromJson<SerializableBrain>(json);
@@ -111,5 +134,10 @@ public class Brain
 
             return brain;
         }
+    }
+
+    public Brain Clone()
+    {
+        return new Brain(this.Network.Flat.Weights);
     }
 }

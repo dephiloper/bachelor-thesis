@@ -9,7 +9,7 @@ namespace Agent
 
         protected readonly Rigidbody Rigidbody;
         protected Percept Percept;
-        private bool _onTrack;
+        protected bool OnTrack;
 
         private const float BackwardSpeedReduction = 0.1f;
         
@@ -31,12 +31,12 @@ namespace Agent
 
         public virtual void Compute()
         {
-            Percept = _sensor.PerceiveEnvironment(_onTrack);
+            Percept = _sensor.PerceiveEnvironment(OnTrack);
             if (_frames % 30 == 0)
-                _onTrack = IsOnTrack();
+                OnTrack = IsOnTrack();
 
             _frames++;
-            EditorProps.MaxSpeed = _onTrack ? _onTrackSpeed : _offTrackSpeed;
+            EditorProps.MaxSpeed = OnTrack ? _onTrackSpeed : _offTrackSpeed;
             EditorProps.Speed = new Vector2(Rigidbody.velocity.x, Rigidbody.velocity.z).magnitude;
         }
 

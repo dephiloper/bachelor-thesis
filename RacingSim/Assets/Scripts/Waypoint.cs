@@ -10,8 +10,6 @@ public class Waypoint : MonoBehaviour
         var agentScript = other.GetComponent<AgentScript>();
         
         if (agentScript != null)
-        {
             (agentScript.Agent as NeuralNetAgent)?.WaypointCrossed(WaypointIdentifier, transform.parent.childCount);
-        }
     }
 }

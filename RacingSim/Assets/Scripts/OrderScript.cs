@@ -8,6 +8,6 @@ public class OrderScript : MonoBehaviour {
 	{
 		//note that Waypoints must be in the right order in the editor
 		for (var i = 0; i < transform.childCount; i++)
-			transform.GetChild(i).GetComponent<Waypoint>().WaypointIdentifier = i;
+			transform.GetChild(i).GetComponent<Waypoint>().WaypointIdentifier = i+1;
 	}
 }

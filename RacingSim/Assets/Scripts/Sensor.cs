@@ -4,7 +4,7 @@ using UnityEngine;
 public class Sensor
 {
 	
-	private const float RayDistance = 7.5f;
+	private const float RayDistance = 12.5f;
 	private const float NoCollisionDistance = RayDistance * 2f;
 	
 	private readonly LayerMask _wallMask;

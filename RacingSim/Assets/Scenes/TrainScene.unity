@@ -2269,6 +2269,458 @@ Prefab:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4654513019505946, guid: 554178859f50344259c84838ce941859, type: 2}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4088066384011702, guid: 554178859f50344259c84838ce941859, type: 2}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4569437346443526, guid: 554178859f50344259c84838ce941859, type: 2}
+      propertyPath: m_RootOrder
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4220431352096180, guid: 554178859f50344259c84838ce941859, type: 2}
+      propertyPath: m_RootOrder
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4976542691140116, guid: 554178859f50344259c84838ce941859, type: 2}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4779834268683918, guid: 554178859f50344259c84838ce941859, type: 2}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114884720032414504, guid: 554178859f50344259c84838ce941859,
+        type: 2}
+      propertyPath: WaypointIdentifier
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114292814266918320, guid: 554178859f50344259c84838ce941859,
+        type: 2}
+      propertyPath: WaypointIdentifier
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114401273758660836, guid: 554178859f50344259c84838ce941859,
+        type: 2}
+      propertyPath: WaypointIdentifier
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114580009581376004, guid: 554178859f50344259c84838ce941859,
+        type: 2}
+      propertyPath: WaypointIdentifier
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114278421851766422, guid: 554178859f50344259c84838ce941859,
+        type: 2}
+      propertyPath: WaypointIdentifier
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114680569729361436, guid: 554178859f50344259c84838ce941859,
+        type: 2}
+      propertyPath: WaypointIdentifier
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114332979870775584, guid: 554178859f50344259c84838ce941859,
+        type: 2}
+      propertyPath: WaypointIdentifier
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114486418635031746, guid: 554178859f50344259c84838ce941859,
+        type: 2}
+      propertyPath: WaypointIdentifier
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114695470756388734, guid: 554178859f50344259c84838ce941859,
+        type: 2}
+      propertyPath: WaypointIdentifier
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114844368289665562, guid: 554178859f50344259c84838ce941859,
+        type: 2}
+      propertyPath: WaypointIdentifier
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114764508649967654, guid: 554178859f50344259c84838ce941859,
+        type: 2}
+      propertyPath: WaypointIdentifier
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114053497646494788, guid: 554178859f50344259c84838ce941859,
+        type: 2}
+      propertyPath: WaypointIdentifier
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114159495277264008, guid: 554178859f50344259c84838ce941859,
+        type: 2}
+      propertyPath: WaypointIdentifier
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114854595932907048, guid: 554178859f50344259c84838ce941859,
+        type: 2}
+      propertyPath: WaypointIdentifier
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114604361905058234, guid: 554178859f50344259c84838ce941859,
+        type: 2}
+      propertyPath: WaypointIdentifier
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114969046458532594, guid: 554178859f50344259c84838ce941859,
+        type: 2}
+      propertyPath: WaypointIdentifier
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114407580935858916, guid: 554178859f50344259c84838ce941859,
+        type: 2}
+      propertyPath: WaypointIdentifier
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114694505539443708, guid: 554178859f50344259c84838ce941859,
+        type: 2}
+      propertyPath: WaypointIdentifier
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114769541932904134, guid: 554178859f50344259c84838ce941859,
+        type: 2}
+      propertyPath: WaypointIdentifier
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114261388321794456, guid: 554178859f50344259c84838ce941859,
+        type: 2}
+      propertyPath: WaypointIdentifier
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114983588618482410, guid: 554178859f50344259c84838ce941859,
+        type: 2}
+      propertyPath: WaypointIdentifier
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114879658438648578, guid: 554178859f50344259c84838ce941859,
+        type: 2}
+      propertyPath: WaypointIdentifier
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114380175787203716, guid: 554178859f50344259c84838ce941859,
+        type: 2}
+      propertyPath: WaypointIdentifier
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114431264832259468, guid: 554178859f50344259c84838ce941859,
+        type: 2}
+      propertyPath: WaypointIdentifier
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114856562645937870, guid: 554178859f50344259c84838ce941859,
+        type: 2}
+      propertyPath: WaypointIdentifier
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114919518980730936, guid: 554178859f50344259c84838ce941859,
+        type: 2}
+      propertyPath: WaypointIdentifier
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114884890631057980, guid: 554178859f50344259c84838ce941859,
+        type: 2}
+      propertyPath: WaypointIdentifier
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114599059992865914, guid: 554178859f50344259c84838ce941859,
+        type: 2}
+      propertyPath: WaypointIdentifier
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114218111954140476, guid: 554178859f50344259c84838ce941859,
+        type: 2}
+      propertyPath: WaypointIdentifier
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114972540826152988, guid: 554178859f50344259c84838ce941859,
+        type: 2}
+      propertyPath: WaypointIdentifier
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114762422287473218, guid: 554178859f50344259c84838ce941859,
+        type: 2}
+      propertyPath: WaypointIdentifier
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114341860892140034, guid: 554178859f50344259c84838ce941859,
+        type: 2}
+      propertyPath: WaypointIdentifier
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114494840433628454, guid: 554178859f50344259c84838ce941859,
+        type: 2}
+      propertyPath: WaypointIdentifier
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114345374434545534, guid: 554178859f50344259c84838ce941859,
+        type: 2}
+      propertyPath: WaypointIdentifier
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114918487299542126, guid: 554178859f50344259c84838ce941859,
+        type: 2}
+      propertyPath: WaypointIdentifier
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114419366883862770, guid: 554178859f50344259c84838ce941859,
+        type: 2}
+      propertyPath: WaypointIdentifier
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114973602394675564, guid: 554178859f50344259c84838ce941859,
+        type: 2}
+      propertyPath: WaypointIdentifier
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114086979392136776, guid: 554178859f50344259c84838ce941859,
+        type: 2}
+      propertyPath: WaypointIdentifier
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114242800280312640, guid: 554178859f50344259c84838ce941859,
+        type: 2}
+      propertyPath: WaypointIdentifier
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114641800788146094, guid: 554178859f50344259c84838ce941859,
+        type: 2}
+      propertyPath: WaypointIdentifier
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114575831029112868, guid: 554178859f50344259c84838ce941859,
+        type: 2}
+      propertyPath: WaypointIdentifier
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114192846096588432, guid: 554178859f50344259c84838ce941859,
+        type: 2}
+      propertyPath: WaypointIdentifier
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114329006928177608, guid: 554178859f50344259c84838ce941859,
+        type: 2}
+      propertyPath: WaypointIdentifier
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114498632601821964, guid: 554178859f50344259c84838ce941859,
+        type: 2}
+      propertyPath: WaypointIdentifier
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114089497335145508, guid: 554178859f50344259c84838ce941859,
+        type: 2}
+      propertyPath: WaypointIdentifier
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114027641735417184, guid: 554178859f50344259c84838ce941859,
+        type: 2}
+      propertyPath: WaypointIdentifier
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114602042040589204, guid: 554178859f50344259c84838ce941859,
+        type: 2}
+      propertyPath: WaypointIdentifier
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114386507009459578, guid: 554178859f50344259c84838ce941859,
+        type: 2}
+      propertyPath: WaypointIdentifier
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114881846596446008, guid: 554178859f50344259c84838ce941859,
+        type: 2}
+      propertyPath: WaypointIdentifier
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114143040202726366, guid: 554178859f50344259c84838ce941859,
+        type: 2}
+      propertyPath: WaypointIdentifier
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114976628348294702, guid: 554178859f50344259c84838ce941859,
+        type: 2}
+      propertyPath: WaypointIdentifier
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114172198417022004, guid: 554178859f50344259c84838ce941859,
+        type: 2}
+      propertyPath: WaypointIdentifier
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114035856863280822, guid: 554178859f50344259c84838ce941859,
+        type: 2}
+      propertyPath: WaypointIdentifier
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114185668775911528, guid: 554178859f50344259c84838ce941859,
+        type: 2}
+      propertyPath: WaypointIdentifier
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114225978283323954, guid: 554178859f50344259c84838ce941859,
+        type: 2}
+      propertyPath: WaypointIdentifier
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114328070005697632, guid: 554178859f50344259c84838ce941859,
+        type: 2}
+      propertyPath: WaypointIdentifier
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114201393003878738, guid: 554178859f50344259c84838ce941859,
+        type: 2}
+      propertyPath: WaypointIdentifier
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114718905146736028, guid: 554178859f50344259c84838ce941859,
+        type: 2}
+      propertyPath: WaypointIdentifier
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114775266308735838, guid: 554178859f50344259c84838ce941859,
+        type: 2}
+      propertyPath: WaypointIdentifier
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114904036847697046, guid: 554178859f50344259c84838ce941859,
+        type: 2}
+      propertyPath: WaypointIdentifier
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114197575360403410, guid: 554178859f50344259c84838ce941859,
+        type: 2}
+      propertyPath: WaypointIdentifier
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114034066658178414, guid: 554178859f50344259c84838ce941859,
+        type: 2}
+      propertyPath: WaypointIdentifier
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114447650453791644, guid: 554178859f50344259c84838ce941859,
+        type: 2}
+      propertyPath: WaypointIdentifier
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114666789989426836, guid: 554178859f50344259c84838ce941859,
+        type: 2}
+      propertyPath: WaypointIdentifier
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114797275303451136, guid: 554178859f50344259c84838ce941859,
+        type: 2}
+      propertyPath: WaypointIdentifier
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114727026771523458, guid: 554178859f50344259c84838ce941859,
+        type: 2}
+      propertyPath: WaypointIdentifier
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114081847206776728, guid: 554178859f50344259c84838ce941859,
+        type: 2}
+      propertyPath: WaypointIdentifier
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114977383825616864, guid: 554178859f50344259c84838ce941859,
+        type: 2}
+      propertyPath: WaypointIdentifier
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114563058894074670, guid: 554178859f50344259c84838ce941859,
+        type: 2}
+      propertyPath: WaypointIdentifier
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114229503718076900, guid: 554178859f50344259c84838ce941859,
+        type: 2}
+      propertyPath: WaypointIdentifier
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114181409685202184, guid: 554178859f50344259c84838ce941859,
+        type: 2}
+      propertyPath: WaypointIdentifier
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114790863658064094, guid: 554178859f50344259c84838ce941859,
+        type: 2}
+      propertyPath: WaypointIdentifier
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114794208245040270, guid: 554178859f50344259c84838ce941859,
+        type: 2}
+      propertyPath: WaypointIdentifier
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114563102159688758, guid: 554178859f50344259c84838ce941859,
+        type: 2}
+      propertyPath: WaypointIdentifier
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114117496655939238, guid: 554178859f50344259c84838ce941859,
+        type: 2}
+      propertyPath: WaypointIdentifier
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114404495416184922, guid: 554178859f50344259c84838ce941859,
+        type: 2}
+      propertyPath: WaypointIdentifier
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114899440723702292, guid: 554178859f50344259c84838ce941859,
+        type: 2}
+      propertyPath: WaypointIdentifier
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114878459038103286, guid: 554178859f50344259c84838ce941859,
+        type: 2}
+      propertyPath: WaypointIdentifier
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114005903927436770, guid: 554178859f50344259c84838ce941859,
+        type: 2}
+      propertyPath: WaypointIdentifier
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114498292154944596, guid: 554178859f50344259c84838ce941859,
+        type: 2}
+      propertyPath: WaypointIdentifier
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114100882431867702, guid: 554178859f50344259c84838ce941859,
+        type: 2}
+      propertyPath: WaypointIdentifier
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114664233171908736, guid: 554178859f50344259c84838ce941859,
+        type: 2}
+      propertyPath: WaypointIdentifier
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114212310126897414, guid: 554178859f50344259c84838ce941859,
+        type: 2}
+      propertyPath: WaypointIdentifier
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114054630241802648, guid: 554178859f50344259c84838ce941859,
+        type: 2}
+      propertyPath: WaypointIdentifier
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4171127133785708, guid: 554178859f50344259c84838ce941859, type: 2}
+      propertyPath: m_RootOrder
+      value: 41
+      objectReference: {fileID: 0}
+    - target: {fileID: 4233437238220090, guid: 554178859f50344259c84838ce941859, type: 2}
+      propertyPath: m_RootOrder
+      value: 40
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 65734551365418744, guid: 554178859f50344259c84838ce941859, type: 2}
     - {fileID: 65577679893948502, guid: 554178859f50344259c84838ce941859, type: 2}
@@ -2527,6 +2979,39 @@ Prefab:
     - {fileID: 33713843202479886, guid: 554178859f50344259c84838ce941859, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 554178859f50344259c84838ce941859, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &1328870150
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1328870151}
+  m_Layer: 0
+  m_Name: SpawnPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1328870151
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1328870150}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 3.632, y: 0.5, z: -0.2}
+  m_LocalScale: {x: 0.1, y: 0.5, z: 0.1}
+  m_Children: []
+  m_Father: {fileID: 1518052394}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &1518052394 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 4779834268683918, guid: 554178859f50344259c84838ce941859,
+    type: 2}
+  m_PrefabInternal: {fileID: 831643407}
 --- !u!1 &1526980365
 GameObject:
   m_ObjectHideFlags: 0
@@ -2600,7 +3085,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 2100599808}
-  - component: {fileID: 2100599807}
+  - component: {fileID: 2100599809}
   m_Layer: 0
   m_Name: TrainManager
   m_TagString: Untagged
@@ -2608,32 +3093,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &2100599807
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 2100599806}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c9360a17e0a425fb2357043288f6748, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  AgentPrefab: {fileID: 1516547272574836, guid: 876eaf72875834218bcc158111334107,
-    type: 2}
-  FastRepopulate: 0
-  MutationRate: 0.01
-  CrossoverProbabilty: 0.6
-  PopulationSize: 200
-  MaxLifespan: 500
-  IncreaseLifespan: 1
-  GenSaveInterval: 10
-  Speed: 0
-  AvgSpeed: 0
-  _generation: 0
-  _lifetime: 0
-  _topScore: 0
-  _lastTopFitness: 0
 --- !u!4 &2100599808
 Transform:
   m_ObjectHideFlags: 0
@@ -2646,5 +3105,31 @@ Transform:
   m_Children:
   - {fileID: 583561840}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2100599809
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2100599806}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bcd94794a9a442078a0b182c1e75026b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AgentPrefab: {fileID: 1516547272574836, guid: 876eaf72875834218bcc158111334107,
+    type: 2}
+  SpawnPoint: {fileID: 1328870151}
+  PopulationSize: 100
+  GenerationCount: 1
+  MaxLifespan: 500
+  MutationRate: 0.01
+  CrossoverProbabilty: 0.6
+  UniformCrossoverProbability: 0.5
+  Generation: 0
+  LastTopScore: 0
+  TopScore: 0
+  Lifetime: 0
+  SubTopScore: 0
+  TimeScale: 2

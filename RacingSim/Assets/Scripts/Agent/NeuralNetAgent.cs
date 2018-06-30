@@ -8,7 +8,6 @@ namespace Agent
     public class NeuralNetAgent : BaseAgent
     {
         public Brain Brain { get; set; }
-        private const float ScoreReduction = 0.05f;
 
         public NeuralNetAgent(AgentScript agentScript) : base(agentScript)
         {
@@ -30,14 +29,23 @@ namespace Agent
         {
             base.Compute();
             var action = Brain.Think(Percept);
+            if (!OnTrack) 
+                Brain.Score -= 0.1f;
             PerformAction(action);
+
+            EditorProps.Score = Mathf.RoundToInt(Brain.Score);
         }
 
         public void WaypointCrossed(int waypointIdentifier, int lastWaypointIdentifier)
         {
             // waypoint already satisfied
-            if (EditorProps.ReachedWaypointIds.Contains(waypointIdentifier) || EditorProps.IsTrained) return;
+            if (EditorProps.IsTrained) return;
         
+            var vel = new Vector2(Rigidbody.velocity.x, Rigidbody.velocity.z).magnitude;
+            
+            if (EditorProps.ReachedWaypointIds.Contains(waypointIdentifier))
+                Brain.Score -= vel;    
+            
             var maxId = EditorProps.ReachedWaypointIds.Count > 0 ? EditorProps.ReachedWaypointIds.Max() : 0;
 
             // when the reached waypoint is the next e.g. 0 = maxId (no waypoints), waypointIdentifier = 1
@@ -46,11 +54,10 @@ namespace Agent
             if (maxId + 1 == waypointIdentifier)
             {
                 EditorProps.ReachedWaypointIds.Add(waypointIdentifier);
-                var vel = new Vector2(Rigidbody.velocity.x, Rigidbody.velocity.z).magnitude;
                 Brain.Score += vel;
             }
             else if (maxId != waypointIdentifier)
-                Brain.Score -= EditorProps.MaxSpeed;
+                Brain.Score -= vel;
 
             // all waypoints reached
             if (EditorProps.ReachedWaypointIds.Contains(lastWaypointIdentifier))

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using Agent;
 using UnityEngine;
@@ -10,76 +9,113 @@ public class TrainManager : MonoBehaviour
     public static TrainManager Instance;
 
     public GameObject AgentPrefab;
-    public bool FastRepopulate = false;
+    public Transform SpawnPoint;
+
+    [Header("Hyperparams")] public int PopulationSize = 200;
+    public int GenerationCount = 90;
+    public int MaxLifespan = 500;
     public float MutationRate = 0.01f;
     public double CrossoverProbabilty = 0.6f;
-    public int PopulationSize = 100;
-    public int MaxLifespan = 1000;
-    public bool IncreaseLifespan;
-    public int GenSaveInterval = 10;
-    public float Speed;
-    public float AvgSpeed;
+    public double UniformCrossoverProbability = 0.5f;
+
+    [Header("Gen Information")] public float Generation;
+    public float LastTopScore;
+    public float TopScore;
+    public float Lifetime = 0;
+
+    [Header("Sub Gen Information")] public float SubTopScore;
+    public float TimeScale = 0;
+
     public NeuralNetAgent BestAgent { get; private set; }
 
-    [HeaderAttribute("Current Gen Information")]
-    [SerializeField] private int _generation;
-    [SerializeField] private long _lifetime;
-    [SerializeField] private double _topScore;
-    [SerializeField] private double _lastTopFitness;
+    private int _subPopulationSize = 100;
 
-
-    private Brain[] _brains;
     private NeuralNetAgent[] _agents;
-    private int _bestIndex;
-    private long _speedSum;
-    private long _frames;
+    private Brain[] _brains;
+    private int _subGenerationCount = 0;
+    private int _subGeneration = 0;
+    private int _initialSubPopulationSize;
 
     private void Awake()
     {
         if (!Instance)
             Instance = this;
+
+        Time.timeScale = TimeScale;
     }
 
     private void Start()
     {
+        // setup brains
         _brains = new Brain[PopulationSize];
-        _agents = new NeuralNetAgent[PopulationSize];
-
-        for (var i = 0; i < PopulationSize; i++)
+        for (var i = 0; i < _brains.Length; i++)
             _brains[i] = new Brain();
 
-        SpawnAgents();
+        // calculate the number of sub generations (adds 1 if integer division is not possible w/o remaining)
+        _subGenerationCount = PopulationSize / _subPopulationSize;
+        _subGenerationCount += PopulationSize % _subPopulationSize > 0 ? 1 : 0;
+        _initialSubPopulationSize = _subPopulationSize;
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
-        _lifetime++;
-        
-        BestAgent = _agents[BestScoreIndex()];
-        Speed = BestAgent.EditorProps.Speed;
-        _speedSum += (long)Speed / 2;
-        AvgSpeed = (float)_speedSum / _lifetime * 2;
-
-        _topScore = _brains.Max(x => x.Score);
-
-        if (_lifetime >= MaxLifespan || FastRepopulate)
-        {
-            FastRepopulate = false;
-            CalculateFitness();
-            _lastTopFitness = _brains.Max(x => x.Fitness);
-            
-            if ((_generation + 1) % GenSaveInterval == 0) {
-                //BestAgent.Brain.Save(_generation, MaxLifespan);
-                //print("Model Saved"); // TODO: remove debug msg
-            }
-            
-            _generation++;
-            DestroyAgents();
-            _brains = Repopulate();
+        // Spawn new agents when there are no left (should happen when a sub generation is finished)
+        if (_agents == null)
             SpawnAgents();
-            MaxLifespan = IncreaseLifespan ? Convert.ToInt32(MaxLifespan * 1.1d) : MaxLifespan;
-            _lifetime = 0;
-            _speedSum = 0;
+
+        SubTopScore = _brains.Max(x => x.Score);
+
+        Lifetime += TimeScale;
+        BestAgent = _agents.OrderByDescending(x => x.Brain.Score).FirstOrDefault();
+
+        // Subgeneration is completed
+        if (Lifetime >= MaxLifespan)
+        {
+            _subGeneration++;
+            
+            if (TopScore < SubTopScore)
+                TopScore = SubTopScore;
+            
+            DestroyAgents();
+            Lifetime = 0;
+            Generation += (float) Math.Round((float) _subPopulationSize / PopulationSize, 2);
+        }
+
+        // Generation is completed
+        if (_subGeneration == _subGenerationCount)
+        {
+            LastTopScore = _brains.Max(x => x.Score);
+            _brains = Repopulate();
+            _subGeneration = 0;
+            Generation = (float) Math.Ceiling(Generation);
+            _subPopulationSize = _initialSubPopulationSize;
+            MaxLifespan += 50;
+        }
+
+        if (Generation >= GenerationCount)
+        {
+            var path = "./Assets/Brains/Test/";
+            
+            foreach (var brain in _brains)
+                brain.Save((int) Generation, MaxLifespan, path);
+            Application.Quit();
+        }
+    }
+
+    private void SpawnAgents()
+    {
+        var remainder = PopulationSize % _subPopulationSize;
+
+        if (_subGeneration == (_subGenerationCount - 1))
+            _subPopulationSize = remainder == 0 ? _subPopulationSize : remainder;
+
+        _agents = new NeuralNetAgent[_subPopulationSize];
+
+        for (var i = 0; i < _subPopulationSize; i++)
+        {
+            var agentGameObject = Instantiate(AgentPrefab, SpawnPoint);
+            _agents[i] = agentGameObject.GetComponent<AgentScript>().Agent as NeuralNetAgent;
+            _agents[i].Brain = _brains[_subPopulationSize * _subGeneration + i];
         }
     }
 
@@ -87,43 +123,47 @@ public class TrainManager : MonoBehaviour
     {
         foreach (var agent in _agents)
             Destroy(agent.Transform.gameObject);
-    }
 
-    private void SpawnAgents()
-    {
-        _agents = new NeuralNetAgent[PopulationSize];
-
-        for (var i = 0; i < PopulationSize; i++)
-        {
-            _agents[i] = Instantiate(AgentPrefab).GetComponent<AgentScript>().Agent as NeuralNetAgent;
-            _agents[i].Brain = _brains[i];
-        }
-    }
-
-    private void CalculateFitness()
-    {
-        var sum = _brains.Sum(brain => brain.Score);
-
-        for (var i = 0; i < PopulationSize; i++)
-            _brains[i].Fitness = (double)_brains[i].Score / sum;
+        _agents = null;
     }
 
     private Brain[] Repopulate()
     {
-        var fittestBrains = new Brain[PopulationSize];
-        for (var i = 0; i < PopulationSize; i+=2)
+        CalculateFitness();
+
+        var newBrains = new Brain[PopulationSize];
+        var i = 0;
+
+        for (; i < PopulationSize; i += 2)
         {
             var leftBrain = SelectBrainOnProbabilty();
             var rightBrain = SelectBrainOnProbabilty();
-            var childs = leftBrain.Crossover(rightBrain);
+            var childs = leftBrain.UniformCrossover(rightBrain);
             foreach (var child in childs)
                 child.Mutate();
 
-            fittestBrains[i] = childs[0];
-            fittestBrains[i+1] = childs[1];
+            newBrains[i] = childs[0];
+            if (i + 1 < PopulationSize)
+                newBrains[i + 1] = childs[1];
         }
 
-        return fittestBrains;
+        return newBrains;
+    }
+
+    private void CalculateFitness()
+    {
+        var sum = 0d;
+
+        foreach (var brain in _brains)
+        {
+            if (brain.Score <= 0)
+                brain.Score = 0.01F;
+
+            sum += brain.Score;
+        }
+
+        for (var i = 0; i < PopulationSize; i++)
+            _brains[i].Fitness = _brains[i].Score / sum;
     }
 
     private Brain SelectBrainOnProbabilty()
@@ -138,22 +178,5 @@ public class TrainManager : MonoBehaviour
         }
 
         return null;
-    }
-
-    private int BestScoreIndex()
-    {
-        var maxScore = -1d;
-        var maxScoreIndex = 0;
-
-        for (var i = 0; i < _agents.Length; i++)
-        {
-            if (_agents[i] != null && maxScore < _agents[i].Brain.Score)
-            {
-                maxScore = _agents[i].Brain.Score;
-                maxScoreIndex = i;
-            }
-        }
-
-        return maxScoreIndex;
     }
 }
