@@ -45,9 +45,7 @@ public class Brain
     {
         for (var i = 0; i < Network.Flat.Weights.Length; i++)
             if (Random.value < TrainManager.Instance.MutationRate)
-            {
-                Network.Flat.Weights[i] = Network.Flat.Weights[i] + (Random.value - 0.5f);
-            }
+                Network.Flat.Weights[i] = Mathf.PerlinNoise((float) Network.Flat.Weights[i], 0.0f);
     }
 
     public Brain[] OnePointCrossover(Brain partner)
@@ -96,11 +94,12 @@ public class Brain
         return new[] {new Brain(childOne), new Brain(childTwo)};
     }
 
-    public void Save(int generation, int maxLifespan, string path = "./Assets/Brains/")
+    public void Save(int generation, float maxLifespan, string path = "./Assets/Exports/")
     {
-        var serializableBrain = new SerializableBrain(this, generation, maxLifespan);
+        Directory.CreateDirectory(path);
+        var serializableBrain = new SerializableBrain(this, generation, (int)maxLifespan);
         var jsonBrain = JsonUtility.ToJson(serializableBrain);
-        path = $"{path}{DateTime.Now:yyyy-MM-dd-HH-mm-ss}gen-{generation}-score-{Score}-brain.json";
+        path = $"{path}{DateTime.Now:yyyy-MM-dd-HH:mm:ss:ffffff}-gen_{generation}-score_{Score:F}-brain.json";
         File.WriteAllText(path, jsonBrain);
     }
 
@@ -108,7 +107,8 @@ public class Brain
     {
         var serializableBrain = JsonUtility.FromJson<SerializableBrain>(json);
         var brain = serializableBrain.ToBrain();
-
+        brain.Fitness = 0;
+        brain.Score = 0;
         return brain;
     }
 
@@ -134,10 +134,5 @@ public class Brain
 
             return brain;
         }
-    }
-
-    public Brain Clone()
-    {
-        return new Brain(this.Network.Flat.Weights);
     }
 }

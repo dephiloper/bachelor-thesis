@@ -1,7 +1,9 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using Agent;
 using UnityEngine;
+using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 public class TrainManager : MonoBehaviour
@@ -10,21 +12,29 @@ public class TrainManager : MonoBehaviour
 
     public GameObject AgentPrefab;
     public Transform SpawnPoint;
+    public Text Label;
 
     [Header("Hyperparams")] public int PopulationSize = 200;
     public int GenerationCount = 90;
-    public int MaxLifespan = 500;
+    public float Lifespan = 10;
+    public float LimitLifespan = 120;
     public float MutationRate = 0.01f;
     public double CrossoverProbabilty = 0.6f;
     public double UniformCrossoverProbability = 0.5f;
 
-    [Header("Gen Information")] public float Generation;
-    public float LastTopScore;
+    [Header("Gen Information")]
+    public float Generation;
     public float TopScore;
     public float Lifetime = 0;
 
-    [Header("Sub Gen Information")] public float SubTopScore;
-    public float TimeScale = 0;
+    [Header("Sub Gen Information")] 
+    public float SubTopScore;
+
+
+    [Header("Others")] public string ExportPath = "./Assets/Exports/";
+    public string ImportPath = "";
+    public float TimeScale = 1;
+
 
     public NeuralNetAgent BestAgent { get; private set; }
 
@@ -48,8 +58,11 @@ public class TrainManager : MonoBehaviour
     {
         // setup brains
         _brains = new Brain[PopulationSize];
-        for (var i = 0; i < _brains.Length; i++)
-            _brains[i] = new Brain();
+        if (string.IsNullOrEmpty(ImportPath))
+            for (var i = 0; i < _brains.Length; i++)
+                _brains[i] = new Brain();
+        else
+            LoadBrains();
 
         // calculate the number of sub generations (adds 1 if integer division is not possible w/o remaining)
         _subGenerationCount = PopulationSize / _subPopulationSize;
@@ -63,42 +76,50 @@ public class TrainManager : MonoBehaviour
         if (_agents == null)
             SpawnAgents();
 
-        SubTopScore = _brains.Max(x => x.Score);
+        SubTopScore = _agents.Max(x => x.Brain.Score);
 
-        Lifetime += TimeScale;
+        Lifetime += Time.deltaTime;
         BestAgent = _agents.OrderByDescending(x => x.Brain.Score).FirstOrDefault();
 
         // Subgeneration is completed
-        if (Lifetime >= MaxLifespan)
+        if (Lifetime >= Lifespan)
         {
             _subGeneration++;
-            
+
             if (TopScore < SubTopScore)
                 TopScore = SubTopScore;
-            
+
             DestroyAgents();
             Lifetime = 0;
             Generation += (float) Math.Round((float) _subPopulationSize / PopulationSize, 2);
+            DebugOutput();
         }
 
         // Generation is completed
         if (_subGeneration == _subGenerationCount)
         {
-            LastTopScore = _brains.Max(x => x.Score);
+            // TODO introduce variable for 10
+            if ((int)Generation % 10 == 0 || Generation >= GenerationCount)
+                SaveBrains(true);
+
             _brains = Repopulate();
             _subGeneration = 0;
-            Generation = (float) Math.Ceiling(Generation);
             _subPopulationSize = _initialSubPopulationSize;
-            MaxLifespan += 50;
+            if (Lifespan < LimitLifespan)
+                Lifespan += 2;
         }
+    }
 
-        if (Generation >= GenerationCount)
+    private void DebugOutput()
+    {
+        var text = $"gen: {Generation}\nmax-lifespan: {Lifespan}\nsub-top-score: " +
+                   $"{SubTopScore}\ntop-score: {TopScore}";
+
+        Label.text = text;
+        using (var w = File.AppendText("log.txt"))
         {
-            var path = "./Assets/Brains/Test/";
-            
-            foreach (var brain in _brains)
-                brain.Save((int) Generation, MaxLifespan, path);
-            Application.Quit();
+            w.WriteLine($"{DateTime.Now:yyy-MM-dd-HH-mm-ss}-gen_{Generation:00.00}-maxlifespan_{Lifespan:0000}" +
+                        $"-topscore_{TopScore:00000.0000}-subtopscore_{SubTopScore:00000.0000}");
         }
     }
 
@@ -178,5 +199,39 @@ public class TrainManager : MonoBehaviour
         }
 
         return null;
+    }
+
+    private void SaveBrains(bool quitApplication)
+    {
+        var orderedBrains = _brains.OrderByDescending(x => x.Score).ToArray();
+
+        var path = $"{ExportPath}/{DateTime.Now:yyyy-MM-dd-HH-mm-ss}-Brains/";
+        
+        foreach (var brain in orderedBrains)
+            brain.Save((int) Generation, Lifespan, path);
+
+        if (!quitApplication) return;
+
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+                Application.Quit();
+#endif
+    }
+
+    private void LoadBrains()
+    {
+        var loadedBrains = 0;
+
+        while (loadedBrains != _brains.Length)
+        {
+            foreach (var path in Directory.GetFiles(ImportPath))
+            {
+                _brains[loadedBrains] = Brain.Load(File.ReadAllText(path));
+                loadedBrains++;
+                if (loadedBrains == _brains.Length)
+                    break;
+            }
+        }
     }
 }
