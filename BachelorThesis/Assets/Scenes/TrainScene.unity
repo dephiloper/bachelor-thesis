@@ -609,7 +609,7 @@ MonoBehaviour:
   SpawnPoint: {fileID: 1859602264}
   Label: {fileID: 1206140229}
   PopulationSize: 1000
-  GenerationCount: 30
+  GenerationCount: 60
   Lifespan: 120
   LimitLifespan: 120
   MutationRate: 0.01

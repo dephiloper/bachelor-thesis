@@ -158,7 +158,6 @@ public class TrainManager : MonoBehaviour
 
         if (EliteSelection) {
             newBrains[0] = _brains.OrderByDescending(x => x.Score).FirstOrDefault();
-            newBrains[0].Fitness = 0;
             newBrains[0].Score = 0;
             i++;
         }
