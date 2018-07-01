@@ -4,8 +4,7 @@
     public bool AccelerateBackward { get; }
     public bool SteerLeft { get; }
     public bool SteerRight { get; }
-    private const double ActivationThreshold = 0.5d;
-    private const double InputThreshold = 0d;
+    private const double ActivationThreshold = 0d;
     
     public Action(double[] data)
     {
@@ -17,9 +16,9 @@
 
     public Action(double verticalAxis, double horizontalAxis)
     {
-        AccelerateForward = horizontalAxis > InputThreshold;
-        AccelerateBackward = horizontalAxis < InputThreshold;
-        SteerLeft = verticalAxis < InputThreshold;
-        SteerRight = verticalAxis > InputThreshold;
+        AccelerateForward = horizontalAxis > ActivationThreshold;
+        AccelerateBackward = horizontalAxis < ActivationThreshold;
+        SteerLeft = verticalAxis < ActivationThreshold;
+        SteerRight = verticalAxis > ActivationThreshold;
     }
 }
