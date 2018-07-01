@@ -773,7 +773,7 @@ MonoBehaviour:
     VAxis: 
     SelectedHAxis: 0
     SelectedVAxis: 0
-    BrainAsset: {fileID: 4900000, guid: d8458b6292c884c5cadeddeb7e19af01, type: 3}
+    BrainAsset: {fileID: 4900000, guid: 47ff3e9eb07b74ba282c2ea4ff7634ac, type: 3}
     IsTrained: 0
     ReachedWaypointIds: 
 --- !u!54 &1436489684

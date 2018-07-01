@@ -21,6 +21,7 @@ public class TrainManager : MonoBehaviour
     public float MutationRate = 0.01f;
     public double CrossoverProbabilty = 0.6f;
     public double UniformCrossoverProbability = 0.5f;
+    public bool EliteSelection;
 
     [Header("Gen Information")]
     public float Generation;
@@ -155,6 +156,13 @@ public class TrainManager : MonoBehaviour
         var newBrains = new Brain[PopulationSize];
         var i = 0;
 
+        if (EliteSelection) {
+            newBrains[0] = _brains.OrderByDescending(x => x.Score).FirstOrDefault();
+            newBrains[0].Fitness = 0;
+            newBrains[0].Score = 0;
+            i++;
+        }
+        
         for (; i < PopulationSize; i += 2)
         {
             var leftBrain = SelectBrainOnProbabilty();
@@ -225,7 +233,7 @@ public class TrainManager : MonoBehaviour
 
         while (loadedBrains != _brains.Length)
         {
-            foreach (var path in Directory.GetFiles(ImportPath))
+            foreach (var path in Directory.GetFiles(ImportPath, "*brain.json"))
             {
                 _brains[loadedBrains] = Brain.Load(File.ReadAllText(path));
                 loadedBrains++;

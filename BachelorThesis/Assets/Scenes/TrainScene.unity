@@ -615,10 +615,11 @@ MonoBehaviour:
   MutationRate: 0.01
   CrossoverProbabilty: 0.6
   UniformCrossoverProbability: 0.5
+  EliteSelection: 1
   Generation: 0
   TopScore: 0
   Lifetime: 0
   SubTopScore: 0
-  ExportPath: ./Exports/
-  ImportPath: ./Exports/2018-07-01-15-32-21-Brains/
+  ExportPath: ./Assets/Exports/
+  ImportPath: ./Assets/Exports/2018-07-01-18-03-59-Brains/
   TimeScale: 2

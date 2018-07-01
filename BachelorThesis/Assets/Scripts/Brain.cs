@@ -76,7 +76,6 @@ public class Brain
         var weights = Network.Flat.Weights;
         var partnerWeights = partner.Network.Flat.Weights;
 
-        var midpoint = Random.value * weights.Length;
         // creates two children with the DNA of each of the parents
         var childOne = (double[]) weights.Clone();
         var childTwo = (double[]) weights.Clone();
