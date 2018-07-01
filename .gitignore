@@ -9,4 +9,6 @@ steamvr_unity_plugin/
 NuGet*
 Packages/
 AutoSave*
-Brains/
+Exports/
+log.txt
+
