@@ -21,7 +21,7 @@ namespace Agent
                 case AgentType.Player: return new PlayerAgent(script);
                 case AgentType.PlayerVr: return new PlayerAgent(script);
                 case AgentType.StateMachine: return new PlayerAgent(script);
-                case AgentType.PathFinding: return new PlayerAgent(script);
+                case AgentType.PathFinding: return new PathFindingAgent(script);
                 case AgentType.NeuralNet: return new NeuralNetAgent(script);
                 default: throw new ArgumentOutOfRangeException(nameof(agentType), agentType, null);
             }

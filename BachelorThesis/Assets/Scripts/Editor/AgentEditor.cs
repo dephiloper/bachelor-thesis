@@ -34,6 +34,8 @@ namespace Editor
                 case AgentType.StateMachine:
                     break;
                 case AgentType.PathFinding:
+                    editorProps.WaypointsPrefab = (GameObject)
+                        EditorGUILayout.ObjectField("Waypoints Prefab", editorProps.WaypointsPrefab, typeof(GameObject), true);
                     break;
                 case AgentType.NeuralNet:
                     editorProps.BrainAsset = (TextAsset)

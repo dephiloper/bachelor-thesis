@@ -2,32 +2,41 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[Serializable]
-public class AgentEditorProperties
+namespace Agent
 {
-    #region Base
+    [Serializable]
+    public class AgentEditorProperties
+    {
+        #region Base
         
-    public float MaxSpeed = 10f;
-    public float TurnSpeed = 2f;
-    public int Score;
-    public float Speed;
+        public float MaxSpeed = 10f;
+        public float TurnSpeed = 2f;
+        public int Score;
+        public float Speed;
         
-    #endregion
+        #endregion
         
-    #region Player
+        #region Player
         
-    public string HAxis;
-    public string VAxis;
-    public int SelectedHAxis;
-    public int SelectedVAxis;
+        public string HAxis;
+        public string VAxis;
+        public int SelectedHAxis;
+        public int SelectedVAxis;
 
-    #endregion
-        
-    #region NeuralNet
-        
-    public TextAsset BrainAsset;
-    public bool IsTrained;
-    public List<int> ReachedWaypointIds;
+        #endregion
 
-    #endregion
+        #region PathFinding
+
+        public GameObject WaypointsPrefab;
+
+        #endregion
+        
+        #region NeuralNet
+        
+        public TextAsset BrainAsset;
+        public bool IsTrained;
+        public List<int> ReachedWaypointIds;
+
+        #endregion
+    }
 }
