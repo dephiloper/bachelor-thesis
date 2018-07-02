@@ -100,7 +100,9 @@ public class TrainManager : MonoBehaviour
         if (_subGeneration == _subGenerationCount)
         {
             // TODO introduce variable for 10
-            if ((int)Generation % 10 == 0 || Generation >= GenerationCount)
+            if ((int)Generation % 10 == 0)
+                SaveBrains(false);
+            else if(Generation >= GenerationCount)
                 SaveBrains(true);
 
             _brains = Repopulate();

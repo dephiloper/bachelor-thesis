@@ -608,9 +608,9 @@ MonoBehaviour:
     type: 2}
   SpawnPoint: {fileID: 1859602264}
   Label: {fileID: 1206140229}
-  PopulationSize: 1000
-  GenerationCount: 115
-  Lifespan: 10
+  PopulationSize: 400
+  GenerationCount: 100
+  Lifespan: 120
   LimitLifespan: 120
   MutationRate: 0.01
   CrossoverProbabilty: 0.6
@@ -621,5 +621,5 @@ MonoBehaviour:
   Lifetime: 0
   SubTopScore: 0
   ExportPath: ./Assets/Exports/
-  ImportPath: ./Assets/Exports/2018-07-01-18-03-59-Brains/
+  ImportPath: ./Assets/Exports/2018-07-02-12-55-36-Brains/
   TimeScale: 2
