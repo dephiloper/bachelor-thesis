@@ -310,7 +310,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Type: 0
   EditorProperties:
-    MaxSpeed: 10
+    MaxSpeed: 20
     TurnSpeed: 2
     Score: 0
     Speed: 0
@@ -585,7 +585,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Type: 0
   EditorProperties:
-    MaxSpeed: 10
+    MaxSpeed: 20
     TurnSpeed: 2
     Score: 0
     Speed: 0
@@ -780,7 +780,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Type: 3
   EditorProperties:
-    MaxSpeed: 10
+    MaxSpeed: 20
     TurnSpeed: 2
     Score: 0
     Speed: 0
@@ -1071,7 +1071,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Type: 0
   EditorProperties:
-    MaxSpeed: 10
+    MaxSpeed: 20
     TurnSpeed: 2
     Score: 0
     Speed: 0

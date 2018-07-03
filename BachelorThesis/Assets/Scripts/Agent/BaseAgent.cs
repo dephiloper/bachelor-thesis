@@ -42,10 +42,27 @@ namespace Agent
 
         protected void PerformAction(Action action)
         {
+            var velocity = Vector3.zero;
+            
+            // Acceleration
             if (action.AccelerateForward)
-                Rigidbody.AddForce(Transform.forward * EditorProps.MaxSpeed);
+            {
+                velocity = SteeringBehaviour.Seek(Transform.position,
+                    Transform.position + Transform.forward,
+                    Rigidbody.velocity, EditorProps.MaxSpeed);
+                
+            }
             if (action.AccelerateBackward)
-                Rigidbody.AddForce(-Transform.forward * EditorProps.MaxSpeed * BackwardSpeedReduction);
+            {
+                velocity = SteeringBehaviour.Seek(Transform.position, 
+                    Transform.position - (Transform.forward * BackwardSpeedReduction),
+                    Rigidbody.velocity, EditorProps.MaxSpeed);
+            }
+            
+            if (velocity != Vector3.zero)
+                Rigidbody.AddForce(velocity);
+
+            // Steering
             if (action.SteerLeft)
                 Rigidbody.MoveRotation(
                     Quaternion.Euler(Transform.rotation.eulerAngles - Transform.up * EditorProps.TurnSpeed));
