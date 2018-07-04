@@ -14,6 +14,7 @@ public class Vehicle : MonoBehaviour
     public float WanderJitter { get; } = 2f;
     public float WanderRadius { get; } = 2f;
     public float WanderDistance { get; } = 0.5f;
+    public float Speed;
 
     private Rigidbody2D _rigidbody2D;
     private SteeringBehaviour _steeringBehaviour;
@@ -34,6 +35,7 @@ public class Vehicle : MonoBehaviour
         AdjustRotation();
         ChangeSteeringType();
         MoveTarget();
+        Speed = _rigidbody2D.velocity.magnitude;
     }
 
     private void MoveTarget()

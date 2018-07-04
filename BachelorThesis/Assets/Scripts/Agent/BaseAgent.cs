@@ -5,18 +5,17 @@ namespace Agent
     public abstract class BaseAgent
     {
         public Transform Transform { get; }
-        public readonly AgentEditorProperties EditorProps;
 
         protected readonly Rigidbody Rigidbody;
+        protected readonly AgentEditorProperties EditorProps;
         protected Percept Percept;
         protected bool OnTrack;
+        protected float Speed;
 
-        private const float BackwardSpeedReduction = 0.1f;
-        
+        private const float BackwardSpeedReduction = 0.2f;
         private readonly Sensor _sensor;
-        private readonly float _onTrackSpeed;
-        private readonly float _offTrackSpeed;
-        private int _frames = 0;
+        
+        private int _frames;
 
         protected BaseAgent(AgentScript agentScript)
         {
@@ -24,9 +23,6 @@ namespace Agent
             Transform = agentScript.transform;
             Rigidbody = agentScript.GetComponent<Rigidbody>();
             _sensor = new Sensor(Transform);
-            
-            _onTrackSpeed = EditorProps.MaxSpeed;
-            _offTrackSpeed = EditorProps.MaxSpeed / 4f;
         }
 
         public virtual void Compute()
@@ -36,39 +32,37 @@ namespace Agent
                 OnTrack = IsOnTrack();
 
             _frames++;
-            EditorProps.MaxSpeed = OnTrack ? _onTrackSpeed : _offTrackSpeed;
-            EditorProps.Speed = new Vector2(Rigidbody.velocity.x, Rigidbody.velocity.z).magnitude;
+            Speed = OnTrack ? EditorProps.MaxSpeed : EditorProps.MaxSpeed / 4f;
+            Speed *= Rigidbody.drag * 2;
+            EditorProps.Speed = Rigidbody.velocity.ToVector2().magnitude;
+            EditorProps.Label.text = $"{EditorProps.Speed} km/h";
+            EditorProps.TurnSpeed = EditorProps.Speed.Map(0f, EditorProps.MaxSpeed, EditorProps.MaxTurnSpeed, EditorProps.MaxTurnSpeed/2f);
         }
 
         protected void PerformAction(Action action)
         {
-            var velocity = Vector3.zero;
-            
-            // Acceleration
             if (action.AccelerateForward)
             {
-                velocity = SteeringBehaviour.Seek(Transform.position,
+                var velocity = SteeringBehaviour.Seek(Transform.position,
                     Transform.position + Transform.forward,
-                    Rigidbody.velocity, EditorProps.MaxSpeed);
-                
+                    Rigidbody.velocity, Speed);
+                Rigidbody.AddForce(velocity, ForceMode.Acceleration);
             }
             if (action.AccelerateBackward)
             {
-                velocity = SteeringBehaviour.Seek(Transform.position, 
-                    Transform.position - (Transform.forward * BackwardSpeedReduction),
-                    Rigidbody.velocity, EditorProps.MaxSpeed);
+                var velocity = SteeringBehaviour.Seek(Transform.position, 
+                    Transform.position - Transform.forward,
+                    Rigidbody.velocity, Speed) * BackwardSpeedReduction;
+                Rigidbody.AddForce(velocity, ForceMode.Acceleration);
             }
             
-            if (velocity != Vector3.zero)
-                Rigidbody.AddForce(velocity);
-
             // Steering
             if (action.SteerLeft)
                 Rigidbody.MoveRotation(
-                    Quaternion.Euler(Transform.rotation.eulerAngles - Transform.up * EditorProps.TurnSpeed));
+                    Quaternion.Euler(Transform.rotation.eulerAngles - Transform.up * EditorProps.TurnSpeed * action.SteerValue));
             if (action.SteerRight)
                 Rigidbody.MoveRotation(
-                    Quaternion.Euler(Transform.rotation.eulerAngles + Transform.up * EditorProps.TurnSpeed));
+                    Quaternion.Euler(Transform.rotation.eulerAngles + Transform.up * EditorProps.TurnSpeed * action.SteerValue));
         }
 
         private bool IsOnTrack()

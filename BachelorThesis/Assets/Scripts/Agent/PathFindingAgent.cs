@@ -19,7 +19,7 @@ namespace Agent
             base.Compute();
             var target = FindNextTarget();
             Rigidbody.AddForce(SteeringBehaviour.Seek(Transform.position, target, Rigidbody.velocity,
-                EditorProps.MaxSpeed));
+                Speed), ForceMode.Acceleration);
             AdjustRotation();
         }
 

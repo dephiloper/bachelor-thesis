@@ -4,6 +4,7 @@ using System.Linq;
 using Agent;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Editor
 {
@@ -15,17 +16,18 @@ namespace Editor
             var agentScript = target as AgentScript;
             if (agentScript == null) return;
 
-            agentScript.Type = (AgentType) EditorGUILayout.EnumPopup("Agent Type", agentScript.Type);
+            agentScript.AgentType =
+                (AgentType) EditorGUILayout.EnumPopup(nameof(agentScript.AgentType), agentScript.AgentType);
 
             var editorProps = agentScript.EditorProperties;
 
-            EditorGUILayout.LabelField($"{agentScript.Type} Properties");
-            switch (agentScript.Type)
+            EditorGUILayout.LabelField($"{agentScript.AgentType} Properties");
+            switch (agentScript.AgentType)
             {
                 case AgentType.Player:
                     var axes = ReadAxes();
-                    editorProps.SelectedHAxis = EditorGUILayout.Popup("HorizontalAxis", editorProps.SelectedHAxis, axes);
-                    editorProps.SelectedVAxis = EditorGUILayout.Popup("VerticalAxis", editorProps.SelectedVAxis, axes);
+                    editorProps.SelectedHAxis = EditorGUILayout.Popup(nameof(editorProps.SelectedHAxis), editorProps.SelectedHAxis, axes);
+                    editorProps.SelectedVAxis = EditorGUILayout.Popup(nameof(editorProps.SelectedVAxis), editorProps.SelectedVAxis, axes);
                     editorProps.HAxis = axes[editorProps.SelectedHAxis];
                     editorProps.VAxis = axes[editorProps.SelectedVAxis];
                     break;
@@ -35,16 +37,15 @@ namespace Editor
                     break;
                 case AgentType.PathFinding:
                     editorProps.WaypointsPrefab = (GameObject)
-                        EditorGUILayout.ObjectField("Waypoints Prefab", editorProps.WaypointsPrefab, typeof(GameObject), true);
+                        EditorGUILayout.ObjectField(nameof(editorProps.WaypointsPrefab), editorProps.WaypointsPrefab,
+                            typeof(GameObject), true);
                     break;
                 case AgentType.NeuralNet:
                     editorProps.BrainAsset = (TextAsset)
-                        EditorGUILayout.ObjectField("Trained Network", editorProps.BrainAsset, typeof(TextAsset), true);
+                        EditorGUILayout.ObjectField(nameof(editorProps.BrainAsset), editorProps.BrainAsset, typeof(TextAsset), true);
 
                     GUI.enabled = false;
-                    EditorGUILayout.Toggle("Is Trained", editorProps.IsTrained);
-                    var maxWaypoint = editorProps.ReachedWaypointIds.Count == 0 ? 0 : editorProps.ReachedWaypointIds.Max();
-                    EditorGUILayout.IntField("Reached Waypoint", maxWaypoint);
+                    EditorGUILayout.Toggle(nameof(editorProps.IsTrained), editorProps.IsTrained);
                     GUI.enabled = true;
 
                     break;
@@ -52,12 +53,15 @@ namespace Editor
                     throw new ArgumentOutOfRangeException();
             }
 
-            EditorGUILayout.LabelField("Agent Properties");
-            editorProps.MaxSpeed = EditorGUILayout.FloatField("Max Speed", editorProps.MaxSpeed);
-            editorProps.TurnSpeed = EditorGUILayout.FloatField("Turn Speed", editorProps.TurnSpeed);
+            EditorGUILayout.LabelField("Base Properties");
+            editorProps.Label = (Text)
+                EditorGUILayout.ObjectField(nameof(editorProps.Label), editorProps.Label, typeof(Text), true);
+            editorProps.MaxSpeed = EditorGUILayout.FloatField(nameof(editorProps.MaxSpeed), editorProps.MaxSpeed);
+            editorProps.MaxTurnSpeed = EditorGUILayout.FloatField(nameof(editorProps.MaxTurnSpeed), editorProps.MaxTurnSpeed);
             GUI.enabled = false;
-            EditorGUILayout.FloatField("Speed", editorProps.Speed);
-            EditorGUILayout.IntField("Score", editorProps.Score);
+            EditorGUILayout.FloatField(nameof(editorProps.Speed), editorProps.Speed);
+            EditorGUILayout.FloatField(nameof(editorProps.TurnSpeed), editorProps.TurnSpeed);
+            EditorGUILayout.IntField(nameof(editorProps.Score), editorProps.Score);
             GUI.enabled = true;
         }
 

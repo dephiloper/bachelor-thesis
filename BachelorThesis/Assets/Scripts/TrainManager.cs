@@ -62,8 +62,10 @@ public class TrainManager : MonoBehaviour
         if (string.IsNullOrEmpty(ImportPath))
             for (var i = 0; i < _brains.Length; i++)
                 _brains[i] = new Brain();
-        else
+        else if (Directory.Exists(ImportPath))
             LoadBrains();
+        else
+            throw new DirectoryNotFoundException();
 
         // calculate the number of sub generations (adds 1 if integer division is not possible w/o remaining)
         _subGenerationCount = PopulationSize / _subPopulationSize;

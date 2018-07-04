@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Agent
 {
@@ -8,11 +9,13 @@ namespace Agent
     public class AgentEditorProperties
     {
         #region Base
-        
-        public float MaxSpeed = 10f;
-        public float TurnSpeed = 2f;
+
+        public Text Label;
+        public float MaxSpeed = 5f;
+        public float MaxTurnSpeed = 2f;
         public int Score;
         public float Speed;
+        public float TurnSpeed;
         
         #endregion
         

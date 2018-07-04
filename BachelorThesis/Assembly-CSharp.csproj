@@ -70,6 +70,7 @@
     <Compile Include="Assets\Scripts\Percept.cs" />
     <Compile Include="Assets\Scripts\Sensor.cs" />
     <Compile Include="Assets\Scripts\SteeringBehaviour.cs" />
+    <Compile Include="Assets\Scripts\Tests\ExtensionMethodsTest.cs" />
     <Compile Include="Assets\Scripts\TrainManager.cs" />
     <Compile Include="Assets\Scripts\Waypoint.cs" />
     <Reference Include="UnityEditor.StandardEvents">
