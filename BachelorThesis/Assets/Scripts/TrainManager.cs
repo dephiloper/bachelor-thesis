@@ -101,8 +101,7 @@ public class TrainManager : MonoBehaviour
         // Generation is completed
         if (_subGeneration == _subGenerationCount)
         {
-            // TODO introduce variable for 10
-            if ((int)Generation % 10 == 0)
+            if (Math.Abs(Generation % 10) < 0.0001F)
                 SaveBrains(false);
             else if(Generation >= GenerationCount)
                 SaveBrains(true);
@@ -132,7 +131,7 @@ public class TrainManager : MonoBehaviour
     {
         var remainder = PopulationSize % _subPopulationSize;
 
-        if (_subGeneration == (_subGenerationCount - 1))
+        if (_subGeneration == _subGenerationCount - 1)
             _subPopulationSize = remainder == 0 ? _subPopulationSize : remainder;
 
         _agents = new NeuralNetAgent[_subPopulationSize];

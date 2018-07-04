@@ -30,6 +30,8 @@ namespace Editor
                     editorProps.SelectedVAxis = EditorGUILayout.Popup(nameof(editorProps.SelectedVAxis), editorProps.SelectedVAxis, axes);
                     editorProps.HAxis = axes[editorProps.SelectedHAxis];
                     editorProps.VAxis = axes[editorProps.SelectedVAxis];
+                    editorProps.IsDiscrete =
+                        EditorGUILayout.Toggle(nameof(editorProps.IsDiscrete), editorProps.IsDiscrete);
                     break;
                 case AgentType.PlayerVr:
                     break;

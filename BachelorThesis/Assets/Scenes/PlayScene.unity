@@ -5558,9 +5558,9 @@ MonoBehaviour:
     Speed: 0
     TurnSpeed: 0
     HAxis: HorizontalP1
-    VAxis: VerticalP1
+    VAxis: HorizontalP1
     SelectedHAxis: 2
-    SelectedVAxis: 6
+    SelectedVAxis: 2
     WaypointsPrefab: {fileID: 0}
     BrainAsset: {fileID: 0}
     IsTrained: 0
@@ -11961,10 +11961,10 @@ MonoBehaviour:
     Score: 0
     Speed: 0
     TurnSpeed: 0
-    HAxis: HorizontalJoyP2
-    VAxis: VerticalJoyP2
-    SelectedHAxis: 3
-    SelectedVAxis: 7
+    HAxis: HorizontalP0
+    VAxis: VerticalP0
+    SelectedHAxis: 1
+    SelectedVAxis: 6
     WaypointsPrefab: {fileID: 0}
     BrainAsset: {fileID: 0}
     IsTrained: 0
@@ -14590,7 +14590,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!65 &1436489679
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -18460,7 +18460,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1856585058
 MonoBehaviour:
   m_ObjectHideFlags: 0

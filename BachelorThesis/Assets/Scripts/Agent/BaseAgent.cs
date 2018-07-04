@@ -46,23 +46,25 @@ namespace Agent
                 var velocity = SteeringBehaviour.Seek(Transform.position,
                     Transform.position + Transform.forward,
                     Rigidbody.velocity, Speed);
-                Rigidbody.AddForce(velocity, ForceMode.Acceleration);
+                Rigidbody.AddForce(velocity * action.AccelerateValue , ForceMode.Acceleration);
             }
             if (action.AccelerateBackward)
             {
                 var velocity = SteeringBehaviour.Seek(Transform.position, 
                     Transform.position - Transform.forward,
                     Rigidbody.velocity, Speed) * BackwardSpeedReduction;
-                Rigidbody.AddForce(velocity, ForceMode.Acceleration);
+                Rigidbody.AddForce(velocity * action.AccelerateValue, ForceMode.Acceleration);
             }
             
             // Steering
             if (action.SteerLeft)
                 Rigidbody.MoveRotation(
-                    Quaternion.Euler(Transform.rotation.eulerAngles - Transform.up * EditorProps.TurnSpeed * action.SteerValue));
+                    Quaternion.Euler(Transform.rotation.eulerAngles -
+                                     Transform.up * EditorProps.TurnSpeed * action.SteerValue));
             if (action.SteerRight)
                 Rigidbody.MoveRotation(
-                    Quaternion.Euler(Transform.rotation.eulerAngles + Transform.up * EditorProps.TurnSpeed * action.SteerValue));
+                    Quaternion.Euler(Transform.rotation.eulerAngles +
+                                     Transform.up * EditorProps.TurnSpeed * action.SteerValue));
         }
 
         private bool IsOnTrack()

@@ -9,7 +9,7 @@ namespace Agent
         public override void Compute()
         {
             base.Compute();
-            var action = new Action(Input.GetAxis(EditorProps.HAxis),Input.GetAxis(EditorProps.VAxis));
+            var action = new Action(Input.GetAxis(EditorProps.HAxis),Input.GetAxis(EditorProps.VAxis), EditorProps.IsDiscrete);
             PerformAction(action);
         }
     }

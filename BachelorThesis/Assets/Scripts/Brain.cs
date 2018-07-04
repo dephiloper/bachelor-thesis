@@ -29,7 +29,7 @@ public class Brain
         Network = new BasicNetwork();
         Network.AddLayer(new BasicLayer(null, true, 9));
         Network.AddLayer(new BasicLayer(new ActivationReLU(), true, 18));
-        Network.AddLayer(new BasicLayer(new ActivationLinear(), false, 4));
+        Network.AddLayer(new BasicLayer(new ActivationTANH(), false, 2));
         Network.Structure.FinalizeStructure();
         Network.Reset();
     }
