@@ -35,7 +35,8 @@ namespace Agent
             Speed = OnTrack ? EditorProps.MaxSpeed : EditorProps.MaxSpeed / 4f;
             Speed *= Rigidbody.drag * 2;
             EditorProps.Speed = Rigidbody.velocity.ToVector2().magnitude;
-            EditorProps.Label.text = $"{EditorProps.Speed} km/h";
+            if (EditorProps.IsTrained)
+                EditorProps.Label.text = $"{EditorProps.Speed} km/h";
             EditorProps.TurnSpeed = EditorProps.Speed.Map(0f, EditorProps.MaxSpeed, EditorProps.MaxTurnSpeed, EditorProps.MaxTurnSpeed/2f);
         }
 
