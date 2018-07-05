@@ -233,6 +233,10 @@ Prefab:
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1848863568623020, guid: 22d5370ee745b42f4beaf8e99e9e38e7, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 22d5370ee745b42f4beaf8e99e9e38e7, type: 2}
   m_IsPrefabAsset: 0
@@ -613,19 +617,18 @@ MonoBehaviour:
   AgentPrefab: {fileID: 1516547272574836, guid: 876eaf72875834218bcc158111334107,
     type: 2}
   SpawnPoint: {fileID: 1859602264}
-  Label: {fileID: 1206140229}
   PopulationSize: 1000
   GenerationCount: 200
-  Lifespan: 10
-  LimitLifespan: 60
+  LifespanMillis: 10000
+  LimitLifespanMillis: 120000
   MutationRate: 0.01
   CrossoverProbabilty: 0.6
   UniformCrossoverProbability: 0.5
   EliteSelection: 1
   Generation: 0
   TopScore: 0
-  Lifetime: 0
+  LifetimeMillis: 0
   SubTopScore: 0
   ExportPath: ./Assets/Exports/
   ImportPath: 
-  TimeScale: 2
+  TimeScale: 1

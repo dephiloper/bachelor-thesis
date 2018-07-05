@@ -1,6 +1,7 @@
-﻿using UnityEngine;
+﻿using Agent.Data;
+using UnityEngine;
 
-namespace Agent
+namespace Agent.AgentImpl
 {
     public class PlayerAgent : BaseAgent
     {

@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using Agent.Data;
+using Car;
+using UnityEngine;
 
 namespace Agent
 {
@@ -35,24 +37,28 @@ namespace Agent
             Speed = OnTrack ? EditorProps.MaxSpeed : EditorProps.MaxSpeed / 4f;
             Speed *= Rigidbody.drag * 2;
             EditorProps.Speed = Rigidbody.velocity.ToVector2().magnitude;
-            EditorProps.Label.text = $"{EditorProps.Speed} km/h";
+            //EditorProps.Label.text = $"{EditorProps.Speed} km/h";
             EditorProps.TurnSpeed = EditorProps.Speed.Map(0f, EditorProps.MaxSpeed, EditorProps.MaxTurnSpeed, EditorProps.MaxTurnSpeed/2f);
         }
 
         protected void PerformAction(Action action)
         {
+            var velocity = Vector3.zero;
+            
             if (action.AccelerateForward)
             {
-                var velocity = SteeringBehaviour.Seek(Transform.position,
+                velocity = SteeringBehaviour.Seek(Transform.position,
                     Transform.position + Transform.forward,
                     Rigidbody.velocity, Speed);
-                Rigidbody.AddForce(velocity * action.AccelerateValue , ForceMode.Acceleration);
             }
             if (action.AccelerateBackward)
             {
-                var velocity = SteeringBehaviour.Seek(Transform.position, 
+                velocity = SteeringBehaviour.Seek(Transform.position, 
                     Transform.position - Transform.forward,
                     Rigidbody.velocity, Speed) * BackwardSpeedReduction;
+            }
+            
+            if (velocity != Vector3.zero) {
                 Rigidbody.AddForce(velocity * action.AccelerateValue, ForceMode.Acceleration);
             }
             

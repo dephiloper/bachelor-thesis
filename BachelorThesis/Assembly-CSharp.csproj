@@ -52,27 +52,29 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\Action.cs" />
     <Compile Include="Assets\Scripts\Agent\AgentEditorProperties.cs" />
+    <Compile Include="Assets\Scripts\Agent\AgentImpl\NeuralNetAgent.cs" />
+    <Compile Include="Assets\Scripts\Agent\AgentImpl\PathFindingAgent.cs" />
+    <Compile Include="Assets\Scripts\Agent\AgentImpl\PlayerAgent.cs" />
+    <Compile Include="Assets\Scripts\Agent\AgentScript.cs" />
     <Compile Include="Assets\Scripts\Agent\AgentType.cs" />
     <Compile Include="Assets\Scripts\Agent\BaseAgent.cs" />
-    <Compile Include="Assets\Scripts\Agent\NeuralNetAgent.cs" />
-    <Compile Include="Assets\Scripts\Agent\PathFindingAgent.cs" />
-    <Compile Include="Assets\Scripts\Agent\PlayerAgent.cs" />
-    <Compile Include="Assets\Scripts\AgentScript.cs" />
-    <Compile Include="Assets\Scripts\Brain.cs" />
-    <Compile Include="Assets\Scripts\CameraMovement.cs" />
+    <Compile Include="Assets\Scripts\Agent\Brain.cs" />
+    <Compile Include="Assets\Scripts\Agent\Data\Action.cs" />
+    <Compile Include="Assets\Scripts\Agent\Data\Percept.cs" />
+    <Compile Include="Assets\Scripts\Agent\Data\Sensor.cs" />
+    <Compile Include="Assets\Scripts\Agent\SerializationUtils.cs" />
+    <Compile Include="Assets\Scripts\CameraUtils\CameraMovement.cs" />
     <Compile Include="Assets\Scripts\CameraUtils\CameraPositionChanger.cs" />
     <Compile Include="Assets\Scripts\CameraUtils\CameraStabilizer.cs" />
-    <Compile Include="Assets\Scripts\Car\CarBehaviour.cs" />
+    <Compile Include="Assets\Scripts\Car\HoverBehaviour.cs" />
+    <Compile Include="Assets\Scripts\Car\SteeringBehaviour.cs" />
     <Compile Include="Assets\Scripts\ExtensionMethods.cs" />
     <Compile Include="Assets\Scripts\OrderScript.cs" />
-    <Compile Include="Assets\Scripts\Percept.cs" />
-    <Compile Include="Assets\Scripts\Sensor.cs" />
-    <Compile Include="Assets\Scripts\SteeringBehaviour.cs" />
     <Compile Include="Assets\Scripts\Tests\ExtensionMethodsTest.cs" />
-    <Compile Include="Assets\Scripts\TrainManager.cs" />
-    <Compile Include="Assets\Scripts\Waypoint.cs" />
+    <Compile Include="Assets\Scripts\Train\TrainLogger.cs" />
+    <Compile Include="Assets\Scripts\Train\TrainManager.cs" />
+    <Compile Include="Assets\Scripts\WaypointBehaviour.cs" />
     <Reference Include="UnityEditor.StandardEvents">
       <HintPath>/Users/Philipp/Development/University/bachelor-thesis-prep/BachelorThesis/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
     </Reference>

@@ -1,7 +1,8 @@
 ﻿using Agent;
+using Agent.AgentImpl;
 using UnityEngine;
 
-public class Waypoint : MonoBehaviour
+public class WaypointBehaviour : MonoBehaviour
 {
     public int WaypointIdentifier;
 

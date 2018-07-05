@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Train;
 using UnityEngine;
 
-namespace Agent
+namespace Agent.AgentImpl
 {
     public class NeuralNetAgent : BaseAgent
     {
@@ -13,7 +14,7 @@ namespace Agent
         {
             if (EditorProps.BrainAsset)
             {
-                Brain = Brain.Load(EditorProps.BrainAsset.text);
+                Brain = Brain.Import(EditorProps.BrainAsset.text);
                 EditorProps.IsTrained = true;
             }
             else if (!TrainManager.Instance)

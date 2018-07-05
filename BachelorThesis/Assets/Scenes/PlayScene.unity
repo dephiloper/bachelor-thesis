@@ -3003,7 +3003,7 @@ Transform:
   - {fileID: 1087526486}
   - {fileID: 191734180}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &333581432
 GameObject:
@@ -4684,7 +4684,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
 --- !u!1 &472273916
 GameObject:
@@ -5561,6 +5561,7 @@ MonoBehaviour:
     VAxis: HorizontalP1
     SelectedHAxis: 2
     SelectedVAxis: 2
+    IsDiscrete: 0
     WaypointsPrefab: {fileID: 0}
     BrainAsset: {fileID: 0}
     IsTrained: 0
@@ -5645,7 +5646,7 @@ Transform:
   m_LocalScale: {x: 0.25, y: 0.125, z: 0.375}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &520931276
 GameObject:
@@ -7454,7 +7455,7 @@ RectTransform:
   - {fileID: 2054122386}
   - {fileID: 562720592}
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -8056,7 +8057,7 @@ Transform:
   m_Children:
   - {fileID: 282840814}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &720902010
 GameObject:
@@ -9523,7 +9524,35 @@ Transform:
   m_Children:
   - {fileID: 1846346897}
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &816461643
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 816461644}
+  m_Layer: 0
+  m_Name: GameplayRecorder
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &816461644
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 816461643}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &831017219
 GameObject:
@@ -9800,7 +9829,7 @@ Transform:
   m_Children:
   - {fileID: 374829102}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &874030592
 GameObject:
@@ -11965,6 +11994,7 @@ MonoBehaviour:
     VAxis: VerticalP0
     SelectedHAxis: 1
     SelectedVAxis: 6
+    IsDiscrete: 0
     WaypointsPrefab: {fileID: 0}
     BrainAsset: {fileID: 0}
     IsTrained: 0
@@ -12049,7 +12079,7 @@ Transform:
   m_LocalScale: {x: 0.25, y: 0.125, z: 0.375}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1161482751
 GameObject:
@@ -14590,7 +14620,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!65 &1436489679
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -14656,7 +14686,7 @@ Transform:
   m_LocalScale: {x: 0.25, y: 0.125, z: 0.375}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1436489683
 MonoBehaviour:
@@ -14681,6 +14711,7 @@ MonoBehaviour:
     VAxis: Horizontal
     SelectedHAxis: 0
     SelectedVAxis: 0
+    IsDiscrete: 0
     WaypointsPrefab: {fileID: 0}
     BrainAsset: {fileID: 4900000, guid: ee53d3b233a87426ca7008ecd69b6ad7, type: 3}
     IsTrained: 0
@@ -17002,7 +17033,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1678331157
 GameObject:
@@ -18460,7 +18491,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1856585058
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18497,6 +18528,7 @@ MonoBehaviour:
     VAxis: VerticalP2
     SelectedHAxis: 3
     SelectedVAxis: 7
+    IsDiscrete: 0
     WaypointsPrefab: {fileID: 191734179}
     BrainAsset: {fileID: 0}
     IsTrained: 0
@@ -18581,7 +18613,7 @@ Transform:
   m_LocalScale: {x: 0.25, y: 0.125, z: 0.375}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1867801819
 GameObject:
@@ -18985,7 +19017,7 @@ Transform:
   m_Children:
   - {fileID: 1810927032}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1925261406
 GameObject:

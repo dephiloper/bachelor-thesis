@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
+using Car;
 using UnityEngine;
 
-namespace Agent
+namespace Agent.AgentImpl
 {
     public class PathFindingAgent : BaseAgent
     {
@@ -10,7 +11,7 @@ namespace Agent
 
         public PathFindingAgent(AgentScript agentScript) : base(agentScript)
         {
-            foreach (var waypoint in EditorProps.WaypointsPrefab.GetComponentsInChildren<Waypoint>())
+            foreach (var waypoint in EditorProps.WaypointsPrefab.GetComponentsInChildren<WaypointBehaviour>())
                 _idToWaypointDict.Add(waypoint.WaypointIdentifier, waypoint.transform.position.ToVector2());
         }
 
