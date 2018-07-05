@@ -52,6 +52,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\RecordManager.cs" />
     <Compile Include="Assets\Scripts\Agent\AgentEditorProperties.cs" />
     <Compile Include="Assets\Scripts\Agent\AgentImpl\NeuralNetAgent.cs" />
     <Compile Include="Assets\Scripts\Agent\AgentImpl\PathFindingAgent.cs" />

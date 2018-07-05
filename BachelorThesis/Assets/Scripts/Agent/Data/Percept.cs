@@ -4,10 +4,10 @@ using UnityEngine;
 
 namespace Agent.Data
 {
-    public struct Percept
+    public class Percept
     {
-        public List<double> WallDistances { get; set; }
-        public Vector3 Velocity { private get; set; }
+        public List<double> WallDistances;
+        public Vector3 Velocity;
 
         public double[] ToDoubleArray()
         {

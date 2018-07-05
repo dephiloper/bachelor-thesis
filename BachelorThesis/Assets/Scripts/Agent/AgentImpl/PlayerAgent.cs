@@ -1,17 +1,27 @@
 ﻿using Agent.Data;
+using UnityEditor;
 using UnityEngine;
 
 namespace Agent.AgentImpl
 {
     public class PlayerAgent : BaseAgent
     {
-        public PlayerAgent(AgentScript agentScript) : base(agentScript) { }
+        private readonly RecordManager _recordManager;
+
+        public PlayerAgent(AgentScript agentScript) : base(agentScript)
+        {
+            if (EditorProps.Record)
+                _recordManager = new RecordManager("decision.txt");
+        }
 
         public override void Compute()
         {
             base.Compute();
-            var action = new Action(Input.GetAxis(EditorProps.HAxis),Input.GetAxis(EditorProps.VAxis), EditorProps.IsDiscrete);
+            var hIput = EditorProps.IsDiscrete ? Input.GetAxisRaw(EditorProps.HAxis) : Input.GetAxis(EditorProps.HAxis);
+            var vIput = EditorProps.IsDiscrete ? Input.GetAxisRaw(EditorProps.VAxis) : Input.GetAxis(EditorProps.VAxis);
+            var action = new Action(hIput, vIput, EditorProps.IsDiscrete);
             PerformAction(action);
+            _recordManager?.SaveDecision(Percept, action);
         }
     }
 }

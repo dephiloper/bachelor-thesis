@@ -7,10 +7,10 @@ namespace Agent
     public abstract class BaseAgent
     {
         public Transform Transform { get; }
+        public Percept Percept { get; private set; }
 
         protected readonly Rigidbody Rigidbody;
         protected readonly AgentEditorProperties EditorProps;
-        protected Percept Percept;
         protected bool OnTrack;
         protected float Speed;
 

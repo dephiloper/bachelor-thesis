@@ -7,24 +7,23 @@ namespace Train
 {
     public class TrainLogger : ILogHandler
     {
-        private readonly string _logFile;
+        private readonly StreamWriter _writer;
     
         public TrainLogger(string logFile)
         {
-            _logFile = logFile;
+            _writer = File.AppendText(logFile);
         }
-    
-        public void LogFormat(LogType logType, Object context, string format, params object[] args)
+
+        ~TrainLogger() 
         {
-            using (var w = File.AppendText(_logFile))
-                w.WriteLine(args[0]);
+            _writer.Close();
         }
+        public void LogFormat(LogType logType, Object context, string format, params object[] args) => 
+            _writer.WriteLine(args[0]);
 
         public void LogException(Exception exception, Object context)
         {
 
         }
-    
-    
     }
 }

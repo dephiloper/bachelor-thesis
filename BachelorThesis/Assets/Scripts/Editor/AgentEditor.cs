@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Agent;
 using UnityEditor;
 using UnityEngine;
@@ -32,6 +31,8 @@ namespace Editor
                     editorProps.VAxis = axes[editorProps.SelectedVAxis];
                     editorProps.IsDiscrete =
                         EditorGUILayout.Toggle(nameof(editorProps.IsDiscrete), editorProps.IsDiscrete);
+                    editorProps.Record = 
+                        editorProps.Record = EditorGUILayout.Toggle(nameof(editorProps.Record), editorProps.Record);
                     break;
                 case AgentType.PlayerVr:
                     break;

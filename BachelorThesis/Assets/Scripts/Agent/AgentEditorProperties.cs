@@ -26,6 +26,7 @@ namespace Agent
         public int SelectedHAxis;
         public int SelectedVAxis;
         public bool IsDiscrete;
+        public bool Record;
 
         #endregion
 

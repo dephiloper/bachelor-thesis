@@ -2,14 +2,14 @@
 
 namespace Agent.Data
 {
-    public struct Action
+    public class Action
     {
-        public bool AccelerateForward { get; }
-        public bool AccelerateBackward { get; }
-        public float AccelerateValue { get; }
-        public bool SteerLeft { get; }
-        public bool SteerRight { get; }
-        public float SteerValue { get; }
+        public bool AccelerateForward;
+        public bool AccelerateBackward;
+        public float AccelerateValue;
+        public bool SteerLeft;
+        public bool SteerRight;
+        public float SteerValue;
         private const double ActivationThreshold = 0d;
     
         public Action(double[] data)

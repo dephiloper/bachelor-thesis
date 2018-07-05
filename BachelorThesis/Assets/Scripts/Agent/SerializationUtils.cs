@@ -13,6 +13,7 @@ namespace Agent
             foreach (var brain in orderedBrains)
                 brain.Export(generation, lifespanMillis, path);
         }
+        
         public static Brain[] LoadBrains(int count, string path)
         {
             var brains = new Brain[count]; 
