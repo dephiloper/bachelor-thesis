@@ -201,7 +201,7 @@ namespace Train
             for (var i = 0; i < _subPopulationSize; i++)
             {
                 var agentGameObject = Instantiate(AgentPrefab, SpawnPoint);
-                _agents[i] = agentGameObject.GetComponent<AgentScript>().Agent as NeuralNetAgent;
+                _agents[i] = agentGameObject.GetComponent<AgentBehaviour>().Agent as NeuralNetAgent;
                 _agents[i].Brain = _brains[_subPopulationSize * _subGeneration + i];
             }
         }

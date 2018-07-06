@@ -2,7 +2,7 @@
 
 namespace Agent
 {
-    public class AgentScript : MonoBehaviour
+    public class AgentBehaviour : MonoBehaviour
     {
         public AgentType AgentType = AgentType.NeuralNet;
         public AgentEditorProperties EditorProperties;

@@ -7,12 +7,12 @@ using UnityEngine.UI;
 
 namespace Editor
 {
-    [CustomEditor(typeof(AgentScript))]
+    [CustomEditor(typeof(AgentBehaviour))]
     public class AgentEditor : UnityEditor.Editor
     {
         public override void OnInspectorGUI()
         {
-            var agentScript = target as AgentScript;
+            var agentScript = target as AgentBehaviour;
             if (agentScript == null) return;
 
             agentScript.AgentType =

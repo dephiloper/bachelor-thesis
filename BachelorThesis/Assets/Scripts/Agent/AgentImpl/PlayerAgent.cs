@@ -8,7 +8,7 @@ namespace Agent.AgentImpl
     {
         private readonly RecordManager _recordManager;
 
-        public PlayerAgent(AgentScript agentScript) : base(agentScript)
+        public PlayerAgent(AgentBehaviour agentBehaviour) : base(agentBehaviour)
         {
             if (EditorProps.Record)
                 _recordManager = new RecordManager("decision.txt");

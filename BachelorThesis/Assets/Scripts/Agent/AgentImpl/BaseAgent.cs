@@ -1,5 +1,6 @@
 ﻿using Agent.Data;
 using Car;
+using Train;
 using UnityEngine;
 
 namespace Agent
@@ -18,12 +19,13 @@ namespace Agent
         private readonly Sensor _sensor;
         
         private int _frames;
+        private int _speedIncreaseTime;
 
-        protected BaseAgent(AgentScript agentScript)
+        protected BaseAgent(AgentBehaviour agentBehaviour)
         {
-            EditorProps = agentScript.EditorProperties;
-            Transform = agentScript.transform;
-            Rigidbody = agentScript.GetComponent<Rigidbody>();
+            EditorProps = agentBehaviour.EditorProperties;
+            Transform = agentBehaviour.transform;
+            Rigidbody = agentBehaviour.GetComponent<Rigidbody>();
             _sensor = new Sensor(Transform);
         }
 
@@ -36,9 +38,16 @@ namespace Agent
             _frames++;
             Speed = OnTrack ? EditorProps.MaxSpeed : EditorProps.MaxSpeed / 4f;
             Speed *= Rigidbody.drag * 2;
-            EditorProps.Speed = Rigidbody.velocity.ToVector2().magnitude;
-            //EditorProps.Label.text = $"{EditorProps.Speed} km/h";
-            EditorProps.TurnSpeed = EditorProps.Speed.Map(0f, EditorProps.MaxSpeed, EditorProps.MaxTurnSpeed, EditorProps.MaxTurnSpeed/2f);
+           
+            if (_speedIncreaseTime > 0)
+            {
+                Speed *=     1.25f;
+                _speedIncreaseTime -= (int) (Time.deltaTime * 1000);
+            }
+            else
+                _speedIncreaseTime = 0;
+            
+            UpdateEditorProps();
         }
 
         protected void PerformAction(Action action)
@@ -72,6 +81,15 @@ namespace Agent
                     Quaternion.Euler(Transform.rotation.eulerAngles +
                                      Transform.up * EditorProps.TurnSpeed * action.SteerValue));
         }
+        
+        protected virtual void UpdateEditorProps()
+        {
+            EditorProps.Speed = Rigidbody.velocity.ToVector2().magnitude;
+            EditorProps.TurnSpeed =
+                EditorProps.Speed.Map(0f, EditorProps.MaxSpeed, EditorProps.MaxTurnSpeed, EditorProps.MaxTurnSpeed / 2f);
+            if (!TrainManager.Instance)
+                EditorProps.Label.text = $"{EditorProps.Speed} km/h";
+        }
 
         private bool IsOnTrack()
         {
@@ -82,6 +100,11 @@ namespace Agent
             }
 
             return false;
+        }
+        
+        public void CollectableGathered()
+        {
+            _speedIncreaseTime += 2000;
         }
     }
 }

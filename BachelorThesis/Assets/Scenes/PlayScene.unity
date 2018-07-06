@@ -5234,7 +5234,7 @@ MonoBehaviour:
   AgentType: 0
   EditorProperties:
     Label: {fileID: 324352163}
-    MaxSpeed: 5
+    MaxSpeed: 4
     MaxTurnSpeed: 2
     Score: 0
     Speed: 0
@@ -5248,7 +5248,6 @@ MonoBehaviour:
     WaypointsPrefab: {fileID: 0}
     BrainAsset: {fileID: 0}
     IsTrained: 0
-    ReachedWaypointIds: 
 --- !u!54 &518014190
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -11296,7 +11295,7 @@ MonoBehaviour:
   AgentType: 0
   EditorProperties:
     Label: {fileID: 1673751417}
-    MaxSpeed: 5
+    MaxSpeed: 4
     MaxTurnSpeed: 2
     Score: 0
     Speed: 0
@@ -11310,7 +11309,6 @@ MonoBehaviour:
     WaypointsPrefab: {fileID: 0}
     BrainAsset: {fileID: 0}
     IsTrained: 0
-    ReachedWaypointIds: 
 --- !u!54 &1159512622
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -13865,7 +13863,7 @@ MonoBehaviour:
   AgentType: 4
   EditorProperties:
     Label: {fileID: 562720593}
-    MaxSpeed: 5
+    MaxSpeed: 4
     MaxTurnSpeed: 2
     Score: 0
     Speed: 0
@@ -13879,7 +13877,6 @@ MonoBehaviour:
     WaypointsPrefab: {fileID: 0}
     BrainAsset: {fileID: 4900000, guid: ee53d3b233a87426ca7008ecd69b6ad7, type: 3}
     IsTrained: 0
-    ReachedWaypointIds: 
 --- !u!54 &1436489684
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -17482,7 +17479,7 @@ MonoBehaviour:
   AgentType: 3
   EditorProperties:
     Label: {fileID: 2054122387}
-    MaxSpeed: 5
+    MaxSpeed: 4
     MaxTurnSpeed: 2
     Score: 0
     Speed: 0
@@ -17496,7 +17493,6 @@ MonoBehaviour:
     WaypointsPrefab: {fileID: 191734179}
     BrainAsset: {fileID: 0}
     IsTrained: 0
-    ReachedWaypointIds: 
 --- !u!54 &1856585060
 Rigidbody:
   m_ObjectHideFlags: 0

@@ -2,7 +2,7 @@
 
 namespace CameraUtils
 {
-	public class CameraStabilizer : MonoBehaviour
+	public class CameraStabilizationBehaviour : MonoBehaviour
 	{
 		public GameObject Vehicle;
 		public float SmoothRotationSpeed = 10f;

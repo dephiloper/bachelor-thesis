@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Car;
+using Environment;
 using UnityEngine;
 
 namespace Agent.AgentImpl
@@ -9,7 +10,7 @@ namespace Agent.AgentImpl
         private int _waypointId = 1;
         private readonly Dictionary<int, Vector2> _idToWaypointDict = new Dictionary<int, Vector2>();
 
-        public PathFindingAgent(AgentScript agentScript) : base(agentScript)
+        public PathFindingAgent(AgentBehaviour agentBehaviour) : base(agentBehaviour)
         {
             foreach (var waypoint in EditorProps.WaypointsPrefab.GetComponentsInChildren<WaypointBehaviour>())
                 _idToWaypointDict.Add(waypoint.WaypointIdentifier, waypoint.transform.position.ToVector2());

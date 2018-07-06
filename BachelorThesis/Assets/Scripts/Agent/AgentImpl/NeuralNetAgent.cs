@@ -10,7 +10,9 @@ namespace Agent.AgentImpl
     {
         public Brain Brain { get; set; }
 
-        public NeuralNetAgent(AgentScript agentScript) : base(agentScript)
+        private readonly List<int> _reachedWaypointIds = new List<int>();
+
+        public NeuralNetAgent(AgentBehaviour agentBehaviour) : base(agentBehaviour)
         {
             if (EditorProps.BrainAsset)
             {
@@ -22,8 +24,6 @@ namespace Agent.AgentImpl
                     $"When there is no {nameof(EditorProps.BrainAsset)} " +
                     "specified, the agent performs training. Unfortunetly there is also no TrainManager " +
                     "set in this scene.");
-        
-            EditorProps.ReachedWaypointIds = new List<int>();
         }
 
         public override void Compute()
@@ -34,6 +34,11 @@ namespace Agent.AgentImpl
                 Brain.Score -= 0.1f;
             PerformAction(action);
 
+            UpdateEditorProps();
+        }
+
+        protected override void UpdateEditorProps()
+        {
             EditorProps.Score = Mathf.RoundToInt(Brain.Score);
         }
 
@@ -44,25 +49,25 @@ namespace Agent.AgentImpl
         
             var vel = new Vector2(Rigidbody.velocity.x, Rigidbody.velocity.z).magnitude;
             
-            if (EditorProps.ReachedWaypointIds.Contains(waypointIdentifier))
+            if (_reachedWaypointIds.Contains(waypointIdentifier))
                 Brain.Score -= vel;    
             
-            var maxId = EditorProps.ReachedWaypointIds.Count > 0 ? EditorProps.ReachedWaypointIds.Max() : 0;
+            var maxId = _reachedWaypointIds.Count > 0 ? _reachedWaypointIds.Max() : 0;
 
             // when the reached waypoint is the next e.g. 0 = maxId (no waypoints), waypointIdentifier = 1
             // 0 + 1 == 1 -> true
             // skipping a waypoint will not work
             if (maxId + 1 == waypointIdentifier)
             {
-                EditorProps.ReachedWaypointIds.Add(waypointIdentifier);
+                _reachedWaypointIds.Add(waypointIdentifier);
                 Brain.Score += vel;
             }
             else if (maxId != waypointIdentifier)
                 Brain.Score -= vel;
 
             // all waypoints reached
-            if (EditorProps.ReachedWaypointIds.Contains(lastWaypointIdentifier))
-                EditorProps.ReachedWaypointIds.Clear();
+            if (_reachedWaypointIds.Contains(lastWaypointIdentifier))
+                _reachedWaypointIds.Clear();
         }
     }
 }

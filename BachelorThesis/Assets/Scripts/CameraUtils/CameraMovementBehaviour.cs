@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace CameraUtils
 {
-	public class CameraMovement : MonoBehaviour {
+	public class CameraMovementBehaviour : MonoBehaviour {
 		private void FixedUpdate ()
 		{
 			if (TrainManager.Instance.BestAgent?.Transform == null) return;

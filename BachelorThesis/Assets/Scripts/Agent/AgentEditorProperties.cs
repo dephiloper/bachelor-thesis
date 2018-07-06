@@ -40,7 +40,6 @@ namespace Agent
         
         public TextAsset BrainAsset;
         public bool IsTrained;
-        public List<int> ReachedWaypointIds;
 
         #endregion
     }
