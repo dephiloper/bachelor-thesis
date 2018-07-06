@@ -17,24 +17,32 @@ namespace Agent
         public double Fitness { get; set; }
         public float Score { get; set; }
         private BasicNetwork Network { get; set; }
+        private readonly int[] _defaultLayer = {14, 18, 2};
 
-        public Brain()
+        public Brain(params int[] layer)
         {
-            Setup();
+            if (layer.Length == 0) 
+                layer = _defaultLayer;
+            Setup(layer);
         }
 
-        private Brain(double[] weights)
+        public Brain(double[] weights, params int[] layer) : this(layer)
         {
-            Setup();
             Network.Flat.Weights = weights;
         }
 
-        private void Setup()
+        private void Setup(params int[] layer)
         {
             Network = new BasicNetwork();
-            Network.AddLayer(new BasicLayer(null, true, 14));
-            Network.AddLayer(new BasicLayer(new ActivationReLU(), true, 18));
-            Network.AddLayer(new BasicLayer(new ActivationTANH(), false, 2));
+            // Input Layer
+            Network.AddLayer(new BasicLayer(null, true, layer[0]));
+            
+            // Hidden Layer
+            for (var i = 1; i < layer.Length - 1; i++)
+                Network.AddLayer(new BasicLayer(new ActivationReLU(), true, layer[i]));
+
+            // Output Layer
+            Network.AddLayer(new BasicLayer(new ActivationTANH(), false, layer[layer.Length - 1]));
             Network.Structure.FinalizeStructure();
             Network.Reset();
         }
@@ -46,10 +54,10 @@ namespace Agent
             return new Action((result as BasicMLData)?.Data);
         }
 
-        public void Mutate()
+        public void Mutate(float mutationRate)
         {
             for (var i = 0; i < Network.Flat.Weights.Length; i++)
-                if (Random.value < TrainManager.Instance.MutationRate)
+                if (Random.value < mutationRate)
                     Network.Flat.Weights[i] = Mathf.PerlinNoise((float) Network.Flat.Weights[i], 0.0f);
         }
 
@@ -75,7 +83,7 @@ namespace Agent
 
             return new[] {new Brain(childOne), new Brain(childTwo)};
         }
-    
+
         public Brain[] UniformCrossover(Brain partner)
         {
             var weights = Network.Flat.Weights;
@@ -101,7 +109,7 @@ namespace Agent
         public void Export(int generation, float maxLifespan, string path = "./Assets/Exports/")
         {
             Directory.CreateDirectory(path);
-            var serializableBrain = new SerializableBrain(this, generation, (int)maxLifespan);
+            var serializableBrain = new SerializableBrain(this, generation, (int) maxLifespan);
             var jsonBrain = JsonUtility.ToJson(serializableBrain);
             path = $"{path}{DateTime.Now:yyyy-MM-dd-HH:mm:ss:ffffff}-gen_{generation}-score_{Score:F}-brain.json";
             File.WriteAllText(path, jsonBrain);
@@ -125,7 +133,7 @@ namespace Agent
 
             public SerializableBrain(Brain brain, int generation, int maxLifespan)
             {
-                _score = (int)brain.Score;
+                _score = (int) brain.Score;
                 _weights = brain.Network.Flat.Weights;
                 _generation = generation;
                 _maxLifespan = maxLifespan;

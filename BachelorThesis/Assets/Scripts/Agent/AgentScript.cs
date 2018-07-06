@@ -1,5 +1,4 @@
-﻿using Agent.AgentImpl;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Agent
 {

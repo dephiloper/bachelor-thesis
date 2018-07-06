@@ -149,7 +149,7 @@ namespace Train
                 var rightBrain = SelectBrainOnProbability();
                 var childs = leftBrain.UniformCrossover(rightBrain);
                 foreach (var child in childs)
-                    child.Mutate();
+                    child.Mutate(MutationRate);
 
                 newBrains[i] = childs[0];
                 if (i + 1 < PopulationSize)

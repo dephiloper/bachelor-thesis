@@ -16,7 +16,7 @@ namespace Agent.Data
         {
             _transform = transform;
             _rigidbody = transform.GetComponent<Rigidbody>();
-            _wallMask = LayerMask.GetMask("Wall");
+            _wallMask = LayerMask.GetMask("Wall", "Obstacle");
         }
 
         public Percept PerceiveEnvironment(bool onTrack)
