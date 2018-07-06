@@ -16,6 +16,7 @@ namespace Agent
         public int Score;
         public float Speed;
         public float TurnSpeed;
+        public float ViewRadius;
         
         #endregion
         
