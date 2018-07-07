@@ -5238,8 +5238,10 @@ MonoBehaviour:
     MaxTurnSpeed: 2
     Score: 0
     Speed: 0
+    ShowSensors: 0
     TurnSpeed: 0
     ViewRadius: 0
+    ViewAngle: 0
     HAxis: HorizontalP1
     VAxis: HorizontalP1
     SelectedHAxis: 2
@@ -11300,8 +11302,10 @@ MonoBehaviour:
     MaxTurnSpeed: 2
     Score: 0
     Speed: 0
+    ShowSensors: 0
     TurnSpeed: 0
-    ViewRadius: 1.35
+    ViewRadius: 5
+    ViewAngle: 90
     HAxis: HorizontalP0
     VAxis: VerticalP0
     SelectedHAxis: 1
@@ -13869,8 +13873,10 @@ MonoBehaviour:
     MaxTurnSpeed: 2
     Score: 0
     Speed: 0
+    ShowSensors: 0
     TurnSpeed: 0
     ViewRadius: 0
+    ViewAngle: 0
     HAxis: Horizontal
     VAxis: Horizontal
     SelectedHAxis: 0
@@ -17486,8 +17492,10 @@ MonoBehaviour:
     MaxTurnSpeed: 2
     Score: 0
     Speed: 0
+    ShowSensors: 0
     TurnSpeed: 0
     ViewRadius: 0
+    ViewAngle: 0
     HAxis: HorizontalP2
     VAxis: VerticalP2
     SelectedHAxis: 3

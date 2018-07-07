@@ -1,23 +1,27 @@
-﻿using Agent.Data;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Agent.Data;
 using Car;
+using Environment;
 using Train;
 using UnityEngine;
 
-namespace Agent
+namespace Agent.AgentImpl
 {
     public abstract class BaseAgent
     {
         public Transform Transform { get; }
-        public Percept Percept { get; private set; }
-
-        protected readonly Rigidbody Rigidbody;
-        protected readonly AgentEditorProperties EditorProps;
-        protected bool OnTrack;
-        protected float Speed;
+        public List<Vector3> VisibleCollectables => Percept?.ClosestCollectables.ToList();
+        
+        protected Percept Percept { get; private set; }
+        protected Rigidbody Rigidbody { get; }
+        protected AgentEditorProperties EditorProps { get; }
+        protected bool OnTrack { get; private set; }
+        protected float Speed { get; private set; }
 
         private const float BackwardSpeedReduction = 0.2f;
         private readonly Sensor _sensor;
-        
+
         private int _frames;
         private int _speedIncreaseTime;
 
@@ -26,7 +30,7 @@ namespace Agent
             EditorProps = agentBehaviour.EditorProperties;
             Transform = agentBehaviour.transform;
             Rigidbody = agentBehaviour.GetComponent<Rigidbody>();
-            _sensor = new Sensor(Transform);
+            _sensor = new Sensor(agentBehaviour);
         }
 
         public virtual void Compute()
@@ -38,39 +42,41 @@ namespace Agent
             _frames++;
             Speed = OnTrack ? EditorProps.MaxSpeed : EditorProps.MaxSpeed / 4f;
             Speed *= Rigidbody.drag * 2;
-           
+
             if (_speedIncreaseTime > 0)
             {
-                Speed *=     1.25f;
+                Speed *= 1.25f;
                 _speedIncreaseTime -= (int) (Time.deltaTime * 1000);
             }
             else
                 _speedIncreaseTime = 0;
-            
+
             UpdateEditorProps();
         }
 
         protected void PerformAction(Action action)
         {
             var velocity = Vector3.zero;
-            
+
             if (action.AccelerateForward)
             {
                 velocity = SteeringBehaviour.Seek(Transform.position,
                     Transform.position + Transform.forward,
                     Rigidbody.velocity, Speed);
             }
+
             if (action.AccelerateBackward)
             {
-                velocity = SteeringBehaviour.Seek(Transform.position, 
-                    Transform.position - Transform.forward,
-                    Rigidbody.velocity, Speed) * BackwardSpeedReduction;
+                velocity = SteeringBehaviour.Seek(Transform.position,
+                               Transform.position - Transform.forward,
+                               Rigidbody.velocity, Speed) * BackwardSpeedReduction;
             }
-            
-            if (velocity != Vector3.zero) {
+
+            if (velocity != Vector3.zero)
+            {
                 Rigidbody.AddForce(velocity * action.AccelerateValue, ForceMode.Acceleration);
             }
-            
+
             // Steering
             if (action.SteerLeft)
                 Rigidbody.MoveRotation(
@@ -81,12 +87,13 @@ namespace Agent
                     Quaternion.Euler(Transform.rotation.eulerAngles +
                                      Transform.up * EditorProps.TurnSpeed * action.SteerValue));
         }
-        
+
         protected virtual void UpdateEditorProps()
         {
             EditorProps.Speed = Rigidbody.velocity.ToVector2().magnitude;
             EditorProps.TurnSpeed =
-                EditorProps.Speed.Map(0f, EditorProps.MaxSpeed, EditorProps.MaxTurnSpeed, EditorProps.MaxTurnSpeed / 2f);
+                EditorProps.Speed.Map(0f, EditorProps.MaxSpeed, EditorProps.MaxTurnSpeed,
+                    EditorProps.MaxTurnSpeed / 2f);
             if (!TrainManager.Instance)
                 EditorProps.Label.text = $"{EditorProps.Speed} km/h";
         }
@@ -101,7 +108,7 @@ namespace Agent
 
             return false;
         }
-        
+
         public void CollectableGathered()
         {
             _speedIncreaseTime += 2000;

@@ -17,7 +17,7 @@ namespace Agent
         public double Fitness { get; set; }
         public float Score { get; set; }
         private BasicNetwork Network { get; set; }
-        private readonly int[] _defaultLayer = {14, 18, 2};
+        private readonly int[] _defaultLayer = {14, 8, 2};
 
         public Brain(params int[] layer)
         {
@@ -26,7 +26,7 @@ namespace Agent
             Setup(layer);
         }
 
-        public Brain(double[] weights, params int[] layer) : this(layer)
+        private Brain(double[] weights, params int[] layer) : this(layer)
         {
             Network.Flat.Weights = weights;
         }

@@ -15,8 +15,10 @@ namespace Agent
         public float MaxTurnSpeed = 2f;
         public int Score;
         public float Speed;
+        public bool ShowSensors;
         public float TurnSpeed;
         public float ViewRadius;
+        public float ViewAngle;
         
         #endregion
         
