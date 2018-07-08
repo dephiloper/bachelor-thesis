@@ -88,7 +88,7 @@ namespace Train
             _initialSubPopulationSize = _subPopulationSize;
         }
 
-        private void Update()
+        private void FixedUpdate()
         {
             // Spawn new agents when there are no left (should happen when a sub generation is finished)
             if (_agents == null)
@@ -97,7 +97,7 @@ namespace Train
                 EnvironmentManager.Instance.SpawnEnvironmentals();
             }
 
-            LifetimeMillis += (int)(Time.deltaTime * 1000);
+            LifetimeMillis += (int)(Time.fixedDeltaTime * 1000);
             BestAgent = _agents.OrderByDescending(x => x.Brain.Score).FirstOrDefault();
     
             if (BestAgent != null)

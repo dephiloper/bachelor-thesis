@@ -21,7 +21,7 @@ namespace Agent
 
         public Brain(params int[] layer)
         {
-            if (layer.Length == 0) 
+            if (layer.Length == 0)
                 layer = _defaultLayer;
             Setup(layer);
         }
@@ -34,10 +34,10 @@ namespace Agent
         private void Setup(params int[] layer)
         {
             Network = new BasicNetwork();
-            
+
             // Input Layer
             Network.AddLayer(new BasicLayer(null, true, layer[0]));
-            
+
             // Hidden Layer
             for (var i = 1; i < layer.Length - 1; i++)
                 Network.AddLayer(new BasicLayer(new ActivationReLU(), true, layer[i]));
@@ -46,6 +46,11 @@ namespace Agent
             Network.AddLayer(new BasicLayer(new ActivationTANH(), false, layer[layer.Length - 1]));
             Network.Structure.FinalizeStructure();
             Network.Reset();
+
+#if UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN
+            for (var i = 0; i < Network.Flat.Weights.Length; i++)
+                Network.Flat.Weights[i] = Random.Range(-1f, 1f);
+#endif
         }
 
         public Action Think(Percept percept)
@@ -112,7 +117,7 @@ namespace Agent
             Directory.CreateDirectory(path);
             var serializableBrain = new SerializableBrain(this, generation, (int) maxLifespan);
             var jsonBrain = JsonUtility.ToJson(serializableBrain);
-            path = $"{path}{DateTime.Now:yyyy-MM-dd-HH:mm:ss:ffffff}-gen_{generation}-score_{Score:F}-brain.json";
+            path = $"{path}{DateTime.Now:yyyy-MM-dd-HH_mm-ss-ffffff}-gen_{generation}-score_{Score:F}-brain.json";
             File.WriteAllText(path, jsonBrain);
         }
 
