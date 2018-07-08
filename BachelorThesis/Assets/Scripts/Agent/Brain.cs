@@ -34,6 +34,7 @@ namespace Agent
         private void Setup(params int[] layer)
         {
             Network = new BasicNetwork();
+            
             // Input Layer
             Network.AddLayer(new BasicLayer(null, true, layer[0]));
             

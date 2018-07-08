@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using Agent.Data;
 using Car;
-using Environment;
 using Train;
 using UnityEngine;
 
@@ -11,8 +9,8 @@ namespace Agent.AgentImpl
     public abstract class BaseAgent
     {
         public Transform Transform { get; }
-        public List<Vector3> VisibleCollectables => Percept?.ClosestCollectables.ToList();
-        
+        public List<Vector3> VisibleCollectables => Percept?.VisibleCollectables;
+
         protected Percept Percept { get; private set; }
         protected Rigidbody Rigidbody { get; }
         protected AgentEditorProperties EditorProps { get; }
@@ -31,11 +29,18 @@ namespace Agent.AgentImpl
             Transform = agentBehaviour.transform;
             Rigidbody = agentBehaviour.GetComponent<Rigidbody>();
             _sensor = new Sensor(agentBehaviour);
+            
         }
 
         public virtual void Compute()
         {
+            UpdateEditorProps();
+            
+            if (_frames % 5 == 0) {
             Percept = _sensor.PerceiveEnvironment(OnTrack);
+            Percept.Normalize(EditorProps.MaxSpeed, EditorProps.SensorDistance, Transform.position,
+                EditorProps.ViewRadius);
+            }
             if (_frames % 30 == 0)
                 OnTrack = IsOnTrack();
 
@@ -46,12 +51,10 @@ namespace Agent.AgentImpl
             if (_speedIncreaseTime > 0)
             {
                 Speed *= 1.25f;
-                _speedIncreaseTime -= (int) (Time.deltaTime * 1000);
+                _speedIncreaseTime -= (int) (Time.fixedDeltaTime * 1000);
             }
             else
                 _speedIncreaseTime = 0;
-
-            UpdateEditorProps();
         }
 
         protected void PerformAction(Action action)
@@ -94,8 +97,12 @@ namespace Agent.AgentImpl
             EditorProps.TurnSpeed =
                 EditorProps.Speed.Map(0f, EditorProps.MaxSpeed, EditorProps.MaxTurnSpeed,
                     EditorProps.MaxTurnSpeed / 2f);
-            if (!TrainManager.Instance)
+
+            if (TrainManager.Instance)
+                EditorProps.ShowSensors = TrainManager.Instance.ShowSensors;
+            else 
                 EditorProps.Label.text = $"{EditorProps.Speed} km/h";
+            
         }
 
         private bool IsOnTrack()
@@ -109,9 +116,6 @@ namespace Agent.AgentImpl
             return false;
         }
 
-        public void CollectableGathered()
-        {
-            _speedIncreaseTime += 2000;
-        }
+        public virtual void CollectableGathered() => _speedIncreaseTime += 2000;
     }
 }

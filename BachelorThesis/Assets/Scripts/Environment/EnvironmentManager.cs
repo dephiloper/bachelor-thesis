@@ -9,25 +9,37 @@ namespace Environment
         public static EnvironmentManager Instance;
         public GameObject ObstaclePrefab;
         public GameObject CollectablePrefab;
-    
-        private GameObject[] _obstacles = new GameObject[20];
-        private GameObject[] _collectables = new GameObject[20];
+        public int ObstacleCount = 20;
+        public float ObstacleMinDist = 1.5f;
+        public int CollectableCount = 20;
+        public float CollectableMinDist = 1.5f;
+
+        private GameObject[] _obstacles;
+        private GameObject[] _collectables;
         private Mesh _mesh;
 
+        
         private void Awake()
         {
-            if (!Instance)
-                Instance = this;
+            if (Instance) return;
+            Instance = this;
         }
 
         private void Start()
         {
             _mesh = GetComponent<MeshFilter>().mesh;
-            if (!TrainManager.Instance) {
-                InstantiateEnvironmentalesOnMesh(ObstaclePrefab, ref _obstacles, 1.5f);
-                InstantiateEnvironmentalesOnMesh(CollectablePrefab, ref _collectables, 1.5f);
-            }
+            _obstacles = new GameObject[ObstacleCount];
+            _collectables = new GameObject[CollectableCount];
+            if (TrainManager.Instance) return;
+            SpawnEnvironmentals();
         }
+        
+        public void SpawnEnvironmentals()
+        {
+            InstantiateEnvironmentalesOnMesh(ObstaclePrefab, ref _obstacles, ObstacleMinDist);
+            InstantiateEnvironmentalesOnMesh(CollectablePrefab, ref _collectables, CollectableMinDist);
+        }
+
 
         /// <summary>
         /// https://forum.unity.com/threads/random-instantiate-on-surface-of-mesh.11153/#post-78718

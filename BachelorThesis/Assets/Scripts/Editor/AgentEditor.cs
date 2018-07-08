@@ -44,10 +44,6 @@ namespace Editor
                             EditorGUILayout.Toggle(nameof(editorProps.IsDiscrete), editorProps.IsDiscrete);
                         editorProps.Record =
                             editorProps.Record = EditorGUILayout.Toggle(nameof(editorProps.Record), editorProps.Record);
-                        editorProps.ViewRadius =
-                            EditorGUILayout.Slider(nameof(editorProps.ViewRadius), editorProps.ViewRadius, 0, 10);
-                        editorProps.ViewAngle =
-                            EditorGUILayout.Slider(nameof(editorProps.ViewAngle), editorProps.ViewAngle, 0, 360);
                         break;
                     case AgentType.PlayerVr:
                         break;
@@ -74,22 +70,33 @@ namespace Editor
             }
 
             _showBase = EditorGUILayout.Foldout(_showBase, $"{nameof(BaseAgent)} Properties");
-            if (!_showBase)
+            if (_showBase)
             {
-                editorProps.ShowSensors =
-                    EditorGUILayout.Toggle(nameof(editorProps.ShowSensors), editorProps.ShowSensors);
-                editorProps.MaxSpeed = EditorGUILayout.FloatField(nameof(editorProps.MaxSpeed), editorProps.MaxSpeed);
-                editorProps.MaxTurnSpeed =
-                    EditorGUILayout.FloatField(nameof(editorProps.MaxTurnSpeed), editorProps.MaxTurnSpeed);
-
-                editorProps.Label = (Text)
-                    EditorGUILayout.ObjectField(nameof(editorProps.Label), editorProps.Label, typeof(Text), true);
-
                 GUI.enabled = false;
                 EditorGUILayout.FloatField(nameof(editorProps.Speed), editorProps.Speed);
                 EditorGUILayout.FloatField(nameof(editorProps.TurnSpeed), editorProps.TurnSpeed);
                 EditorGUILayout.IntField(nameof(editorProps.Score), editorProps.Score);
                 GUI.enabled = true;
+                
+                editorProps.MaxSpeed =
+                    EditorGUILayout.FloatField(nameof(editorProps.MaxSpeed), editorProps.MaxSpeed);
+                editorProps.MaxTurnSpeed =
+                    EditorGUILayout.FloatField(nameof(editorProps.MaxTurnSpeed), editorProps.MaxTurnSpeed);
+
+                EditorGUILayout.LabelField("Sensor Properties", EditorStyles.boldLabel);
+                editorProps.ShowSensors =
+                    EditorGUILayout.Toggle(nameof(editorProps.ShowSensors), editorProps.ShowSensors);
+                editorProps.SensorDistance =
+                    EditorGUILayout.Slider(nameof(editorProps.SensorDistance), editorProps.SensorDistance, 0, 20);
+                
+                EditorGUILayout.LabelField("Field of View Properties", EditorStyles.boldLabel);
+                editorProps.ViewRadius =
+                    EditorGUILayout.Slider(nameof(editorProps.ViewRadius), editorProps.ViewRadius, 0, 10);
+                editorProps.ViewAngle =
+                    EditorGUILayout.Slider(nameof(editorProps.ViewAngle), editorProps.ViewAngle, 0, 360);
+
+                editorProps.Label = (Text)
+                    EditorGUILayout.ObjectField(nameof(editorProps.Label), editorProps.Label, typeof(Text), true);
             }
         }
 
@@ -113,7 +120,7 @@ namespace Editor
 
             if (_agentScript.Agent?.VisibleCollectables == null) return;
 
-            Handles.color = Color.red;
+            Handles.color = Color.yellow;
             foreach (var collectable in _agentScript.Agent.VisibleCollectables)
                 Handles.DrawLine(_agentScript.transform.position, collectable);
         }

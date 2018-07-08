@@ -1,9 +1,12 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using System.Net.Mime;
 using Agent;
 using Agent.AgentImpl;
+using Environment;
 using UnityEngine;
+using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 namespace Train
@@ -14,6 +17,7 @@ namespace Train
 
         public GameObject AgentPrefab;
         public Transform SpawnPoint;
+        public Text Label;
 
         [Header("Hyperparams")] 
         public int PopulationSize = 1000;
@@ -36,6 +40,7 @@ namespace Train
         [Header("Others")] 
         public string ExportPath = "./Assets/Exports/";
         public string ImportPath = "";
+        public bool ShowSensors;
         public float TimeScale = 1;
 
         public NeuralNetAgent BestAgent { get; private set; }
@@ -87,13 +92,22 @@ namespace Train
         {
             // Spawn new agents when there are no left (should happen when a sub generation is finished)
             if (_agents == null)
+            {
                 SpawnAgents();
+                EnvironmentManager.Instance.SpawnEnvironmentals();
+            }
 
             LifetimeMillis += (int)(Time.deltaTime * 1000);
             BestAgent = _agents.OrderByDescending(x => x.Brain.Score).FirstOrDefault();
     
             if (BestAgent != null)
                 SubTopScore = BestAgent.Brain.Score;
+            
+            Label.text = $"Generation: {(float)Generation/10:0.0}/{GenerationCount/10}\n" +
+                         $"Lifespan: {(float)LifespanMillis/1000:0.00} s\n" +
+                         $"Topscore: {TopScore:0.00}\n" +
+                         $"Lifetime: {(float)LifetimeMillis/1000:0.00} s\n" +
+                         $"Sub-Topscore: {SubTopScore:0.00}";
 
             // Subgeneration is completed
             if (LifetimeMillis >= LifespanMillis)
@@ -105,7 +119,7 @@ namespace Train
                 LifetimeMillis = 0;
                 _logger.Log(LogType.Log,
                     $"{DateTime.Now:yyy-MM-dd-HH-mm-ss}" +
-                    $"-gen_{(float)Generation/10:00.0}" +
+                    $"-gen_{(float)Generation/10:000.0}" +
                     $"-maxlifespan_{(float)LifespanMillis/1000:0000}" +
                     $"-topscore_{TopScore:00000.0000}" +
                     $"-subtopscore_{SubTopScore:00000.0000}");
@@ -126,7 +140,7 @@ namespace Train
                 _subGeneration = 0;
                 _subPopulationSize = _initialSubPopulationSize;
                 if (LifespanMillis < LimitLifespanMillis)
-                    LifespanMillis += 1000;
+                    LifespanMillis += 2000;
             }
         }
 

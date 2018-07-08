@@ -15,6 +15,7 @@ namespace Agent
         public float MaxTurnSpeed = 2f;
         public int Score;
         public float Speed;
+        public float SensorDistance;
         public bool ShowSensors;
         public float TurnSpeed;
         public float ViewRadius;

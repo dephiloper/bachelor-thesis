@@ -39,6 +39,7 @@ namespace Agent.AgentImpl
 
         protected override void UpdateEditorProps()
         {
+            base.UpdateEditorProps();
             EditorProps.Score = Mathf.RoundToInt(Brain.Score);
         }
 
@@ -69,5 +70,11 @@ namespace Agent.AgentImpl
             if (_reachedWaypointIds.Contains(lastWaypointIdentifier))
                 _reachedWaypointIds.Clear();
         }
+
+/*        public override void CollectableGathered() {
+            base.CollectableGathered();
+            Brain.Score += new Vector2(Rigidbody.velocity.x, Rigidbody.velocity.z).magnitude / 2;
+        }*/
+
     }
 }
