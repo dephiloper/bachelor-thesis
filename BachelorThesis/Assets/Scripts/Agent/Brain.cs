@@ -16,13 +16,14 @@ namespace Agent
     {
         public double Fitness { get; set; }
         public float Score { get; set; }
+        
+        private static readonly int[] DefaultLayer = {22, 16, 2};
         private BasicNetwork Network { get; set; }
-        private readonly int[] _defaultLayer = {14, 8, 2};
 
         public Brain(params int[] layer)
         {
             if (layer.Length == 0)
-                layer = _defaultLayer;
+                layer = DefaultLayer;
             Setup(layer);
         }
 
@@ -55,7 +56,14 @@ namespace Agent
 
         public Action Think(Percept percept)
         {
-            var mlData = new BasicMLData(percept.ToDoubleArray());
+            var data = percept.ToDoubleArray();
+
+
+            if (data.Length != DefaultLayer[0])
+                throw new ArgumentOutOfRangeException(nameof(ArgumentOutOfRangeException),
+                    $"Percept count should be {DefaultLayer[0]}, but is {data.Length}");
+            
+            var mlData = new BasicMLData(data);
             var result = Network.Compute(mlData);
             return new Action((result as BasicMLData)?.Data);
         }

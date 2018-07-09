@@ -77,7 +77,7 @@ namespace Editor
                 EditorGUILayout.FloatField(nameof(editorProps.TurnSpeed), editorProps.TurnSpeed);
                 EditorGUILayout.IntField(nameof(editorProps.Score), editorProps.Score);
                 GUI.enabled = true;
-                
+
                 editorProps.MaxSpeed =
                     EditorGUILayout.FloatField(nameof(editorProps.MaxSpeed), editorProps.MaxSpeed);
                 editorProps.MaxTurnSpeed =
@@ -88,7 +88,7 @@ namespace Editor
                     EditorGUILayout.Toggle(nameof(editorProps.ShowSensors), editorProps.ShowSensors);
                 editorProps.SensorDistance =
                     EditorGUILayout.Slider(nameof(editorProps.SensorDistance), editorProps.SensorDistance, 0, 20);
-                
+
                 EditorGUILayout.LabelField("Field of View Properties", EditorStyles.boldLabel);
                 editorProps.ViewRadius =
                     EditorGUILayout.Slider(nameof(editorProps.ViewRadius), editorProps.ViewRadius, 0, 10);
@@ -118,11 +118,26 @@ namespace Editor
             Handles.DrawLine(_agentScript.transform.position,
                 _agentScript.transform.position + viewAngleB * editorProps.ViewRadius);
 
-            if (_agentScript.Agent?.VisibleCollectables == null) return;
+            if (_agentScript.Agent?.VisibleAgents != null)
+            {
+                Handles.color = Color.magenta;
+                foreach (var agent in _agentScript.Agent.VisibleAgents)
+                    Handles.DrawLine(_agentScript.transform.position, agent);
+            }
+            
+            if (_agentScript.Agent?.VisibleCollectables != null)
+            {
+                Handles.color = Color.yellow;
+                foreach (var collectable in _agentScript.Agent.VisibleCollectables)
+                    Handles.DrawLine(_agentScript.transform.position, collectable);
+            }
 
-            Handles.color = Color.yellow;
-            foreach (var collectable in _agentScript.Agent.VisibleCollectables)
-                Handles.DrawLine(_agentScript.transform.position, collectable);
+            if (_agentScript.Agent?.VisibleObstacles != null)
+            {
+                Handles.color = Color.black;
+                foreach (var obstacle in _agentScript.Agent.VisibleObstacles)
+                    Handles.DrawLine(_agentScript.transform.position, obstacle);
+            }
         }
 
         private static string[] ReadAxes()

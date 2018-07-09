@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Environment;
 using Train;
 using UnityEngine;
@@ -17,7 +18,7 @@ namespace Agent.Data
             _transform = agentBehaviour.transform;
             _rigidbody = agentBehaviour.GetComponent<Rigidbody>();
             _editorProps = agentBehaviour.EditorProperties;
-            _wallMask = LayerMask.GetMask("Wall", "Obstacle");
+            _wallMask = LayerMask.GetMask("Wall");
         }
 
         public Percept PerceiveEnvironment(bool onTrack)
@@ -47,30 +48,38 @@ namespace Agent.Data
             };
 
             var velocity = new Vector3(_rigidbody.velocity.x, 0, _rigidbody.velocity.z);
-            var visibleCollectables = FindVisibleCollectables();
+            var visibleAgents = FindVisibleEnvironmentals(LayerMask.GetMask("Agent"),
+                LayerMask.GetMask("Obstacle", "Bounding"));
+            var visibleCollectables = FindVisibleEnvironmentals(LayerMask.GetMask("Collectable"),
+                LayerMask.GetMask("Obstacle", "Agent", "Bounding"));
+            var visibleObstacles = FindVisibleEnvironmentals(LayerMask.GetMask("Obstacle"),
+                LayerMask.GetMask("Bounding"));
 
-            return new Percept(wallDistances, velocity, visibleCollectables);
+            return new Percept(wallDistances, velocity, visibleAgents, visibleCollectables, visibleObstacles);
         }
 
-        private List<Vector3> FindVisibleCollectables()
+        private List<Vector3> FindVisibleEnvironmentals(LayerMask envMask, LayerMask blockMask)
         {
-            var visibleCollectables = new List<Vector3>();
+            var visibleEnvironmentals = new List<Vector3>();
 
-            var collectablesInViewRadius = Physics.OverlapSphere(_transform.position, _editorProps.ViewRadius,
-                LayerMask.GetMask("Collectable"));
+            var environmentalsInViewRadius =
+                Physics.OverlapSphere(_transform.position, _editorProps.ViewRadius, envMask);
 
-            foreach (var collectable in collectablesInViewRadius)
+            environmentalsInViewRadius = environmentalsInViewRadius.OrderBy(env =>
+                Vector3.Distance(_transform.position, env.transform.position)).ToArray();
+
+            foreach (var environmental in environmentalsInViewRadius)
             {
-                var dir = (collectable.transform.position - _transform.position).normalized;
+                var dir = (environmental.transform.position - _transform.position).normalized;
                 if (Vector3.Angle(_transform.forward, dir) < _editorProps.ViewAngle / 2)
                 {
-                    var dist = Vector3.Distance(collectable.transform.position, _transform.position);
-                    if (!Physics.Raycast(_transform.position, dir, dist, _wallMask))
-                        visibleCollectables.Add(collectable.GetComponent<CollectableBehaviour>().transform.position);
+                    var dist = Vector3.Distance(environmental.transform.position, _transform.position);
+                    if (!Physics.Raycast(_transform.position, dir, dist, blockMask))
+                        visibleEnvironmentals.Add(environmental.transform.position);
                 }
             }
 
-            return visibleCollectables;
+            return visibleEnvironmentals;
         }
 
         private double CalculateDistanceWithRay(Vector3 direction, LayerMask layerMask, bool onTrack,

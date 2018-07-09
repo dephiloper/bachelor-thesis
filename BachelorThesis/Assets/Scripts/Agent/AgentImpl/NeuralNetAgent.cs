@@ -30,8 +30,8 @@ namespace Agent.AgentImpl
         {
             base.Compute();
             var action = Brain.Think(Percept);
-            if (!OnTrack) 
-                Brain.Score -= 0.1f;
+            /*if (!OnTrack) 
+                Brain.Score -= 0.1f;*/
             PerformAction(action);
 
             UpdateEditorProps();
@@ -71,10 +71,15 @@ namespace Agent.AgentImpl
                 _reachedWaypointIds.Clear();
         }
 
-/*        public override void CollectableGathered() {
+        public override void CollectableGathered() {
             base.CollectableGathered();
             Brain.Score += new Vector2(Rigidbody.velocity.x, Rigidbody.velocity.z).magnitude / 2;
-        }*/
+        }
 
+        public override void ObstacleCollided()
+        {
+            base.ObstacleCollided();
+            Brain.Score -= new Vector2(Rigidbody.velocity.x, Rigidbody.velocity.z).magnitude / 2; 
+        }
     }
 }

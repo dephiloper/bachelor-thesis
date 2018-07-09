@@ -72,6 +72,7 @@
     <Compile Include="Assets\Scripts\Car\SteeringBehaviour.cs" />
     <Compile Include="Assets\Scripts\Environment\CollectableBehaviour.cs" />
     <Compile Include="Assets\Scripts\Environment\EnvironmentManager.cs" />
+    <Compile Include="Assets\Scripts\Environment\ObstacleBehaviour.cs" />
     <Compile Include="Assets\Scripts\Environment\OrderScript.cs" />
     <Compile Include="Assets\Scripts\Environment\WaypointBehaviour.cs" />
     <Compile Include="Assets\Scripts\ExtensionMethods.cs" />
@@ -79,7 +80,6 @@
     <Compile Include="Assets\Scripts\Tests\ExtensionMethodsTest.cs" />
     <Compile Include="Assets\Scripts\Train\TrainLogger.cs" />
     <Compile Include="Assets\Scripts\Train\TrainManager.cs" />
-    <None Include="Assets\AutoSave\ReadMe.txt" />
     <Reference Include="UnityEditor.StandardEvents">
       <HintPath>/home/phil/Development/bachelor-thesis-prep/BachelorThesis/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
     </Reference>

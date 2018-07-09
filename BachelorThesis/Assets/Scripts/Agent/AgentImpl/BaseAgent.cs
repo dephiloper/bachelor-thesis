@@ -9,7 +9,9 @@ namespace Agent.AgentImpl
     public abstract class BaseAgent
     {
         public Transform Transform { get; }
+        public List<Vector3> VisibleAgents => Percept?.VisibleAgents;
         public List<Vector3> VisibleCollectables => Percept?.VisibleCollectables;
+        public List<Vector3> VisibleObstacles => Percept?.VisibleObstacles;
 
         protected Percept Percept { get; private set; }
         protected Rigidbody Rigidbody { get; }
@@ -18,6 +20,7 @@ namespace Agent.AgentImpl
         protected float Speed { get; private set; }
 
         private const float BackwardSpeedReduction = 0.2f;
+        private const float SpeedIncreaseFactor = 1.25f;
         private readonly Sensor _sensor;
 
         private int _frames;
@@ -29,18 +32,16 @@ namespace Agent.AgentImpl
             Transform = agentBehaviour.transform;
             Rigidbody = agentBehaviour.GetComponent<Rigidbody>();
             _sensor = new Sensor(agentBehaviour);
-            
         }
 
         public virtual void Compute()
         {
             UpdateEditorProps();
             
-            if (_frames % 5 == 0) {
             Percept = _sensor.PerceiveEnvironment(OnTrack);
-            Percept.Normalize(EditorProps.MaxSpeed, EditorProps.SensorDistance, Transform.position,
+            Percept.Normalize(EditorProps.MaxSpeed * SpeedIncreaseFactor, EditorProps.SensorDistance, Transform.position,
                 EditorProps.ViewRadius);
-            }
+
             if (_frames % 30 == 0)
                 OnTrack = IsOnTrack();
 
@@ -50,7 +51,7 @@ namespace Agent.AgentImpl
 
             if (_speedIncreaseTime > 0)
             {
-                Speed *= 1.25f;
+                Speed *= SpeedIncreaseFactor;
                 _speedIncreaseTime -= (int) (Time.fixedDeltaTime * 1000);
             }
             else
@@ -117,5 +118,7 @@ namespace Agent.AgentImpl
         }
 
         public virtual void CollectableGathered() => _speedIncreaseTime += 2000;
+
+        public virtual void ObstacleCollided() { }
     }
 }

@@ -4,12 +4,12 @@ namespace Agent.Data
 {
     public class Action
     {
-        public readonly bool AccelerateForward;
-        public readonly bool AccelerateBackward;
-        public readonly float AccelerateValue;
-        public readonly bool SteerLeft;
-        public readonly bool SteerRight;
-        public readonly float SteerValue;
+        public bool AccelerateForward;
+        public bool AccelerateBackward;
+        public float AccelerateValue;
+        public bool SteerLeft;
+        public bool SteerRight;
+        public float SteerValue;
         
         private const double ActivationThreshold = 0d;
     
