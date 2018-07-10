@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Train;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace Agent.AgentImpl
 {
@@ -30,11 +31,11 @@ namespace Agent.AgentImpl
         {
             base.Compute();
             var action = Brain.Think(Percept);
-            /*if (!OnTrack) 
-                Brain.Score -= 0.1f;*/
             PerformAction(action);
-
             UpdateEditorProps();
+
+            if (!OnTrack) 
+                Brain.Score -= 0.1f;
         }
 
         protected override void UpdateEditorProps()

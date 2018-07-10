@@ -14,17 +14,17 @@ namespace Agent.Data
 
         [SerializeField] private List<double> _normalizedWallDistances;
         [SerializeField] private Vector3 _normalizedVelocity;
-        [SerializeField] private List<Vector3> _normalizedVisibleAgents = new List<Vector3>();
-        [SerializeField] private List<Vector3> _normalizedVisibleCollectables = new List<Vector3>();
-        [SerializeField] private List<Vector3> _normalizedVisibleObstacles = new List<Vector3>();
+        [SerializeField] private List<Vector2> _normalizedVisibleAgents = new List<Vector2>();
+        [SerializeField] private List<Vector2> _normalizedVisibleCollectables = new List<Vector2>();
+        [SerializeField] private List<Vector2> _normalizedVisibleObstacles = new List<Vector2>();
 
-        private const int AgentCount = 4;
+        private const int AgentCount = 1;
         private const int CollectableCount = 2;
         private const int ObstacleCount = 2;
         private readonly List<double> _wallDistances;
         private readonly Vector3 _velocity;
 
-        public Percept(List<double> wallDistances, Vector3 velocity, List<Vector3> visibleAgents, 
+        public Percept(List<double> wallDistances, Vector3 velocity, List<Vector3> visibleAgents,
             List<Vector3> visibleCollectables, List<Vector3> visibleObstacles)
         {
             _wallDistances = wallDistances;
@@ -47,7 +47,7 @@ namespace Agent.Data
         {
             var arr = new List<double> {_normalizedVelocity.x, _normalizedVelocity.z};
             arr.AddRange(_normalizedWallDistances);
-            //arr.AddRange(FilterEnvironmentals(_normalizedVisibleAgents, AgentCount));
+            arr.AddRange(FilterEnvironmentals(_normalizedVisibleAgents, AgentCount));
             arr.AddRange(FilterEnvironmentals(_normalizedVisibleCollectables, CollectableCount));
             arr.AddRange(FilterEnvironmentals(_normalizedVisibleObstacles, ObstacleCount));
             return arr.ToArray();
@@ -60,38 +60,44 @@ namespace Agent.Data
         /// <param name="count">The count of possible visible environmentals.</param>
         /// <param name="environmentals">The list of environmentals.</param>
         /// <returns>The double representation of the visible environmentals.</returns>
-        private static IEnumerable<double> FilterEnvironmentals(IReadOnlyList<Vector3> environmentals, int count)
+        private static IEnumerable<double> FilterEnvironmentals(IReadOnlyList<Vector2> environmentals, int count)
         {
             var envs = new List<double>();
             for (var i = 0; i < count; i++)
                 if (i >= environmentals.Count)
                     envs.AddRange(new double[] {-1, -1});
                 else
-                    envs.AddRange(new double[] { environmentals[i].x, environmentals[i].z });
+                    envs.AddRange(new double[] {environmentals[i].x, environmentals[i].y});
 
             return envs;
         }
 
-        public void Normalize(float maxSpeed, float sensorDistance, Vector3 position, float viewRadius)
+        public void Normalize(float maxSpeed, float sensorDistance, Transform transform, float viewRadius)
         {
-            _normalizedVelocity = _velocity / maxSpeed;
+            _normalizedVelocity = transform.InverseTransformDirection(_velocity) / maxSpeed;
 
             _normalizedWallDistances = _wallDistances
                 .Select(dist => dist / sensorDistance)
                 .ToList();
 
             _normalizedVisibleAgents = VisibleAgents
-                .Select(agent => (agent - position) / viewRadius)
+                .Select(a =>
+                    new Vector2(transform.InverseTransformPoint(a).x * transform.localScale.x,
+                        transform.InverseTransformPoint(a).z * transform.localScale.z) / viewRadius)
                 .Take(AgentCount)
                 .ToList();
-            
+
             _normalizedVisibleCollectables = VisibleCollectables
-                .Select(collectable => (collectable - position) / viewRadius)
+                .Select(c =>
+                    new Vector2(transform.InverseTransformPoint(c).x * transform.localScale.x,
+                        transform.InverseTransformPoint(c).z * transform.localScale.z) / viewRadius)
                 .Take(CollectableCount)
                 .ToList();
-            
+
             _normalizedVisibleObstacles = VisibleObstacles
-                .Select(obstacle => (obstacle - position) / viewRadius)
+                .Select(o =>
+                    new Vector2(transform.InverseTransformPoint(o).x * transform.localScale.x,
+                        transform.InverseTransformPoint(o).z * transform.localScale.z) / viewRadius)
                 .Take(ObstacleCount)
                 .ToList();
         }

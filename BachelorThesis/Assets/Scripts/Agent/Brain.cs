@@ -17,7 +17,7 @@ namespace Agent
         public double Fitness { get; set; }
         public float Score { get; set; }
         
-        private static readonly int[] DefaultLayer = {22, 16, 2};
+        private static readonly int[] DefaultLayer = {24, 13, 2};
         private BasicNetwork Network { get; set; }
 
         public Brain(params int[] layer)

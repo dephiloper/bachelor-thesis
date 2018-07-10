@@ -38,10 +38,11 @@ namespace Agent.AgentImpl
         {
             UpdateEditorProps();
             
+            if (_frames % 5 == 0) {
             Percept = _sensor.PerceiveEnvironment(OnTrack);
-            Percept.Normalize(EditorProps.MaxSpeed * SpeedIncreaseFactor, EditorProps.SensorDistance, Transform.position,
+            Percept.Normalize(EditorProps.MaxSpeed * SpeedIncreaseFactor, EditorProps.SensorDistance, Transform,
                 EditorProps.ViewRadius);
-
+            }
             if (_frames % 30 == 0)
                 OnTrack = IsOnTrack();
 

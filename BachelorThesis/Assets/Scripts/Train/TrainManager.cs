@@ -110,7 +110,7 @@ namespace Train
                          $"Sub-Topscore: {SubTopScore:0.00}";
 
             // Subgeneration is completed
-            if (LifetimeMillis >= LifespanMillis)
+            if (LifetimeMillis >= LifespanMillis || _agents.All(x => x.Transform.GetComponent<Rigidbody>() == null))
             {
                 if (TopScore < SubTopScore)
                     TopScore = SubTopScore;
