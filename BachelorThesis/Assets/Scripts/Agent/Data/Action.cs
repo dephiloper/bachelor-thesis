@@ -4,12 +4,13 @@ namespace Agent.Data
 {
     public class Action
     {
-        public bool AccelerateForward;
-        public bool AccelerateBackward;
-        public float AccelerateValue;
-        public bool SteerLeft;
-        public bool SteerRight;
-        public float SteerValue;
+        public bool AccelerateForward { get; }
+        public bool AccelerateBackward { get; }
+        public float AccelerateValue { get; }
+        public bool SteerLeft { get; }
+        public bool SteerRight { get; }
+        public float SteerValue { get; }
+        public double[] Raw { get; }
         
         private const double ActivationThreshold = 0d;
     
@@ -25,6 +26,7 @@ namespace Agent.Data
 
         public Action(double horizontalAxis, double verticalAxis, bool isDiscrete = true)
         {
+            Raw = new[] {horizontalAxis, verticalAxis};
             AccelerateForward = verticalAxis > ActivationThreshold;
             AccelerateBackward = verticalAxis < ActivationThreshold;
             AccelerateValue = isDiscrete ? 1 : Mathf.Abs((float) verticalAxis);

@@ -1,6 +1,6 @@
 ﻿using System.IO;
 using Agent.Data;
-using UnityEngine;
+using Newtonsoft.Json;
 
 public class RecordManager
 {
@@ -18,9 +18,9 @@ public class RecordManager
 
     public void SaveDecision(Percept percept, Action action)
     {
-        var json = JsonUtility.ToJson(percept);
+        var json = JsonConvert.SerializeObject(percept.ToDoubleArray());
         _writer.WriteLine(json);
-        json = JsonUtility.ToJson(action);
+        json = JsonConvert.SerializeObject(action.Raw);
         _writer.WriteLine(json);
     }
 }
