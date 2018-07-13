@@ -80,7 +80,7 @@
     <Compile Include="Assets\Scripts\Tests\ExtensionMethodsTest.cs" />
     <Compile Include="Assets\Scripts\Train\TrainLogger.cs" />
     <Compile Include="Assets\Scripts\Train\TrainManager.cs" />
-    <None Include="Assets\Packages\Newtonsoft.Json.11.0.2\lib\net35\Newtonsoft.Json.xml" />
+    <None Include="Assets\Packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.xml" />
     <Reference Include="UnityEditor.StandardEvents">
       <HintPath>/home/phil/Development/bachelor-thesis-prep/BachelorThesis/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
     </Reference>
@@ -282,9 +282,6 @@
     <Reference Include="UnityEngine.SpatialTracking">
       <HintPath>/opt/Unity/Editor/Data/UnityExtensions/Unity/UnitySpatialTracking/RuntimeEditor/UnityEngine.SpatialTracking.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>/home/phil/Development/bachelor-thesis-prep/BachelorThesis/Assets/Packages/Newtonsoft.Json.11.0.2/lib/net35/Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="encog-core-cs">
       <HintPath>/home/phil/Development/bachelor-thesis-prep/BachelorThesis/Assets/Packages/encog-dotnet-core.3.4.0/lib/encog-core-cs.dll</HintPath>
     </Reference>
@@ -296,6 +293,12 @@
     </Reference>
     <Reference Include="UnityEngine.StandardEvents">
       <HintPath>/home/phil/.config/unity3d/cache/packages/packages.unity.com/com.unity.standardevents@1.0.13/UnityEngine.StandardEvents.dll</HintPath>
+    </Reference>
+    <Reference Include="NNSharp">
+      <HintPath>/home/phil/Development/bachelor-thesis-prep/BachelorThesis/Assets/Packages/NNSharp.1.2.1/lib/net452/NNSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>/home/phil/Development/bachelor-thesis-prep/BachelorThesis/Assets/Packages/Newtonsoft.Json.10.0.3/lib/net45/Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib">
       <HintPath>/opt/Unity/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/mscorlib.dll</HintPath>
