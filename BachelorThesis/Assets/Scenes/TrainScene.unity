@@ -19197,7 +19197,7 @@ MonoBehaviour:
     type: 2}
   SpawnPoint: {fileID: 1859602264}
   Label: {fileID: 1206140229}
-  PopulationSize: 1000
+  PopulationSize: 50
   GenerationCount: 2000
   LifespanMillis: 6000
   LimitLifespanMillis: 120000
@@ -19211,6 +19211,7 @@ MonoBehaviour:
   SubTopScore: 0
   ExportPath: ./Exports/
   ImportPath: 
+  ModelPath: ./Assets/plain_model.json
   ShowSensors: 0
   TimeScale: 1
 --- !u!1 &2108405218

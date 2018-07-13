@@ -5,6 +5,8 @@ using System.Net.Mime;
 using Agent;
 using Agent.AgentImpl;
 using Environment;
+using NNSharp.IO;
+using NNSharp.Models;
 using UnityEngine;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
@@ -40,16 +42,18 @@ namespace Train
         [Header("Others")] 
         public string ExportPath = "./Assets/Exports/";
         public string ImportPath = "";
+        public string ModelPath = "./Assets/plain_model.json";
         public bool ShowSensors;
         public float TimeScale = 1;
 
         public NeuralNetAgent BestAgent { get; private set; }
 
+        public SequentialModel DefaultModel => new ReaderKerasModel(ModelPath).GetSequentialExecutor();
 
         private NeuralNetAgent[] _agents;
         private Brain[] _brains;
         private Logger _logger;
-        private int _subPopulationSize = 100;
+        private int _subPopulationSize = 50;
         private int _subGenerationCount;
         private int _subGeneration;
         private int _initialSubPopulationSize;
@@ -58,12 +62,12 @@ namespace Train
         {
             if (!Instance)
                 Instance = this;
-
-            Time.timeScale = TimeScale;
         }
 
         private void Start()
-        {
+        {            
+            Time.timeScale = TimeScale;
+
             _logger = new Logger(new TrainLogger("log.txt"));
         
             // setup brains

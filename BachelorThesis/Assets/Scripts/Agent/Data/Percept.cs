@@ -18,9 +18,9 @@ namespace Agent.Data
         [SerializeField] private List<Vector2> _normalizedVisibleCollectables = new List<Vector2>();
         [SerializeField] private List<Vector2> _normalizedVisibleObstacles = new List<Vector2>();
 
-        private const int AgentCount = 1;
-        private const int CollectableCount = 2;
-        private const int ObstacleCount = 2;
+        private const int AgentCount = 0;
+        private const int CollectableCount = 1;
+        private const int ObstacleCount = 1;
         private readonly List<double> _wallDistances;
         private readonly Vector3 _velocity;
 

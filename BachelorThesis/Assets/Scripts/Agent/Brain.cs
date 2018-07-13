@@ -16,19 +16,19 @@ namespace Agent
         public double Fitness { get; set; }
         public float Score { get; set; }
         
-        private readonly int[] _layers = {24, 13, 2};
+        private readonly int[] _layers = {18, 10, 2};
         private readonly SequentialModel _model;
         private double[] _weights;
         
-        public Brain(string defaultModel = "plain_model.json")
+        public Brain()
         {
-            var reader = new ReaderKerasModel(defaultModel);
-            _model = reader.GetSequentialExecutor();
+            _model = TrainManager.Instance.DefaultModel;
             Setup();
         }
 
         private Brain(int[] layers, double[] weights)
         {
+            _model = TrainManager.Instance.DefaultModel;
             _layers = layers;
             _weights = weights;
             _model.SetWeights(_layers, _weights);
@@ -41,7 +41,7 @@ namespace Agent
             
             // randomize initial weights
             for (var i = 0; i < weightCount; i++)
-                _weights[i] = Random.Range(-1, 1);
+                _weights[i] = Random.Range(-1f, 1f);
             
             _model.SetWeights(_layers, _weights);
         }
@@ -57,6 +57,7 @@ namespace Agent
                     $"input layer in DefaultLayer is set to the right value (currently: {_layers[0]}");
             
             var input = new Data2D(1, 1, _layers[0], 1);
+            input.SetInput(data);
             var result = (Data2D)_model.ExecuteNetwork(input);
             return new Action(result.ToDoubleArray(_layers));
         }

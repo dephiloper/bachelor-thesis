@@ -44,9 +44,20 @@ public static class ExtensionMethods
 
     public static int GetWeightCount(this SequentialModel sequentialModel, int[] layers)
     {
-        return layers.Select((t, i) => t * layers[i + 1] + layers[i + 1]).Sum();
+        var count = 0;
+
+        for (var i = 0; i < layers.Length - 1; i++)
+            count += layers[i] * layers[i + 1] + layers[i + 1];
+
+        return count;
     }
 
+    public static void SetInput(this Data2D data2D, double[] input)
+    {
+        for (var i = 0; i < input.Length; i++)
+            data2D[0, 0, i, 0] = input[i];
+    }
+    
     public static double[] ToDoubleArray(this Data2D data2D, int[] layers)
     {
         var outputLayer = layers[layers.Length - 1];
