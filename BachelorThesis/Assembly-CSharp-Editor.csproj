@@ -317,6 +317,9 @@
     <Reference Include="encog-core-cs">
       <HintPath>/home/phil/Development/bachelor-thesis-prep/BachelorThesis/Assets/Packages/encog-dotnet-core.3.4.0/lib/encog-core-cs.dll</HintPath>
     </Reference>
+    <Reference Include="NNSharp">
+      <HintPath>/home/phil/Development/bachelor-thesis-prep/BachelorThesis/Assets/Packages/NNSharp.1.2.1/lib/net452/NNSharp.dll</HintPath>
+    </Reference>
     <Reference Include="JetBrains.Rider.Unity.Editor.Plugin.Repacked">
       <HintPath>/home/phil/Development/bachelor-thesis-prep/BachelorThesis/Assets/Plugins/Editor/JetBrains/JetBrains.Rider.Unity.Editor.Plugin.Repacked.dll</HintPath>
     </Reference>
