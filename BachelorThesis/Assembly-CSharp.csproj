@@ -282,9 +282,6 @@
     <Reference Include="UnityEngine.SpatialTracking">
       <HintPath>/opt/Unity/Editor/Data/UnityExtensions/Unity/UnitySpatialTracking/RuntimeEditor/UnityEngine.SpatialTracking.dll</HintPath>
     </Reference>
-    <Reference Include="encog-core-cs">
-      <HintPath>/home/phil/Development/bachelor-thesis-prep/BachelorThesis/Assets/Packages/encog-dotnet-core.3.4.0/lib/encog-core-cs.dll</HintPath>
-    </Reference>
     <Reference Include="UnityEngine.Analytics">
       <HintPath>/home/phil/.config/unity3d/cache/packages/packages.unity.com/com.unity.analytics@2.0.16/UnityEngine.Analytics.dll</HintPath>
     </Reference>

@@ -311,9 +311,6 @@
     <Reference Include="DotNetZip">
       <HintPath>/home/phil/Development/bachelor-thesis-prep/BachelorThesis/Assets/NuGet/Editor/DotNetZip.dll</HintPath>
     </Reference>
-    <Reference Include="encog-core-cs">
-      <HintPath>/home/phil/Development/bachelor-thesis-prep/BachelorThesis/Assets/Packages/encog-dotnet-core.3.4.0/lib/encog-core-cs.dll</HintPath>
-    </Reference>
     <Reference Include="JetBrains.Rider.Unity.Editor.Plugin.Repacked">
       <HintPath>/home/phil/Development/bachelor-thesis-prep/BachelorThesis/Assets/Plugins/Editor/JetBrains/JetBrains.Rider.Unity.Editor.Plugin.Repacked.dll</HintPath>
     </Reference>
