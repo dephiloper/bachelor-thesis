@@ -1,31 +1,37 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using Environment;
-using Train;
 using UnityEngine;
 
-namespace Agent.Data
+namespace AgentData
 {
+    [Serializable]
     public class Sensor
     {
-        private readonly LayerMask _wallMask;
-        private readonly Rigidbody _rigidbody;
-        private readonly Transform _transform;
-        private readonly AgentEditorProperties _editorProps;
+        [Range(0, 10)] 
+        public float ViewRadius;
+        [Range(0, 360)] 
+        public float ViewAngle;
+        [Range(0, 10)] 
+        public float Range;
+        public bool Show;
+
+        private LayerMask _wallMask;
+        private Rigidbody _rigidbody;
+        private Transform _transform;
         private bool _onTrack;
 
-        public Sensor(AgentBehaviour agentBehaviour)
+        public void Setup(Component agent)
         {
-            _transform = agentBehaviour.transform;
-            _rigidbody = agentBehaviour.GetComponent<Rigidbody>();
-            _editorProps = agentBehaviour.EditorProperties;
+            _transform = agent.transform;
+            _rigidbody = agent.GetComponent<Rigidbody>();
             _wallMask = LayerMask.GetMask("Wall");
         }
 
         public Percept PerceiveEnvironment(bool onTrack)
         {
             _onTrack = onTrack;
-            
+
             var wallDistances = new List<double>
             {
                 CalculateDistanceWithRay((-_transform.right).normalized),
@@ -60,7 +66,7 @@ namespace Agent.Data
             var visibleEnvironmentals = new List<Vector3>();
 
             var environmentalsInViewRadius =
-                Physics.OverlapSphere(_transform.position, _editorProps.ViewRadius, envMask);
+                Physics.OverlapSphere(_transform.position, ViewRadius, envMask);
 
             environmentalsInViewRadius = environmentalsInViewRadius.OrderBy(env =>
                 Vector3.Distance(_transform.position, env.transform.position)).ToArray();
@@ -68,7 +74,7 @@ namespace Agent.Data
             foreach (var environmental in environmentalsInViewRadius)
             {
                 var dir = (environmental.transform.position - _transform.position).normalized;
-                if (Vector3.Angle(_transform.forward, dir) < _editorProps.ViewAngle / 2)
+                if (Vector3.Angle(_transform.forward, dir) < ViewAngle / 2)
                 {
                     var dist = Vector3.Distance(environmental.transform.position, _transform.position);
                     if (!Physics.Raycast(_transform.position, dir, dist, blockMask))
@@ -85,18 +91,18 @@ namespace Agent.Data
 
             // normally max distance is RayDistance, so times 2 means like free to go there
             var distance =
-                Physics.Raycast(_rigidbody.position + offset, direction, out hit, _editorProps.SensorDistance,
+                Physics.Raycast(_rigidbody.position + offset, direction, out hit, Range,
                     _wallMask)
                     ? Vector3.Distance(_rigidbody.position + offset, hit.point)
-                    : _editorProps.SensorDistance;
+                    : Range;
 
             // if not on track flip distance
             if (!_onTrack)
-                distance = distance >= _editorProps.SensorDistance ? 0 : _editorProps.SensorDistance;
+                distance = distance >= Range ? 0 : Range;
 
-            if (_editorProps.ShowSensors)
+            if (Show)
                 Debug.DrawRay(_rigidbody.position + offset, direction * distance,
-                    distance < _editorProps.SensorDistance ? Color.red : Color.green);
+                    distance < Range ? Color.red : Color.green);
 
             return distance;
         }

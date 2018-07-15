@@ -23,8 +23,9 @@ GameObject:
   - component: {fileID: 23492299652302340}
   - component: {fileID: 65067094069295372}
   - component: {fileID: 54334004401321610}
-  - component: {fileID: 114589892682978226}
   - component: {fileID: 114651817432823332}
+  - component: {fileID: 114407116661692790}
+  - component: {fileID: 114440695416586248}
   m_Layer: 10
   m_Name: Agent
   m_TagString: Untagged
@@ -114,7 +115,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &114589892682978226
+--- !u!114 &114407116661692790
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -122,30 +123,36 @@ MonoBehaviour:
   m_GameObject: {fileID: 1482586651332958}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a13d0ab7ddbbd4310a7ddd82b62854c0, type: 3}
+  m_Script: {fileID: 11500000, guid: 00430725568834aafa214727fcae4d94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AgentType: 4
-  EditorProperties:
-    Label: {fileID: 0}
-    MaxSpeed: 4
-    MaxTurnSpeed: 1.8
-    Score: 0
-    Speed: 0
-    SensorDistance: 10
-    ShowSensors: 1
-    TurnSpeed: 0
+  Type: 4
+  _oldType: 4
+  _isNew: 0
+--- !u!114 &114440695416586248
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1482586651332958}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 786e652db6a94814a86cf1b18ecc8dee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Label: {fileID: 0}
+  MaxSpeed: 4
+  MaxTurnSpeed: 1.8
+  Score: 0
+  Speed: 0
+  TurnSpeed: 0
+  Sensor:
     ViewRadius: 10
-    ViewAngle: 90
-    HAxis: HorizontalP0
-    VAxis: VerticalP0
-    SelectedHAxis: 1
-    SelectedVAxis: 6
-    IsDiscrete: 1
-    Record: 0
-    WaypointsPrefab: {fileID: 0}
-    BrainAsset: {fileID: 0}
-    IsTrained: 0
+    ViewAngle: 180
+    Range: 10
+    Show: 1
+  BrainAsset: {fileID: 0}
+  IsTrained: 0
 --- !u!114 &114651817432823332
 MonoBehaviour:
   m_ObjectHideFlags: 1

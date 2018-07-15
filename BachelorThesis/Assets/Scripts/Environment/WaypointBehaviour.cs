@@ -1,5 +1,4 @@
-﻿using Agent;
-using Agent.AgentImpl;
+﻿using AgentImpl;
 using UnityEngine;
 
 namespace Environment
@@ -10,10 +9,10 @@ namespace Environment
 
         private void OnTriggerEnter(Collider other)
         {
-            var agentScript = other.GetComponent<AgentBehaviour>();
+            var agent = other.GetComponent<AgentImpl.Agent>();
         
-            if (agentScript != null)
-                (agentScript.Agent as NeuralNetAgent)?.WaypointCrossed(WaypointIdentifier, transform.parent.childCount);
+            if (agent != null)
+                (agent as NeuralNetAgent)?.WaypointCrossed(WaypointIdentifier, transform.parent.childCount);
         }
     }
 }

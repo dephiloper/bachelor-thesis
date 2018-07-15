@@ -1,15 +1,14 @@
-﻿using Agent;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Environment
 {
 	public class ObstacleBehaviour : MonoBehaviour {
 		private void OnCollisionEnter(Collision other)
 		{
-			var agentScript = other.gameObject.GetComponent<AgentBehaviour>();
-			if (!agentScript) return;
+			var agent = other.gameObject.GetComponent<AgentImpl.Agent>();
+			if (!agent) return;
 
-			agentScript.Agent.ObstacleCollided();
+			agent.ObstacleCollided();
 		}
 	}
 }

@@ -1,5 +1,4 @@
-﻿using Agent;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Environment
 {
@@ -15,10 +14,10 @@ namespace Environment
 
 		private void OnTriggerEnter(Collider other)
 		{
-			var agentScript = other.gameObject.GetComponent<AgentBehaviour>();
-			if (!agentScript) return;
+			var agent = other.gameObject.GetComponent<AgentImpl.Agent>();
+			if (!agent) return;
 
-			agentScript.Agent.CollectableGathered();
+			agent.CollectableGathered();
 			Destroy(gameObject);
 		}
 	}

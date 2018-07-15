@@ -2,11 +2,11 @@
 using System.IO;
 using System.Linq;
 using System.Net.Mime;
-using Agent;
-using Agent.AgentImpl;
+using AgentImpl;
 using Environment;
 using NNSharp.IO;
 using NNSharp.Models;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
@@ -20,7 +20,6 @@ namespace Train
         public GameObject AgentPrefab;
         public Transform SpawnPoint;
         public Text Label;
-        public string ModelPath = "./Assets/plain_model.json";
 
         [Header("Hyperparams")] 
         public int PopulationSize = 1000;
@@ -41,17 +40,24 @@ namespace Train
         public float SubTopScore;
 
         [Header("Others")] 
-        public string ExportPath = "./Assets/Exports/";
-        public string ImportPath = "";
+        public TextAsset TrainModelAsset;
+        public string ExportPath = "./Exports/";
+        public string ImportPath = "./Exports/[FolderName]";
         public bool ShowSensors;
         public float TimeScale = 1;
 
         public NeuralNetAgent BestAgent { get; private set; }
+        public SequentialModel DefaultModel => new ReaderKerasModel(_trainModelPath).GetSequentialExecutor();
 
+        [SerializeField]
+        private string _fileName;
+        [SerializeField]
+        private string _trainModelPath;
+        
         private NeuralNetAgent[] _agents;
         private Brain[] _brains;
         private Logger _logger;
-        private int _subPopulationSize = 50;
+        private int _subPopulationSize = 100;
         private int _subGenerationCount;
         private int _subGeneration;
         private int _initialSubPopulationSize;
@@ -62,10 +68,17 @@ namespace Train
                 Instance = this;
         }
 
+        private void OnValidate()
+        {
+            #if UNITY_EDITOR
+            _fileName = Path.GetFileName(AssetDatabase.GetAssetPath(TrainModelAsset));
+            #endif
+        }
+
         private void Start()
         {            
             Time.timeScale = TimeScale;
-
+            _trainModelPath = $"{Application.dataPath}/StreamingAssets/{_fileName}";
             _logger = new Logger(new TrainLogger("log.txt"));
         
             // setup brains
@@ -112,7 +125,7 @@ namespace Train
                          $"Sub-Topscore: {SubTopScore:0.00}";
 
             // Subgeneration is completed
-            if (LifetimeMillis >= LifespanMillis || _agents.All(x => x.Transform.GetComponent<Rigidbody>() == null))
+            if (LifetimeMillis >= LifespanMillis || _agents.All(x => x.transform.GetComponent<Rigidbody>() == null))
             {
                 if (TopScore < SubTopScore)
                     TopScore = SubTopScore;
@@ -217,7 +230,7 @@ namespace Train
             for (var i = 0; i < _subPopulationSize; i++)
             {
                 var agentGameObject = Instantiate(AgentPrefab, SpawnPoint);
-                _agents[i] = agentGameObject.GetComponent<AgentBehaviour>().Agent as NeuralNetAgent;
+                _agents[i] = agentGameObject.GetComponent<AgentImpl.Agent>() as NeuralNetAgent;
                 _agents[i].Brain = _brains[_subPopulationSize * _subGeneration + i];
             }
         }
@@ -225,7 +238,7 @@ namespace Train
         private void DestroyAgents()
         {
             foreach (var agent in _agents)
-                Destroy(agent.Transform.gameObject);
+                Destroy(agent.transform.gameObject);
 
             _agents = null;
         }

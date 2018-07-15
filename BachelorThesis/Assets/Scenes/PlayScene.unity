@@ -2300,7 +2300,6 @@ GameObject:
   m_Component:
   - component: {fileID: 282840814}
   - component: {fileID: 282840813}
-  - component: {fileID: 282840812}
   m_Layer: 0
   m_Name: MainCamera
   m_TagString: MainCamera
@@ -2308,17 +2307,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &282840812
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 282840810}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dee5502e0fcce47df9979e5841450a7d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!20 &282840813
 Camera:
   m_ObjectHideFlags: 0
@@ -5198,15 +5186,16 @@ GameObject:
   - component: {fileID: 518014192}
   - component: {fileID: 518014191}
   - component: {fileID: 518014190}
-  - component: {fileID: 518014189}
   - component: {fileID: 518014188}
+  - component: {fileID: 518014195}
+  - component: {fileID: 518014189}
   m_Layer: 10
   m_Name: Agent0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &518014188
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5228,30 +5217,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 518014187}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a13d0ab7ddbbd4310a7ddd82b62854c0, type: 3}
+  m_Script: {fileID: 11500000, guid: 05a05260beb54efab979015f509920aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AgentType: 0
-  EditorProperties:
-    Label: {fileID: 324352163}
-    MaxSpeed: 4
-    MaxTurnSpeed: 1.8
-    Score: 0
-    Speed: 0
-    SensorDistance: 10
-    ShowSensors: 1
-    TurnSpeed: 0
+  Label: {fileID: 324352163}
+  MaxSpeed: 4
+  MaxTurnSpeed: 1.8
+  Score: 0
+  Speed: 0
+  TurnSpeed: 0
+  Sensor:
     ViewRadius: 10
-    ViewAngle: 90
-    HAxis: HorizontalP1
-    VAxis: HorizontalP1
-    SelectedHAxis: 2
-    SelectedVAxis: 2
-    IsDiscrete: 0
-    Record: 0
-    WaypointsPrefab: {fileID: 0}
-    BrainAsset: {fileID: 0}
-    IsTrained: 0
+    ViewAngle: 180
+    Range: 10
+    Show: 1
+  WaypointsPrefab: {fileID: 191734179}
 --- !u!54 &518014190
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -5328,12 +5308,26 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 518014187}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 11.56, y: 0.75, z: -0.83}
+  m_LocalPosition: {x: 11.7, y: 0.75, z: -0.83}
   m_LocalScale: {x: 0.25, y: 0.125, z: 0.375}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &518014195
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 518014187}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00430725568834aafa214727fcae4d94, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Type: 3
+  _oldType: 3
+  _isNew: 0
 --- !u!1 &520931276
 GameObject:
   m_ObjectHideFlags: 0
@@ -11263,15 +11257,16 @@ GameObject:
   - component: {fileID: 1159512624}
   - component: {fileID: 1159512623}
   - component: {fileID: 1159512622}
-  - component: {fileID: 1159512621}
   - component: {fileID: 1159512620}
+  - component: {fileID: 1159512627}
+  - component: {fileID: 1159512621}
   m_Layer: 10
   m_Name: Player0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1159512620
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11293,30 +11288,26 @@ MonoBehaviour:
   m_GameObject: {fileID: 1159512619}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a13d0ab7ddbbd4310a7ddd82b62854c0, type: 3}
+  m_Script: {fileID: 11500000, guid: 8f43322a535e48f881b573c157ea6bd5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AgentType: 0
-  EditorProperties:
-    Label: {fileID: 1673751417}
-    MaxSpeed: 4
-    MaxTurnSpeed: 1.8
-    Score: 0
-    Speed: 0
-    SensorDistance: 10
-    ShowSensors: 1
-    TurnSpeed: 0
+  Label: {fileID: 1673751417}
+  MaxSpeed: 4
+  MaxTurnSpeed: 1.8
+  Score: 0
+  Speed: 0
+  TurnSpeed: 0
+  Sensor:
     ViewRadius: 10
     ViewAngle: 180
-    HAxis: HorizontalP0
-    VAxis: VerticalP0
-    SelectedHAxis: 1
-    SelectedVAxis: 6
-    IsDiscrete: 1
-    Record: 1
-    WaypointsPrefab: {fileID: 0}
-    BrainAsset: {fileID: 0}
-    IsTrained: 0
+    Range: 10
+    Show: 1
+  IsDiscrete: 1
+  Record: 0
+  VAxis: VerticalP0
+  HAxis: HorizontalP0
+  VAxisIndex: 6
+  HAxisIndex: 1
 --- !u!54 &1159512622
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -11393,12 +11384,26 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1159512619}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 11.759, y: 0.75, z: 0.591}
+  m_LocalPosition: {x: 11.3, y: 0.75, z: -0.83}
   m_LocalScale: {x: 0.25, y: 0.125, z: 0.375}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1159512627
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1159512619}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00430725568834aafa214727fcae4d94, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Type: 0
+  _oldType: 0
+  _isNew: 0
 --- !u!1 &1161482751
 GameObject:
   m_ObjectHideFlags: 0
@@ -13781,8 +13786,9 @@ GameObject:
   - component: {fileID: 1436489680}
   - component: {fileID: 1436489679}
   - component: {fileID: 1436489684}
-  - component: {fileID: 1436489683}
   - component: {fileID: 1436489685}
+  - component: {fileID: 1436489686}
+  - component: {fileID: 1436489683}
   m_Layer: 10
   m_Name: Agent2
   m_TagString: Untagged
@@ -13851,7 +13857,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1436489678}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 10.74, y: 0.75, z: -4.98}
+  m_LocalPosition: {x: 12.5, y: 0.75, z: -0.83}
   m_LocalScale: {x: 0.25, y: 0.125, z: 0.375}
   m_Children: []
   m_Father: {fileID: 0}
@@ -13865,30 +13871,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 1436489678}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a13d0ab7ddbbd4310a7ddd82b62854c0, type: 3}
+  m_Script: {fileID: 11500000, guid: 786e652db6a94814a86cf1b18ecc8dee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AgentType: 4
-  EditorProperties:
-    Label: {fileID: 562720593}
-    MaxSpeed: 4
-    MaxTurnSpeed: 1.8
-    Score: 0
-    Speed: 0
-    SensorDistance: 10
-    ShowSensors: 1
-    TurnSpeed: 0
+  Label: {fileID: 562720593}
+  MaxSpeed: 4
+  MaxTurnSpeed: 1.8
+  Score: 0
+  Speed: 0
+  TurnSpeed: 0
+  Sensor:
     ViewRadius: 10
     ViewAngle: 180
-    HAxis: Horizontal
-    VAxis: Horizontal
-    SelectedHAxis: 0
-    SelectedVAxis: 0
-    IsDiscrete: 0
-    Record: 0
-    WaypointsPrefab: {fileID: 0}
-    BrainAsset: {fileID: 4900000, guid: ed1f8fddae2854ee5884826fb99b714e, type: 3}
-    IsTrained: 0
+    Range: 10
+    Show: 1
+  ModelPath: 
+  BrainAsset: {fileID: 4900000, guid: ed1f8fddae2854ee5884826fb99b714e, type: 3}
+  IsTrained: 0
 --- !u!54 &1436489684
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -13917,6 +13916,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _hoverForce: 15
   _hoverHeight: 0.75
+--- !u!114 &1436489686
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1436489678}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00430725568834aafa214727fcae4d94, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Type: 4
+  _oldType: 4
+  _isNew: 0
 --- !u!1 &1442039518
 GameObject:
   m_ObjectHideFlags: 0
@@ -17459,15 +17472,16 @@ GameObject:
   - component: {fileID: 1856585062}
   - component: {fileID: 1856585061}
   - component: {fileID: 1856585060}
-  - component: {fileID: 1856585059}
   - component: {fileID: 1856585058}
+  - component: {fileID: 1856585065}
+  - component: {fileID: 1856585059}
   m_Layer: 10
   m_Name: Agent1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1856585058
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17489,30 +17503,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 1856585057}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a13d0ab7ddbbd4310a7ddd82b62854c0, type: 3}
+  m_Script: {fileID: 11500000, guid: 786e652db6a94814a86cf1b18ecc8dee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AgentType: 3
-  EditorProperties:
-    Label: {fileID: 2054122387}
-    MaxSpeed: 4
-    MaxTurnSpeed: 1.8
-    Score: 0
-    Speed: 0
-    SensorDistance: 10
-    ShowSensors: 1
-    TurnSpeed: 0
+  Label: {fileID: 2054122387}
+  MaxSpeed: 4
+  MaxTurnSpeed: 1.8
+  Score: 0
+  Speed: 0
+  TurnSpeed: 0
+  Sensor:
     ViewRadius: 10
-    ViewAngle: 90
-    HAxis: HorizontalP2
-    VAxis: VerticalP2
-    SelectedHAxis: 3
-    SelectedVAxis: 7
-    IsDiscrete: 0
-    Record: 0
-    WaypointsPrefab: {fileID: 191734179}
-    BrainAsset: {fileID: 0}
-    IsTrained: 0
+    ViewAngle: 180
+    Range: 10
+    Show: 1
+  ModelPath: 84model.json
+  BrainAsset: {fileID: 4900000, guid: ed1f8fddae2854ee5884826fb99b714e, type: 3}
+  IsTrained: 0
 --- !u!54 &1856585060
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -17589,12 +17596,26 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1856585057}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 12.13, y: 0.75, z: -0.83}
+  m_LocalPosition: {x: 12.1, y: 0.75, z: -0.83}
   m_LocalScale: {x: 0.25, y: 0.125, z: 0.375}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1856585065
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1856585057}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00430725568834aafa214727fcae4d94, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Type: 4
+  _oldType: 4
+  _isNew: 0
 --- !u!1 &1867801819
 GameObject:
   m_ObjectHideFlags: 0

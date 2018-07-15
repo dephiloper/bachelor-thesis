@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace Agent.Data
+namespace AgentData
 {
     [Serializable]
     public class Percept
@@ -76,15 +76,10 @@ namespace Agent.Data
         {
             _normalizedVelocity = transform.InverseTransformDirection(_velocity) / maxSpeed;
 
-            Debug.Log($"vel: {_normalizedVelocity}");
-            
             _normalizedWallDistances = _wallDistances
                 .Select(dist => dist / sensorDistance)
                 .ToList();
-            
-            
-            Debug.Log($"dists: ({string.Join(",", _normalizedWallDistances.Select(p=>p.ToString("0.0000")))})");
-            
+
             _normalizedVisibleAgents = VisibleAgents
                 .Select(a =>
                     new Vector2(transform.InverseTransformPoint(a).x * transform.localScale.x,
@@ -105,6 +100,9 @@ namespace Agent.Data
                         transform.InverseTransformPoint(o).z * transform.localScale.z) / viewRadius)
                 .Take(ObstacleCount)
                 .ToList();
+
+            //Debug.Log($"vel: {_normalizedVelocity}");
+            //Debug.Log($"dists: ({string.Join(",", _normalizedWallDistances.Select(p => p.ToString("0.0000")))})");
         }
     }
 }

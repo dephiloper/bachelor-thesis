@@ -1,35 +1,49 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Train;
 using UnityEditor;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
-namespace Agent.AgentImpl
+namespace AgentImpl
 {
-    public class NeuralNetAgent : BaseAgent
+    public class NeuralNetAgent : Agent
     {
+        [Header(nameof(NeuralNetAgent))]
+        public TextAsset BrainAsset;
+        public bool IsTrained;
+        [SerializeField]
+        [HideInInspector]
+        private string _fileName;
+        
         public Brain Brain { get; set; }
 
         private readonly List<int> _reachedWaypointIds = new List<int>();
 
-        public NeuralNetAgent(AgentBehaviour agentBehaviour) : base(agentBehaviour)
+        private void OnValidate()
         {
-            if (EditorProps.BrainAsset)
+            #if UNITY_EDITOR
+            _fileName = Path.GetFileName(AssetDatabase.GetAssetPath(BrainAsset));
+            #endif
+        }
+
+        private void Start()
+        {
+            var modelPath = $"{Application.dataPath}/StreamingAssets/{_fileName}";
+            if (!string.IsNullOrEmpty(_fileName))
             {
-                var path = AssetDatabase.GetAssetPath(EditorProps.BrainAsset);
-                Brain = Brain.Import(path);
-                EditorProps.IsTrained = true;
+                Brain = Brain.Import(modelPath);
+                IsTrained = true;
             }
             else if (!TrainManager.Instance)
                 throw new ArgumentNullException(nameof(ArgumentNullException),
-                    $"When there is no {nameof(EditorProps.BrainAsset)} " +
+                    $"When there is no {nameof(modelPath)} " +
                     "specified, the agent performs training. Unfortunetly there is also no TrainManager " +
                     "set in this scene.");
         }
 
-        public override void Compute()
+        protected override void Compute()
         {
             base.Compute();
             var action = Brain.Think(Percept);
@@ -43,13 +57,13 @@ namespace Agent.AgentImpl
         protected override void UpdateEditorProps()
         {
             base.UpdateEditorProps();
-            EditorProps.Score = Mathf.RoundToInt(Brain.Score);
+            Score = Mathf.RoundToInt(Brain.Score);
         }
 
         public void WaypointCrossed(int waypointIdentifier, int lastWaypointIdentifier)
         {
             // waypoint already satisfied
-            if (EditorProps.IsTrained) return;
+            if (IsTrained) return;
         
             var vel = new Vector2(Rigidbody.velocity.x, Rigidbody.velocity.z).magnitude;
             
@@ -83,6 +97,16 @@ namespace Agent.AgentImpl
         {
             base.ObstacleCollided();
             Brain.Score -= new Vector2(Rigidbody.velocity.x, Rigidbody.velocity.z).magnitude / 2; 
+        }
+
+        public override void SetValues(Agent agent)
+        {
+            base.SetValues(agent);
+            var neuralNetAgent = agent as NeuralNetAgent;
+            if (neuralNetAgent == null) return;
+            
+            BrainAsset = neuralNetAgent.BrainAsset;
+            IsTrained = neuralNetAgent.IsTrained;
         }
     }
 }

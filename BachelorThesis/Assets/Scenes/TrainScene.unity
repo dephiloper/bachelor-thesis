@@ -19197,8 +19197,7 @@ MonoBehaviour:
     type: 2}
   SpawnPoint: {fileID: 1859602264}
   Label: {fileID: 1206140229}
-  ModelPath: ./Assets/plain_model.json
-  PopulationSize: 500
+  PopulationSize: 1000
   GenerationCount: 2000
   LifespanMillis: 6000
   LimitLifespanMillis: 120000
@@ -19210,10 +19209,13 @@ MonoBehaviour:
   TopScore: 0
   LifetimeMillis: 0
   SubTopScore: 0
+  TrainModelAsset: {fileID: 4900000, guid: ed1f8fddae2854ee5884826fb99b714e, type: 3}
   ExportPath: ./Exports/
-  ImportPath: ./Exports/2018-07-14-01-25-38-Brains/
+  ImportPath: 
   ShowSensors: 0
   TimeScale: 1
+  _fileName: 84model.json
+  _trainModelPath: /StreamingAssets/plain_model.json
 --- !u!1 &2108405218
 GameObject:
   m_ObjectHideFlags: 0
