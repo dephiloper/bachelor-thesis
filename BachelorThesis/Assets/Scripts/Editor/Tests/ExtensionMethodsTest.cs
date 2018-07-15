@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using Extensions;
+using NUnit.Framework;
 using UnityEngine;
 
 namespace Editor.Tests

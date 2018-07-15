@@ -12,6 +12,7 @@ namespace Agent.Data
         private readonly Rigidbody _rigidbody;
         private readonly Transform _transform;
         private readonly AgentEditorProperties _editorProps;
+        private bool _onTrack;
 
         public Sensor(AgentBehaviour agentBehaviour)
         {
@@ -23,28 +24,24 @@ namespace Agent.Data
 
         public Percept PerceiveEnvironment(bool onTrack)
         {
+            _onTrack = onTrack;
+            
             var wallDistances = new List<double>
             {
-                CalculateDistanceWithRay((-_transform.right).normalized, _wallMask, onTrack),
-                CalculateDistanceWithRay((_transform.forward * 0.5f - _transform.right).normalized, _wallMask,
-                    onTrack),
-                CalculateDistanceWithRay((_transform.forward - _transform.right).normalized, _wallMask, onTrack),
-                CalculateDistanceWithRay((_transform.forward - _transform.right * 0.5f).normalized, _wallMask,
-                    onTrack),
-                CalculateDistanceWithRay((_transform.forward - _transform.right * 0.25f).normalized, _wallMask,
-                    onTrack),
-                CalculateDistanceWithRay(_transform.forward.normalized, _wallMask, onTrack,
-                    -_transform.right * 0.1f),
-                CalculateDistanceWithRay(_transform.forward.normalized, _wallMask, onTrack,
-                    _transform.right * 0.1f),
-                CalculateDistanceWithRay((_transform.forward + _transform.right * 0.25f).normalized, _wallMask,
-                    onTrack),
-                CalculateDistanceWithRay((_transform.forward + _transform.right * 0.5f).normalized, _wallMask,
-                    onTrack),
-                CalculateDistanceWithRay((_transform.forward + _transform.right).normalized, _wallMask, onTrack),
-                CalculateDistanceWithRay((_transform.forward * 0.5f + _transform.right).normalized, _wallMask,
-                    onTrack),
-                CalculateDistanceWithRay((_transform.right).normalized, _wallMask, onTrack)
+                CalculateDistanceWithRay((-_transform.right).normalized),
+                CalculateDistanceWithRay((_transform.forward * 0.5f - _transform.right).normalized),
+                CalculateDistanceWithRay((_transform.forward - _transform.right).normalized),
+                CalculateDistanceWithRay((_transform.forward - _transform.right * 0.5f).normalized),
+                CalculateDistanceWithRay((_transform.forward - _transform.right * 0.25f).normalized),
+                CalculateDistanceWithRay((_transform.forward - _transform.right * 0.125f).normalized),
+                CalculateDistanceWithRay(_transform.forward.normalized, -_transform.right * 0.1f),
+                CalculateDistanceWithRay(_transform.forward.normalized, _transform.right * 0.1f),
+                CalculateDistanceWithRay((_transform.forward + _transform.right * 0.125f).normalized),
+                CalculateDistanceWithRay((_transform.forward + _transform.right * 0.25f).normalized),
+                CalculateDistanceWithRay((_transform.forward + _transform.right * 0.5f).normalized),
+                CalculateDistanceWithRay((_transform.forward + _transform.right).normalized),
+                CalculateDistanceWithRay((_transform.forward * 0.5f + _transform.right).normalized),
+                CalculateDistanceWithRay((_transform.right).normalized),
             };
 
             var velocity = new Vector3(_rigidbody.velocity.x, 0, _rigidbody.velocity.z);
@@ -82,20 +79,19 @@ namespace Agent.Data
             return visibleEnvironmentals;
         }
 
-        private double CalculateDistanceWithRay(Vector3 direction, LayerMask layerMask, bool onTrack,
-            Vector3 offset = new Vector3())
+        private double CalculateDistanceWithRay(Vector3 direction, Vector3 offset = new Vector3())
         {
             RaycastHit hit;
 
             // normally max distance is RayDistance, so times 2 means like free to go there
             var distance =
                 Physics.Raycast(_rigidbody.position + offset, direction, out hit, _editorProps.SensorDistance,
-                    layerMask)
+                    _wallMask)
                     ? Vector3.Distance(_rigidbody.position + offset, hit.point)
                     : _editorProps.SensorDistance;
 
             // if not on track flip distance
-            if (!onTrack)
+            if (!_onTrack)
                 distance = distance >= _editorProps.SensorDistance ? 0 : _editorProps.SensorDistance;
 
             if (_editorProps.ShowSensors)

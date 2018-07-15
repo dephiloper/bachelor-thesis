@@ -11,7 +11,7 @@ namespace Agent
             var orderedBrains = brains.OrderByDescending(x => x.Score).ToArray();
             path = $"{path}/{DateTime.Now:yyyy-MM-dd-HH-mm-ss}-Brains/";
             foreach (var brain in orderedBrains)
-                brain.Export(generation, lifespanMillis, path);
+                brain.Export(generation, path);
         }
         
         public static Brain[] LoadBrains(int count, string path)
@@ -21,9 +21,9 @@ namespace Agent
 
             while (loadedBrains != count)
             {
-                foreach (var file in Directory.GetFiles(path, "*brain.json"))
+                foreach (var file in Directory.GetFiles(path, "*brain.txt"))
                 {
-                    brains[loadedBrains] = Brain.Import(File.ReadAllText(file));
+                    brains[loadedBrains] = Brain.Import(file);
                     loadedBrains++;
                     if (loadedBrains == brains.Length)
                         break;

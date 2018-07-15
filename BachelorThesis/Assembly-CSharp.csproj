@@ -54,6 +54,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Extensions\MathExtensionMethods.cs" />
+    <Compile Include="Assets\Extensions\NNSharpExtensions.cs" />
     <Compile Include="Assets\Scripts\Agent\AgentBehaviour.cs" />
     <Compile Include="Assets\Scripts\Agent\AgentEditorProperties.cs" />
     <Compile Include="Assets\Scripts\Agent\AgentImpl\BaseAgent.cs" />
@@ -75,12 +77,12 @@
     <Compile Include="Assets\Scripts\Environment\ObstacleBehaviour.cs" />
     <Compile Include="Assets\Scripts\Environment\OrderScript.cs" />
     <Compile Include="Assets\Scripts\Environment\WaypointBehaviour.cs" />
-    <Compile Include="Assets\Scripts\ExtensionMethods.cs" />
     <Compile Include="Assets\Scripts\RecordManager.cs" />
     <Compile Include="Assets\Scripts\Tests\ExtensionMethodsTest.cs" />
     <Compile Include="Assets\Scripts\Train\TrainLogger.cs" />
     <Compile Include="Assets\Scripts\Train\TrainManager.cs" />
     <None Include="Assets\Packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.xml" />
+    <None Include="Assets\2018-07-14-01_25-38-074299-gen_100-score_32.22-brain.txt" />
     <Reference Include="UnityEditor.StandardEvents">
       <HintPath>/home/phil/Development/bachelor-thesis-prep/BachelorThesis/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
     </Reference>

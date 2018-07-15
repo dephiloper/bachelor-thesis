@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using Agent.Data;
+using Extensions;
 using NNSharp.DataTypes;
 using NNSharp.IO;
 using Train;
@@ -15,50 +16,59 @@ namespace Agent
     {
         public double Fitness { get; set; }
         public float Score { get; set; }
-        
-        private readonly int[] _layers = {18, 10, 2};
+
+        private static SequentialModel DefaultModel =>
+            new ReaderKerasModel("./Assets/plain_model.json").GetSequentialExecutor();
+
         private readonly SequentialModel _model;
+        private readonly int[] _layers;
         private double[] _weights;
-        
-        public Brain()
+
+        public Brain(SequentialModel model = null)
         {
-            _model = TrainManager.Instance.DefaultModel;
-            Setup();
+            if (!TrainManager.Instance)
+            {
+                _model = model;
+                _layers = _model.GetLayers();
+                _weights = _model.GetWeights();
+            }
+            else
+            {
+                _model = DefaultModel;
+                _weights = model?.GetWeights();
+                _layers = _model.GetLayers();
+
+                if (model == null)
+                {
+                    _weights = _model.GetWeights();
+                    for (var i = 0; i < _weights.Length; i++)
+                        _weights[i] = Random.value * 2 - 1f;
+                }
+
+                _model.SetWeights(_layers, _weights);
+            }
         }
 
-        private Brain(int[] layers, double[] weights)
+        private Brain(double[] weights)
         {
-            _model = TrainManager.Instance.DefaultModel;
-            _layers = layers;
+            _model = DefaultModel;
+            _layers = _model.GetLayers();
             _weights = weights;
             _model.SetWeights(_layers, _weights);
         }
-        
-        private void Setup()
-        {
-            var weightCount = _model.GetWeightCount(_layers);
-            _weights = new double[weightCount];
-            
-            // randomize initial weights
-            for (var i = 0; i < weightCount; i++)
-                _weights[i] = Random.Range(-1f, 1f);
-            
-            _model.SetWeights(_layers, _weights);
-        }
+
 
         public Action Think(Percept percept)
         {
             var data = percept.ToDoubleArray();
-
-
             if (data.Length != _model.GetInputDimension().c)
                 throw new ArgumentOutOfRangeException(nameof(ArgumentOutOfRangeException),
                     $"Percept count should be {_model.GetInputDimension().c}, but is {data.Length}, check if the " +
                     $"input layer in DefaultLayer is set to the right value (currently: {_layers[0]}");
-            
+
             var input = new Data2D(1, 1, _layers[0], 1);
-            input.SetInput(data);
-            var result = (Data2D)_model.ExecuteNetwork(input);
+            input.SetData(data);
+            var result = (Data2D) _model.ExecuteNetwork(input);
             return new Action(result.ToDoubleArray(_layers));
         }
 
@@ -86,7 +96,7 @@ namespace Agent
                 }
             }
 
-            return new[] {new Brain(_layers, childOne), new Brain(_layers, childTwo)};
+            return new[] {new Brain(childOne), new Brain(childTwo)};
         }
 
         public Brain[] UniformCrossover(Brain partner)
@@ -105,45 +115,30 @@ namespace Agent
                 }
             }
 
-            return new[] {new Brain(_layers, childOne), new Brain(_layers, childTwo)};
+            return new[] {new Brain(childOne), new Brain(childTwo)};
         }
 
-        public void Export(int generation, float maxLifespan, string path = "./Assets/Exports/")
+        public void Export(int generation, string path = "./Assets/Exports/")
         {
             Directory.CreateDirectory(path);
-            var serializableBrain = new SerializableBrain(_layers, _weights);
-            var jsonBrain = JsonUtility.ToJson(serializableBrain);
-            path = $"{path}{DateTime.Now:yyyy-MM-dd-HH_mm-ss-ffffff}-gen_{generation}-score_{Score:F}-brain.json";
-            File.WriteAllText(path, jsonBrain);
+            path = $"{path}{DateTime.Now:yyyy-MM-dd-HH_mm-ss-ffffff}-gen_{generation}-score_{Score:F}";
+            PersistSequentialModel.SerializeModel(_model, $"{path}-brain.txt");
         }
 
-        public static Brain Import(string json)
+        public static Brain Import(string path)
         {
-            var serializableBrain = JsonUtility.FromJson<SerializableBrain>(json);
-            var brain = serializableBrain.ToBrain();
-            brain.Fitness = 0;
-            brain.Score = 0;
+            SequentialModel model = null;
+            Brain brain = null;
+
+            if (path.EndsWith(".json"))
+                model = new ReaderKerasModel(path).GetSequentialExecutor();
+            else if (path.EndsWith(".txt"))
+                model = PersistSequentialModel.DeserializeModel(path);
+
+            if (model != null)
+                brain = new Brain(model) {_weights = model.GetWeights()};
+
             return brain;
-        }
-
-        private class SerializableBrain
-        {
-            [SerializeField] 
-            private int[] _layers;
-            [SerializeField] 
-            private double[] _weights;
-            
-            public SerializableBrain(int[] layers, double[] weights)
-            {
-                _layers = layers;
-                _weights = weights;
-            }
-
-            public Brain ToBrain()
-            {
-                var brain = new Brain(_layers, _weights);
-                return brain;
-            }
         }
     }
 }

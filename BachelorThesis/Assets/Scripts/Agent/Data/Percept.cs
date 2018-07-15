@@ -19,8 +19,8 @@ namespace Agent.Data
         [SerializeField] private List<Vector2> _normalizedVisibleObstacles = new List<Vector2>();
 
         private const int AgentCount = 0;
-        private const int CollectableCount = 1;
-        private const int ObstacleCount = 1;
+        private const int CollectableCount = 0;
+        private const int ObstacleCount = 0;
         private readonly List<double> _wallDistances;
         private readonly Vector3 _velocity;
 
@@ -76,10 +76,15 @@ namespace Agent.Data
         {
             _normalizedVelocity = transform.InverseTransformDirection(_velocity) / maxSpeed;
 
+            Debug.Log($"vel: {_normalizedVelocity}");
+            
             _normalizedWallDistances = _wallDistances
                 .Select(dist => dist / sensorDistance)
                 .ToList();
-
+            
+            
+            Debug.Log($"dists: ({string.Join(",", _normalizedWallDistances.Select(p=>p.ToString("0.0000")))})");
+            
             _normalizedVisibleAgents = VisibleAgents
                 .Select(a =>
                     new Vector2(transform.InverseTransformPoint(a).x * transform.localScale.x,

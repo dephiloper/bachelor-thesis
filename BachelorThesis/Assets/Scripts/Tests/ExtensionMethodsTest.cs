@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Extensions;
+using UnityEngine;
 using UnityEngine.Assertions;
 
 namespace Tests

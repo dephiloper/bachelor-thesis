@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Train;
+using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -17,7 +18,8 @@ namespace Agent.AgentImpl
         {
             if (EditorProps.BrainAsset)
             {
-                Brain = Brain.Import(EditorProps.BrainAsset.text);
+                var path = AssetDatabase.GetAssetPath(EditorProps.BrainAsset);
+                Brain = Brain.Import(path);
                 EditorProps.IsTrained = true;
             }
             else if (!TrainManager.Instance)

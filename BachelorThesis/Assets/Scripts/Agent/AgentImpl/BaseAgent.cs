@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Agent.Data;
 using Car;
+using Extensions;
 using Train;
 using UnityEngine;
 
@@ -38,13 +39,13 @@ namespace Agent.AgentImpl
         {
             UpdateEditorProps();
             
-            if (_frames % 5 == 0) {
+            //if (_frames % 5 == 0) {
             Percept = _sensor.PerceiveEnvironment(OnTrack);
             Percept.Normalize(EditorProps.MaxSpeed * SpeedIncreaseFactor, EditorProps.SensorDistance, Transform,
                 EditorProps.ViewRadius);
-            }
-            if (_frames % 30 == 0)
-                OnTrack = IsOnTrack();
+            //}
+            //if (_frames % 30 == 0)
+            OnTrack = IsOnTrack();
 
             _frames++;
             Speed = OnTrack ? EditorProps.MaxSpeed : EditorProps.MaxSpeed / 4f;

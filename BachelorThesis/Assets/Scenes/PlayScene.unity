@@ -11271,7 +11271,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1159512620
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11307,13 +11307,13 @@ MonoBehaviour:
     ShowSensors: 1
     TurnSpeed: 0
     ViewRadius: 10
-    ViewAngle: 120
+    ViewAngle: 180
     HAxis: HorizontalP0
     VAxis: VerticalP0
     SelectedHAxis: 1
     SelectedVAxis: 6
     IsDiscrete: 1
-    Record: 0
+    Record: 1
     WaypointsPrefab: {fileID: 0}
     BrainAsset: {fileID: 0}
     IsTrained: 0
@@ -11393,7 +11393,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1159512619}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 11.02, y: 0.75, z: -0.83}
+  m_LocalPosition: {x: 11.759, y: 0.75, z: 0.591}
   m_LocalScale: {x: 0.25, y: 0.125, z: 0.375}
   m_Children: []
   m_Father: {fileID: 0}
@@ -13789,7 +13789,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!65 &1436489679
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -13851,7 +13851,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1436489678}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 12.7, y: 0.75, z: -0.83}
+  m_LocalPosition: {x: 10.74, y: 0.75, z: -4.98}
   m_LocalScale: {x: 0.25, y: 0.125, z: 0.375}
   m_Children: []
   m_Father: {fileID: 0}
@@ -13879,7 +13879,7 @@ MonoBehaviour:
     ShowSensors: 1
     TurnSpeed: 0
     ViewRadius: 10
-    ViewAngle: 90
+    ViewAngle: 180
     HAxis: Horizontal
     VAxis: Horizontal
     SelectedHAxis: 0
@@ -13887,7 +13887,7 @@ MonoBehaviour:
     IsDiscrete: 0
     Record: 0
     WaypointsPrefab: {fileID: 0}
-    BrainAsset: {fileID: 4900000, guid: ee53d3b233a87426ca7008ecd69b6ad7, type: 3}
+    BrainAsset: {fileID: 4900000, guid: ed1f8fddae2854ee5884826fb99b714e, type: 3}
     IsTrained: 0
 --- !u!54 &1436489684
 Rigidbody:
@@ -15654,7 +15654,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1625066665}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6a55492f0e8804475aa0833f256f34c4, type: 3}
   m_Name: 

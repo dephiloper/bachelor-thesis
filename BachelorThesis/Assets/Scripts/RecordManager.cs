@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 public class RecordManager
 {
     private readonly StreamWriter _writer;
-
+    
     public RecordManager(string path)
     {
         _writer = File.AppendText(path);

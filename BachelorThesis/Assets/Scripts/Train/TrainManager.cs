@@ -20,6 +20,7 @@ namespace Train
         public GameObject AgentPrefab;
         public Transform SpawnPoint;
         public Text Label;
+        public string ModelPath = "./Assets/plain_model.json";
 
         [Header("Hyperparams")] 
         public int PopulationSize = 1000;
@@ -42,13 +43,10 @@ namespace Train
         [Header("Others")] 
         public string ExportPath = "./Assets/Exports/";
         public string ImportPath = "";
-        public string ModelPath = "./Assets/plain_model.json";
         public bool ShowSensors;
         public float TimeScale = 1;
 
         public NeuralNetAgent BestAgent { get; private set; }
-
-        public SequentialModel DefaultModel => new ReaderKerasModel(ModelPath).GetSequentialExecutor();
 
         private NeuralNetAgent[] _agents;
         private Brain[] _brains;
