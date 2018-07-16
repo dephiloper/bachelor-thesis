@@ -13885,9 +13885,9 @@ MonoBehaviour:
     ViewAngle: 180
     Range: 10
     Show: 1
-  ModelPath: 
   BrainAsset: {fileID: 4900000, guid: ed1f8fddae2854ee5884826fb99b714e, type: 3}
   IsTrained: 0
+  _fileName: 84model.json
 --- !u!54 &1436489684
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -17517,9 +17517,9 @@ MonoBehaviour:
     ViewAngle: 180
     Range: 10
     Show: 1
-  ModelPath: 84model.json
-  BrainAsset: {fileID: 4900000, guid: ed1f8fddae2854ee5884826fb99b714e, type: 3}
+  BrainAsset: {fileID: 102900000, guid: 1fffd520a7b2149e1a434a3b11ee9271, type: 3}
   IsTrained: 0
+  _fileName: 2018-07-16-01_30-50-003956-gen_100-score_0.88-brain.txt
 --- !u!54 &1856585060
 Rigidbody:
   m_ObjectHideFlags: 0

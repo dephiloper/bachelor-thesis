@@ -11,7 +11,7 @@ namespace AgentImpl
     public class NeuralNetAgent : Agent
     {
         [Header(nameof(NeuralNetAgent))]
-        public TextAsset BrainAsset;
+        public UnityEngine.Object BrainAsset;
         public bool IsTrained;
         [SerializeField]
         [HideInInspector]

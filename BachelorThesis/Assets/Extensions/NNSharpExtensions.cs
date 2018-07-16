@@ -15,7 +15,9 @@ namespace Extensions
     {
         public static void SetWeights(this SequentialModel sequentialModel, int[] layers, double[] weights)
         {
-            if (sequentialModel.GetInputDimension().c != layers[0])
+            var dim = sequentialModel.GetInputDimension();
+            
+            if (dim.c != layers[0])
                 throw new ArgumentOutOfRangeException(nameof(ArgumentOutOfRangeException),
                     "Size of input layer should be" +
                     $"{sequentialModel.GetInputDimension().c} but is {layers[0]}.");
@@ -47,8 +49,13 @@ namespace Extensions
         {
             // reflection used because there is no other way to get the weights of a network in nnsharp
             var weights = new List<double>();
-            var layers = sequentialModel.GetFieldValue<DefaultExecutor>("compiled")
-                .GetFieldValue<IList<ILayer>>("layers");
+            var compiled = sequentialModel.GetFieldValue<DefaultExecutor>("compiled");
+            var layers = compiled.GetFieldValue<IList<ILayer>>("layers");
+
+            var dim = sequentialModel.GetInputDimension();
+            // set the initInput field otherwise the error: input is not Data2D (Dense2DLayer)
+            compiled.SetFieldValue<Data2D>("initInput", new Data2D(dim.h, dim.w, dim.c, dim.b));
+
 
             foreach (var layer in layers)
             {
@@ -114,6 +121,13 @@ namespace Extensions
             var field = obj.GetType()
                 .GetField(name, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
             return (T) field?.GetValue(obj);
+        }
+        
+        private static void SetFieldValue<T>(this object obj, string name, T value)
+        {
+            var field = obj.GetType()
+                .GetField(name, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+            field.SetValue(obj, value);
         }
     }
 }

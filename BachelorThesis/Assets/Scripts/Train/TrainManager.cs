@@ -40,7 +40,7 @@ namespace Train
         public float SubTopScore;
 
         [Header("Others")] 
-        public TextAsset TrainModelAsset;
+        public UnityEngine.Object TrainModelAsset;
         public string ExportPath = "./Exports/";
         public string ImportPath = "./Exports/[FolderName]";
         public bool ShowSensors;

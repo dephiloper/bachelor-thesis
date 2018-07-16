@@ -5,6 +5,7 @@ using Extensions;
 using NNSharp.DataTypes;
 using NNSharp.IO;
 using NNSharp.Models;
+using NNSharp.SequentialBased.SequentialExecutors;
 using Train;
 using UnityEngine;
 using Action = AgentData.Action;
@@ -144,7 +145,7 @@ public class Brain
             model = new ReaderKerasModel(path).GetSequentialExecutor();
         else if (path.EndsWith(".txt"))
             model = PersistSequentialModel.DeserializeModel(path);
-
+        
         if (model != null)
             brain = new Brain(model) {_weights = model.GetWeights()};
 

@@ -80,6 +80,7 @@
     <Compile Include="Assets\Scripts\Tests\ExtensionMethodsTest.cs" />
     <Compile Include="Assets\Scripts\Train\TrainLogger.cs" />
     <Compile Include="Assets\Scripts\Train\TrainManager.cs" />
+    <None Include="Assets\StreamingAssets\2018-07-16-01_30-50-003956-gen_100-score_0.88-brain.txt" />
     <None Include="Assets\Packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.xml" />
     <Reference Include="UnityEditor.StandardEvents">
       <HintPath>/home/phil/Development/bachelor-thesis-prep/BachelorThesis/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
