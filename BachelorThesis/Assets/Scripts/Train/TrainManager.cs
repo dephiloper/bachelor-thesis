@@ -49,8 +49,10 @@ namespace Train
         public NeuralNetAgent BestAgent { get; private set; }
         public SequentialModel DefaultModel => new ReaderKerasModel(_trainModelPath).GetSequentialExecutor();
 
+        [HideInInspector]
         [SerializeField]
         private string _fileName;
+        [HideInInspector]
         [SerializeField]
         private string _trainModelPath;
         

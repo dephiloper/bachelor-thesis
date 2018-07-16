@@ -19197,10 +19197,10 @@ MonoBehaviour:
     type: 2}
   SpawnPoint: {fileID: 1859602264}
   Label: {fileID: 1206140229}
-  PopulationSize: 10
+  PopulationSize: 1000
   GenerationCount: 2000
   LifespanMillis: 6000
-  LimitLifespanMillis: 6000
+  LimitLifespanMillis: 120000
   MutationRate: 0.01
   CrossoverProbabilty: 0.6
   UniformCrossoverProbability: 0.5
@@ -19211,7 +19211,7 @@ MonoBehaviour:
   SubTopScore: 0
   TrainModelAsset: {fileID: 4900000, guid: ed1f8fddae2854ee5884826fb99b714e, type: 3}
   ExportPath: ./Exports/
-  ImportPath: ./Exports/2018-07-16-01-30-49-Brains/
+  ImportPath: 
   ShowSensors: 0
   TimeScale: 1
   _fileName: 84model.json
