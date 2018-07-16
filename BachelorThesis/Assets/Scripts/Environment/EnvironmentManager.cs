@@ -15,6 +15,8 @@ namespace Environment
         public float CollectableMinDist = 1.5f;
 
         private GameObject[] _obstacles;
+        private GameObject[] _oldObstacles;
+        
         private GameObject[] _collectables;
         private Mesh _mesh;
 

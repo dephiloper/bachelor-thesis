@@ -5277,7 +5277,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &518014188
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13877,7 +13877,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!65 &1436489679
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -17640,7 +17640,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1856585058
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19046,11 +19046,6 @@ MonoBehaviour:
   m_Script: {fileID: 2106099439, guid: 865c9af80f959334bbb4349f2ff90aba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Title: FPS
-  NumberFormat: '#,##0.0'
-  _frameCount: 0
-  _dt: 0
-  _fps: 0
 --- !u!114 &2024724262
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19063,26 +19058,6 @@ MonoBehaviour:
   m_Script: {fileID: -1591817097, guid: 865c9af80f959334bbb4349f2ff90aba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _valueProvider: {fileID: 0}
-  _history: []
-  _minValue: 0
-  _maxValue: 0
-  _avgValue: 0
-  _nextValue: 0
-  _nextMaxValue: 0
-  _nextMinValue: 0
-  _total: 0
-  _samples: 0
-  Image: {fileID: 2024724263}
-  Text: {fileID: 1729418788}
-  _elapsed: 0
-  _textHeight: 12
-  _imageRectTransform: {fileID: 0}
-  ReadInterval: 0.1
-  ColorizeText: 1
-  _textLineLength: 0
-  _colorizeTextBuffer: 0
-  _textLineFormat: 
 --- !u!114 &2024724263
 MonoBehaviour:
   m_ObjectHideFlags: 0

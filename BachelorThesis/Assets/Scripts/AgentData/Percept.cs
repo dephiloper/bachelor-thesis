@@ -19,8 +19,8 @@ namespace AgentData
         [SerializeField] private List<Vector2> _normalizedVisibleObstacles = new List<Vector2>();
 
         private const int AgentCount = 0;
-        private const int CollectableCount = 0;
-        private const int ObstacleCount = 0;
+        private const int CollectableCount = 2;
+        private const int ObstacleCount = 2;
         private readonly List<double> _wallDistances;
         private readonly Vector3 _velocity;
 
@@ -38,7 +38,7 @@ namespace AgentData
         /// Converts a normalized percept into a double array.
         ///  0 -  1    - velocity: x, z
         ///  2 - 13    - 12 wall distances, clockwise TODO list angles
-        /// 14 - 21    - 4 closest visible agents: x, z
+        /// 14 - 21    - 4 closest visible agents: x, z//
         /// 22 - 25    - 2 closest visible collectables: x, z
         /// 26 - 29    - 2 closest visible obstacles : x, z
         /// </summary>
@@ -100,6 +100,9 @@ namespace AgentData
                         transform.InverseTransformPoint(o).z * transform.localScale.z) / viewRadius)
                 .Take(ObstacleCount)
                 .ToList();
+            
+            //Debug.Log($"coll: ({string.Join(",", _normalizedVisibleCollectables.Select(x => x.ToString("0.0000")))})");
+            //Debug.Log($"obst: ({string.Join(",", _normalizedVisibleObstacles.Select(x => x.ToString("0.0000")))})");
 
             //Debug.Log($"vel: {_normalizedVelocity}");
             //Debug.Log($"dists: ({string.Join(",", _normalizedWallDistances.Select(p => p.ToString("0.0000")))})");

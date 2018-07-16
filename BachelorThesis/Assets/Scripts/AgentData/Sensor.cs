@@ -8,15 +8,13 @@ namespace AgentData
     [Serializable]
     public class Sensor
     {
-        [Range(0, 10)] 
-        public float ViewRadius;
-        [Range(0, 360)] 
-        public float ViewAngle;
-        [Range(0, 10)] 
-        public float Range;
+        [Range(0, 10)] public float ViewRadius;
+        [Range(0, 360)] public float ViewAngle;
+        [Range(0, 10)] public float Range;
         public bool Show;
 
         private LayerMask _wallMask;
+        private LayerMask _trackMask;
         private Rigidbody _rigidbody;
         private Transform _transform;
         private bool _onTrack;
@@ -26,6 +24,7 @@ namespace AgentData
             _transform = agent.transform;
             _rigidbody = agent.GetComponent<Rigidbody>();
             _wallMask = LayerMask.GetMask("Wall");
+            _trackMask = LayerMask.GetMask("Track");
         }
 
         public Percept PerceiveEnvironment(bool onTrack)
@@ -34,20 +33,49 @@ namespace AgentData
 
             var wallDistances = new List<double>
             {
-                CalculateDistanceWithRay((-_transform.right).normalized),
+                CalculateDistanceWithRay((_transform.forward * 0.5f - _transform.right).normalized,
+                    _transform.forward * 3.5f),
+                CalculateDistanceWithRay((_transform.forward * 0.5f - _transform.right).normalized,
+                    _transform.forward * 3f),
+                CalculateDistanceWithRay((_transform.forward * 0.5f - _transform.right).normalized,
+                    _transform.forward * 2.5f),
+                CalculateDistanceWithRay((_transform.forward * 0.5f - _transform.right).normalized,
+                    _transform.forward * 2f),
+                CalculateDistanceWithRay((_transform.forward * 0.5f - _transform.right).normalized,
+                    _transform.forward * 1.5f),
+                CalculateDistanceWithRay((_transform.forward * 0.5f - _transform.right).normalized,
+                    _transform.forward * 1f),
+                CalculateDistanceWithRay((_transform.forward * 0.5f - _transform.right).normalized,
+                    _transform.forward * 0.5f),
                 CalculateDistanceWithRay((_transform.forward * 0.5f - _transform.right).normalized),
+                /*CalculateDistanceWithRay((_transform.forward * 0.5f - _transform.right).normalized),
                 CalculateDistanceWithRay((_transform.forward - _transform.right).normalized),
                 CalculateDistanceWithRay((_transform.forward - _transform.right * 0.5f).normalized),
                 CalculateDistanceWithRay((_transform.forward - _transform.right * 0.25f).normalized),
-                CalculateDistanceWithRay((_transform.forward - _transform.right * 0.125f).normalized),
+                CalculateDistanceWithRay((_transform.forward - _transform.right * 0.125f).normalized),*/
                 CalculateDistanceWithRay(_transform.forward.normalized, -_transform.right * 0.1f),
+                CalculateDistanceWithRay(_transform.forward.normalized),
                 CalculateDistanceWithRay(_transform.forward.normalized, _transform.right * 0.1f),
-                CalculateDistanceWithRay((_transform.forward + _transform.right * 0.125f).normalized),
+                /*CalculateDistanceWithRay((_transform.forward + _transform.right * 0.125f).normalized),
                 CalculateDistanceWithRay((_transform.forward + _transform.right * 0.25f).normalized),
                 CalculateDistanceWithRay((_transform.forward + _transform.right * 0.5f).normalized),
                 CalculateDistanceWithRay((_transform.forward + _transform.right).normalized),
+                CalculateDistanceWithRay((_transform.forward * 0.5f + _transform.right).normalized),*/
                 CalculateDistanceWithRay((_transform.forward * 0.5f + _transform.right).normalized),
-                CalculateDistanceWithRay((_transform.right).normalized),
+                CalculateDistanceWithRay((_transform.forward * 0.5f + _transform.right).normalized,
+                    _transform.forward * 0.5f),
+                CalculateDistanceWithRay((_transform.forward * 0.5f + _transform.right).normalized,
+                    _transform.forward * 1f),
+                CalculateDistanceWithRay((_transform.forward * 0.5f + _transform.right).normalized,
+                    _transform.forward * 1.5f),
+                CalculateDistanceWithRay((_transform.forward * 0.5f + _transform.right).normalized,
+                    _transform.forward * 2f),
+                CalculateDistanceWithRay((_transform.forward * 0.5f + _transform.right).normalized,
+                    _transform.forward * 2.5f),
+                CalculateDistanceWithRay((_transform.forward * 0.5f + _transform.right).normalized,
+                    _transform.forward * 3f),
+                CalculateDistanceWithRay((_transform.forward * 0.5f + _transform.right).normalized,
+                    _transform.forward * 3.5f),
             };
 
             var velocity = new Vector3(_rigidbody.velocity.x, 0, _rigidbody.velocity.z);
@@ -89,18 +117,27 @@ namespace AgentData
         {
             RaycastHit hit;
 
-            // normally max distance is RayDistance, so times 2 means like free to go there
-            var distance =
-                Physics.Raycast(_rigidbody.position + offset, direction, out hit, Range,
-                    _wallMask)
-                    ? Vector3.Distance(_rigidbody.position + offset, hit.point)
-                    : Range;
+            // return negative range when the ray is casted outside of the track or on the wall
+            if (_onTrack &&
+                (!Physics.Raycast(_rigidbody.position + offset + _transform.up, -_transform.up, float.MaxValue,
+                     _trackMask) || Physics.Raycast(_rigidbody.position + offset + _transform.up, -_transform.up,
+                     float.MaxValue, _wallMask)))
+                return -Range;
 
-            // if not on track flip distance
+            // calculate from the origin of the ray to the target wall that gets hitted
+            var distance = Physics.Raycast(_rigidbody.position + offset, direction, out hit, Range, _wallMask)
+                ? Vector3.Distance(_rigidbody.position + offset, hit.point)
+                : Range;
+
+            // if the agent is not on track, flip distance (e.g. 0 -> 10, 10 -> 0)
             if (!_onTrack)
-                distance = distance >= Range ? 0 : Range;
-
-            if (Show)
+            {
+                if (offset != Vector3.zero) return -Range;
+                distance = Range - distance;
+            }
+                
+            // show ray only if distance is greater 0
+            if (Show && distance > 0)
                 Debug.DrawRay(_rigidbody.position + offset, direction * distance,
                     distance < Range ? Color.red : Color.green);
 
