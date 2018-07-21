@@ -1,35 +1,45 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using AgentData;
+using AgentData.Base;
+using AgentData.Percepts;
+using AgentData.Sensors;
 using Car;
+using Environment;
 using Extensions;
 using Train;
 using UnityEngine;
 using UnityEngine.UI;
-using Action = AgentData.Action;
 
 namespace AgentImpl
 {
     [RequireComponent(typeof(AgentSelector))]
     public abstract class Agent : MonoBehaviour
     {
+        public const float SpeedIncreaseFactor = 1.25f;
+
         [Header(nameof(Agent))] public Text Label;
         public float MaxSpeed = 5f;
         public float MaxTurnSpeed = 2f;
         public int Score;
         public float Speed;
         public float TurnSpeed;
-        public Sensor Sensor;
+        public bool RightDirection;
 
-        public List<Vector3> VisibleAgents => Percept?.VisibleAgents;
-        public List<Vector3> VisibleCollectables => Percept?.VisibleCollectables;
-        public List<Vector3> VisibleObstacles => Percept?.VisibleObstacles;
+        // Change the SensorType here
+        public Sensor Sensor = new FieldOfViewSensor();
 
-        protected Percept Percept { get; private set; }
-        protected bool OnTrack { get; private set; }
+        public List<Vector3> VisibleAgents => (Percept as FieldOfViewPercept)?.VisibleAgents;
+        public List<Vector3> VisibleCollectables => (Percept as FieldOfViewPercept)?.VisibleCollectables;
+        public List<Vector3> VisibleObstacles => (Percept as FieldOfViewPercept)?.VisibleObstacles;
+        public bool OnTrack { get; private set; }
+
+        protected IPercept Percept { get; private set; }
         protected Rigidbody Rigidbody;
+        protected int ReachedWaypointId;
 
         private const float BackwardSpeedReduction = 0.2f;
-        private const float SpeedIncreaseFactor = 1.25f;
 
         private int _frames;
         private int _speedIncreaseTime;
@@ -50,12 +60,13 @@ namespace AgentImpl
             UpdateEditorProps();
 
             if (_frames % 5 == 0 || !TrainManager.Instance) {
-            Percept = Sensor.PerceiveEnvironment(OnTrack);
-            Percept.Normalize(MaxSpeed * SpeedIncreaseFactor, Sensor.Range, transform,
-                Sensor.ViewRadius);
+            Percept = Sensor.PerceiveEnvironment();
+            Percept.Normalize();
             }
             if (_frames % 30 == 0 || !TrainManager.Instance)
                 OnTrack = IsOnTrack();
+
+            RightDirection = DetermineDirection();
 
             _frames++;
             Speed = OnTrack ? MaxSpeed : MaxSpeed / 4f;
@@ -70,7 +81,24 @@ namespace AgentImpl
                 _speedIncreaseTime = 0;
         }
 
-        protected void PerformAction(Action action)
+        private bool DetermineDirection()
+        {
+            var nextWaypoint =
+                EnvironmentManager.Instance.Waypoints.FirstOrDefault(x =>
+                    x.WaypointIdentifier == ReachedWaypointId + 1);
+
+            if (!nextWaypoint) throw new NullReferenceException("There should always be a next waypoint.");
+            
+            var dir = nextWaypoint.transform.position.ToVector2() - transform.position.ToVector2();
+            if (dir.magnitude > 10) return false;
+
+            
+            var cosOfAngle = Vector2.Dot(dir, transform.forward.ToVector2());
+            
+            return cosOfAngle >= -0.3;
+        }
+
+        protected void PerformAction(IAction action)
         {
             var velocity = Vector3.zero;
 
@@ -112,7 +140,7 @@ namespace AgentImpl
                     MaxTurnSpeed / 2f);
 
             if (TrainManager.Instance)
-                Sensor.Show = TrainManager.Instance.ShowSensors;
+                    Sensor.Show = true;
             else
                 Label.text = $"{Speed} km/h";
         }
@@ -143,6 +171,19 @@ namespace AgentImpl
             Sensor = agent.Sensor;
             Speed = agent.Speed;
             TurnSpeed = agent.TurnSpeed;
+        }
+
+        public virtual void WaypointCrossed(int waypointIdentifier, int lastWaypointIdentifier)
+        {
+            // when the reached waypoint is the next e.g. 0 = maxId (no waypoints), waypointIdentifier = 1
+            // 0 + 1 == 1 -> true
+            // skipping a waypoint will not work
+            if (ReachedWaypointId + 1 == waypointIdentifier)
+                ReachedWaypointId = waypointIdentifier;
+
+            // all waypoints reached
+            if (ReachedWaypointId == lastWaypointIdentifier)
+                ReachedWaypointId = 0;
         }
     }
 }

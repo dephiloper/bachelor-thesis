@@ -10,7 +10,6 @@ import json
 import random
 import sys
 
-
 def load_data():
     # read json lines to content array
     with open('decision.txt') as f:
@@ -35,7 +34,7 @@ def load_data():
 
 # create model
 model = Sequential()
-model.add(Dense(units=16, activation='relu', input_dim=29))
+model.add(Dense(units=16, activation='relu', input_dim=31))
 model.add(Dense(units=2, activation='tanh'))
 
 model.compile(loss='mse', optimizer='adam')
@@ -58,7 +57,7 @@ x_eval = x[train_count + test_count:]
 y_eval = y[train_count + test_count:]
 
 tbCallBack = TensorBoard(log_dir='./Graph', histogram_freq=0, write_graph=True, write_images=True)
-model.fit(x_train, y_train, epochs=1000, batch_size=128, callbacks=[tbCallBack])
+model.fit(x_train, y_train, epochs=10000, batch_size=128, callbacks=[tbCallBack])
 
 loss_and_metrics = model.evaluate(x_test, y_test, batch_size=128)
 print("loss and metrics: {}".format(loss_and_metrics))

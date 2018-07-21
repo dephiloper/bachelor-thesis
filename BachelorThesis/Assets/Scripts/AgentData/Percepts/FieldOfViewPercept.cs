@@ -1,34 +1,40 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using AgentData.Base;
+using AgentData.Sensors;
+using AgentImpl;
 using UnityEngine;
 
-namespace AgentData
+namespace AgentData.Percepts
 {
     [Serializable]
-    public class Percept
+    public class FieldOfViewPercept : IPercept
     {
+        private readonly List<double> _wallDistances;
         public List<Vector3> VisibleAgents { get; }
         public List<Vector3> VisibleCollectables { get; }
         public List<Vector3> VisibleObstacles { get; }
 
-        [SerializeField] private List<double> _normalizedWallDistances;
         [SerializeField] private Vector3 _normalizedVelocity;
+        [SerializeField] private List<double> _normalizedWallDistances;
         [SerializeField] private List<Vector2> _normalizedVisibleAgents = new List<Vector2>();
         [SerializeField] private List<Vector2> _normalizedVisibleCollectables = new List<Vector2>();
         [SerializeField] private List<Vector2> _normalizedVisibleObstacles = new List<Vector2>();
 
-        private const int AgentCount = 0;
+        private const int AgentCount = 2;
         private const int CollectableCount = 2;
-        private const int ObstacleCount = 2;
-        private readonly List<double> _wallDistances;
-        private readonly Vector3 _velocity;
+        private const int ObstacleCount = 0;
 
-        public Percept(List<double> wallDistances, Vector3 velocity, List<Vector3> visibleAgents,
+        private readonly Agent _agent;
+        private readonly FieldOfViewSensor _sensor;
+
+        public FieldOfViewPercept(Agent agent, Sensor sensor, List<double> wallDistances, List<Vector3> visibleAgents,
             List<Vector3> visibleCollectables, List<Vector3> visibleObstacles)
         {
+            _agent = agent;
+            _sensor = (FieldOfViewSensor)sensor;
             _wallDistances = wallDistances;
-            _velocity = velocity;
             VisibleAgents = visibleAgents;
             VisibleCollectables = visibleCollectables;
             VisibleObstacles = visibleObstacles;
@@ -45,7 +51,13 @@ namespace AgentData
         /// <returns>Double representation of normalized percept.</returns>
         public double[] ToDoubleArray()
         {
-            var arr = new List<double> {_normalizedVelocity.x, _normalizedVelocity.z};
+            var arr = new List<double>
+            {
+                _normalizedVelocity.x,
+                _normalizedVelocity.z,
+                _agent.OnTrack ? 0 : 1,
+                _agent.RightDirection ? 0 : 1
+            };
             arr.AddRange(_normalizedWallDistances);
             arr.AddRange(FilterEnvironmentals(_normalizedVisibleAgents, AgentCount));
             arr.AddRange(FilterEnvironmentals(_normalizedVisibleCollectables, CollectableCount));
@@ -72,35 +84,46 @@ namespace AgentData
             return envs;
         }
 
-        public void Normalize(float maxSpeed, float sensorDistance, Transform transform, float viewRadius)
+        public void Normalize()
         {
-            _normalizedVelocity = transform.InverseTransformDirection(_velocity) / maxSpeed;
+            if (_sensor == null)
+                throw new NullReferenceException(
+                    $"SensorType for {GetType().Name} should be {nameof(DistanceOnlySensor)}");
+
+            _normalizedVelocity =
+                _agent.transform.InverseTransformDirection(_agent.GetComponent<Rigidbody>().velocity) /
+                _agent.MaxSpeed * Agent.SpeedIncreaseFactor;
 
             _normalizedWallDistances = _wallDistances
-                .Select(dist => dist / sensorDistance)
+                .Select(dist => dist / _sensor.Range)
                 .ToList();
 
-            _normalizedVisibleAgents = VisibleAgents
+            /*_normalizedVisibleAgents = VisibleAgents
                 .Select(a =>
-                    new Vector2(transform.InverseTransformPoint(a).x * transform.localScale.x,
-                        transform.InverseTransformPoint(a).z * transform.localScale.z) / viewRadius)
+                    new Vector2(_agent.transform.InverseTransformPoint(a).x * _agent.transform.localScale.x,
+                        _agent.transform.InverseTransformPoint(a).z * _agent.transform.localScale.z) /
+                    _sensor.ViewRadius)
                 .Take(AgentCount)
-                .ToList();
+                .ToList();*/
+
+            _normalizedVisibleAgents = Enumerable.Repeat(Vector2.zero, VisibleAgents.Count).ToList();
 
             _normalizedVisibleCollectables = VisibleCollectables
                 .Select(c =>
-                    new Vector2(transform.InverseTransformPoint(c).x * transform.localScale.x,
-                        transform.InverseTransformPoint(c).z * transform.localScale.z) / viewRadius)
+                    new Vector2(_agent.transform.InverseTransformPoint(c).x * _agent.transform.localScale.x,
+                        _agent.transform.InverseTransformPoint(c).z * _agent.transform.localScale.z) /
+                    _sensor.ViewRadius)
                 .Take(CollectableCount)
                 .ToList();
 
             _normalizedVisibleObstacles = VisibleObstacles
                 .Select(o =>
-                    new Vector2(transform.InverseTransformPoint(o).x * transform.localScale.x,
-                        transform.InverseTransformPoint(o).z * transform.localScale.z) / viewRadius)
+                    new Vector2(_agent.transform.InverseTransformPoint(o).x * _agent.transform.localScale.x,
+                        _agent.transform.InverseTransformPoint(o).z * _agent.transform.localScale.z) /
+                    _sensor.ViewRadius)
                 .Take(ObstacleCount)
                 .ToList();
-            
+
             //Debug.Log($"coll: ({string.Join(",", _normalizedVisibleCollectables.Select(x => x.ToString("0.0000")))})");
             //Debug.Log($"obst: ({string.Join(",", _normalizedVisibleObstacles.Select(x => x.ToString("0.0000")))})");
 

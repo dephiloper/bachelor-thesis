@@ -1,4 +1,5 @@
 ﻿using AgentData;
+using AgentData.Actions;
 using UnityEngine;
 
 namespace AgentImpl
@@ -31,7 +32,7 @@ namespace AgentImpl
             base.Compute();
             var hIput = IsDiscrete ? Input.GetAxisRaw(HAxis) : Input.GetAxis(HAxis);
             var vIput = IsDiscrete ? Input.GetAxisRaw(VAxis) : Input.GetAxis(VAxis);
-            var action = new Action(hIput, vIput, IsDiscrete);
+            var action = new PlayerAction(hIput, vIput, IsDiscrete);
             PerformAction(action);
             _recordManager?.SaveDecision(Percept, action);
         }

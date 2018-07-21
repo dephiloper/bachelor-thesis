@@ -8,15 +8,12 @@ namespace AgentImpl
 {
     public class PathFindingAgent : Agent
     {
-        [Header(nameof(PathFindingAgent))]
-        public GameObject WaypointsPrefab;
-        
         private int _waypointId = 1;
         private readonly Dictionary<int, Vector2> _idToWaypointDict = new Dictionary<int, Vector2>();
 
         private void Start()
         {
-            foreach (var waypoint in WaypointsPrefab.GetComponentsInChildren<WaypointBehaviour>())
+            foreach (var waypoint in EnvironmentManager.Instance.Waypoints)
                 _idToWaypointDict.Add(waypoint.WaypointIdentifier, waypoint.transform.position.ToVector2());
         }
 
@@ -45,15 +42,6 @@ namespace AgentImpl
                 _waypointId = 1;
 
             return _idToWaypointDict[_waypointId].ToVector3();
-        }
-        
-        public override void SetValues(Agent agent)
-        {
-            base.SetValues(agent);
-            var pathFindingAgent = agent as PathFindingAgent;
-            if (pathFindingAgent == null) return;
-            
-            WaypointsPrefab = pathFindingAgent.WaypointsPrefab;
         }
     }
 }
