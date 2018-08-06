@@ -43,7 +43,7 @@ namespace AgentImpl
 
         protected override void Compute()
         {
-            if (!Rigidbody) return;
+            if (!Rigidbody || GameManager.Instance && !GameManager.Instance.StartRace) return;
             
             base.Compute();
             var action = Brain.Think(Percept);
@@ -89,6 +89,7 @@ namespace AgentImpl
         public override void ObstacleCollided()
         {
             base.ObstacleCollided();
+            //Destroy(Rigidbody);
             Brain.Score -= new Vector2(Rigidbody.velocity.x, Rigidbody.velocity.z).magnitude / 2;
         }
 

@@ -22,12 +22,12 @@ namespace AgentData.Actions
             
             data[0] = Math.Round(data[0]);
             data[1] = Math.Round(data[1]);
-            
+                        
             AccelerateForward = data[0] > ActivationThreshold;
-            AccelerateBackward = data[0] < -(ActivationThreshold + 0.3);
+            AccelerateBackward = data[0] < -ActivationThreshold;
             AccelerateValue = Mathf.Abs((float)data[0]);
-            SteerLeft = data[1] < ActivationThreshold + 0.3;
-            SteerRight = data[1] > -(ActivationThreshold + 0.3);
+            SteerLeft = data[1] < ActivationThreshold;
+            SteerRight = data[1] > -ActivationThreshold;
             SteerValue = Mathf.Abs((float)data[1]);
         }
     }

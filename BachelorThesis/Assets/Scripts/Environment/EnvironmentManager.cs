@@ -9,8 +9,8 @@ namespace Environment
     public class EnvironmentManager : MonoBehaviour
     {
         public static EnvironmentManager Instance;
-        public GameObject ObstaclesPrefab;
-        public GameObject CollectablesPrefab;
+        public GameObject[] ObstaclesPrefab;
+        public GameObject[] CollectablesPrefab;
         public GameObject WaypointsPrefab;
         public WaypointBehaviour[] Waypoints;
         public float EnvironmentalSpace = 1.5f;
@@ -41,17 +41,24 @@ namespace Environment
             _occupiedPositions.Clear();
         }
 
-        private void ChangeSpawnType(GameObject groupPrefab, SpawnType spawnType)
+        private void ChangeSpawnType(GameObject[] groupsPrefab, SpawnType spawnType)
         {
-            // set groups active depending on spawntype
-            groupPrefab.SetActive(spawnType != SpawnType.None);
-
+            foreach (var groupPrefab in groupsPrefab)
+                groupPrefab.SetActive(false);
+            
             if (spawnType == SpawnType.None) return;
+
+            var group = groupsPrefab[0];
+            
+            if (spawnType == SpawnType.PseudoDynamic)
+                group = groupsPrefab[Random.Range(0, 3)];
+
+            group.SetActive(true);
             
             // if active spawntype, enable also all child environmentals (disabled collectables)
-            foreach (var child in groupPrefab.transform)
+            foreach (var child in group.transform)
             {
-                var childTransform = ((Transform) child);
+                var childTransform = (Transform) child;
                 childTransform.gameObject.SetActive(true);
                 
                 // if static add to occupiedPositions
@@ -61,7 +68,7 @@ namespace Environment
 
             // if dynamic spawntype, reposition environmentals 
             if (spawnType == SpawnType.Dynamic)
-                InstantiateEnvironmentalesOnMesh(groupPrefab, EnvironmentalSpace);
+                InstantiateEnvironmentalesOnMesh(group, EnvironmentalSpace);
         }
 
         /// <summary>
@@ -80,7 +87,7 @@ namespace Environment
                 // after getting random pos, add this to occupied positions
                 _occupiedPositions.Add(randPos);
 
-                var envTransform = ((Transform) environmental);
+                var envTransform = (Transform) environmental;
                 envTransform.position = randPos;
             }
         }
@@ -109,6 +116,7 @@ namespace Environment
     {
         None,
         Static,
+        PseudoDynamic,
         Dynamic
     }
 }

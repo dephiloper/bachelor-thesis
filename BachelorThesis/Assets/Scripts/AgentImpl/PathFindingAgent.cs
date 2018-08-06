@@ -1,7 +1,6 @@
-using System;
 using System.Collections.Generic;
-using System.Security.Cryptography.X509Certificates;
 using AgentData.Actions;
+using Car;
 using Environment;
 using Extensions;
 using UnityEngine;
@@ -21,6 +20,8 @@ namespace AgentImpl
 
         protected override void Compute()
         {
+            if (!GameManager.Instance.StartRace) return;
+            
             base.Compute();
             var target = FindNextTarget();
             var relativeDir = transform.InverseTransformPoint(target);

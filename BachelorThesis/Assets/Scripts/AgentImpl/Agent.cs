@@ -28,22 +28,25 @@ namespace AgentImpl
         public bool RightDirection;
 
         // Change the SensorType here
-        public Sensor Sensor = new FieldOfViewSensor();
+        public Sensor Sensor = new DistanceOnlySensor();
 
         public List<Vector3> VisibleAgents => (Percept as FieldOfViewPercept)?.VisibleAgents;
         public List<Vector3> VisibleCollectables => (Percept as FieldOfViewPercept)?.VisibleCollectables;
         public List<Vector3> VisibleObstacles => (Percept as FieldOfViewPercept)?.VisibleObstacles;
         public bool OnTrack { get; private set; }
+        public int ReachedWaypointId;
+        public float DistToNextWaypoint;
+        public int CurrentLap;
+        public int Place;
 
         protected IPercept Percept { get; private set; }
         protected Rigidbody Rigidbody;
-        protected int ReachedWaypointId;
 
         private const float BackwardSpeedReduction = 0.2f;
 
         private int _frames;
         private int _speedIncreaseTime;
-
+        
         private void Awake()
         {
             Sensor.Setup(this);
@@ -59,11 +62,12 @@ namespace AgentImpl
         {
             UpdateEditorProps();
 
-            if (_frames % 5 == 0 || !TrainManager.Instance) {
-            Percept = Sensor.PerceiveEnvironment();
-            Percept.Normalize();
+            if (_frames % 5 == 0) 
+            {
+                Percept = Sensor.PerceiveEnvironment();
+                Percept.Normalize();
             }
-            if (_frames % 30 == 0 || !TrainManager.Instance)
+            if (_frames % 30 == 0)
                 OnTrack = IsOnTrack();
 
             RightDirection = DetermineDirection();
@@ -90,6 +94,7 @@ namespace AgentImpl
             if (!nextWaypoint) throw new NullReferenceException("There should always be a next waypoint.");
             
             var dir = nextWaypoint.transform.position.ToVector2() - transform.position.ToVector2();
+            DistToNextWaypoint = dir.magnitude;
             if (dir.magnitude > 10) return false;
 
             
@@ -142,7 +147,7 @@ namespace AgentImpl
             if (TrainManager.Instance)
                     Sensor.Show = true;
             else
-                Label.text = $"{Speed} km/h";
+                Label.text = $"{Speed:0.00} km/h\nLap {CurrentLap}\nPlace {Place}";
         }
 
         private bool IsOnTrack()
@@ -178,12 +183,16 @@ namespace AgentImpl
             // when the reached waypoint is the next e.g. 0 = maxId (no waypoints), waypointIdentifier = 1
             // 0 + 1 == 1 -> true
             // skipping a waypoint will not work
-            if (ReachedWaypointId + 1 == waypointIdentifier)
+            // this way you can skip some waypoints but not just drive multiple times threw the goal
+            if (ReachedWaypointId < waypointIdentifier && waypointIdentifier - ReachedWaypointId < lastWaypointIdentifier / 2)
                 ReachedWaypointId = waypointIdentifier;
 
             // all waypoints reached
             if (ReachedWaypointId == lastWaypointIdentifier)
+            {
+                CurrentLap++;
                 ReachedWaypointId = 0;
+            }
         }
     }
 }

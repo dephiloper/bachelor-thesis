@@ -72,6 +72,7 @@ namespace Train
             Time.timeScale = TimeScale;
             _trainModelPath = $"{Application.dataPath}/StreamingAssets/{_fileName}";
             _logger = new Logger(new TrainLogger("log.txt"));
+            EnvironmentManager.Instance.SpawnEnvironmentals();
 
             // setup brains
             _brains = new Brain[PopulationSize];
@@ -101,7 +102,6 @@ namespace Train
             if (_agents == null)
             {
                 SpawnAgents();
-                EnvironmentManager.Instance.SpawnEnvironmentals();
             }
 
             LifetimeMillis += (int) (Time.fixedDeltaTime * 1000);
@@ -148,6 +148,8 @@ namespace Train
                 SubPopulationSize = _initialSubPopulationSize;
                 if (LifespanMillis < LimitLifespanMillis)
                     LifespanMillis += 2000;
+                
+                EnvironmentManager.Instance.SpawnEnvironmentals();
             }
         }
 

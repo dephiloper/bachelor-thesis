@@ -29,6 +29,8 @@ namespace AgentImpl
 
         protected override void Compute()
         {
+            if (!GameManager.Instance.StartRace) return;
+            
             base.Compute();
             var hIput = IsDiscrete ? Input.GetAxisRaw(HAxis) : Input.GetAxis(HAxis);
             var vIput = IsDiscrete ? Input.GetAxisRaw(VAxis) : Input.GetAxis(VAxis);

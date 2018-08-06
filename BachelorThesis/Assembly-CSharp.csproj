@@ -82,6 +82,7 @@
     <Compile Include="Assets\Scripts\Environment\ObstacleBehaviour.cs" />
     <Compile Include="Assets\Scripts\Environment\OrderScript.cs" />
     <Compile Include="Assets\Scripts\Environment\WaypointBehaviour.cs" />
+    <Compile Include="Assets\Scripts\GameManager.cs" />
     <Compile Include="Assets\Scripts\RecordManager.cs" />
     <Compile Include="Assets\Scripts\SerializationUtils.cs" />
     <Compile Include="Assets\Scripts\Tests\ExtensionMethodsTest.cs" />
