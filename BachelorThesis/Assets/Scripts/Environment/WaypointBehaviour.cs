@@ -9,10 +9,10 @@ namespace Environment
 
         private void OnTriggerEnter(Collider other)
         {
-            var agent = other.GetComponent<AgentImpl.Agent>();
+            var agent = other.GetComponent<Agent>();
         
             if (agent != null)
-                (agent as NeuralNetAgent)?.WaypointCrossed(WaypointIdentifier, transform.parent.childCount);
+                agent.WaypointCrossed(WaypointIdentifier, transform.parent.childCount);
         }
     }
 }

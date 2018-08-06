@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using AgentData;
+using AgentData.Actions;
+using AgentData.Sensors;
 using Train;
 using UnityEditor;
 using UnityEngine;
@@ -10,16 +13,11 @@ namespace AgentImpl
 {
     public class NeuralNetAgent : Agent
     {
-        [Header(nameof(NeuralNetAgent))]
-        public UnityEngine.Object BrainAsset;
+        [Header(nameof(NeuralNetAgent))] public UnityEngine.Object BrainAsset;
         public bool IsTrained;
-        [SerializeField]
-        [HideInInspector]
-        private string _fileName;
-        
-        public Brain Brain { get; set; }
+        [SerializeField] [HideInInspector] private string _fileName;
 
-        private readonly List<int> _reachedWaypointIds = new List<int>();
+        public Brain Brain { get; set; }
 
         private void OnValidate()
         {
@@ -45,13 +43,15 @@ namespace AgentImpl
 
         protected override void Compute()
         {
+            if (!Rigidbody || GameManager.Instance && !GameManager.Instance.StartRace) return;
+            
             base.Compute();
             var action = Brain.Think(Percept);
             PerformAction(action);
             UpdateEditorProps();
 
-            if (!OnTrack) 
-                Brain.Score -= 0.1f;
+            //if (!OnTrack)
+                //Brain.Score -= 0.1f;
         }
 
         protected override void UpdateEditorProps()
@@ -60,35 +60,28 @@ namespace AgentImpl
             Score = Mathf.RoundToInt(Brain.Score);
         }
 
-        public void WaypointCrossed(int waypointIdentifier, int lastWaypointIdentifier)
+        public override void WaypointCrossed(int waypointIdentifier, int lastWaypointIdentifier)
         {
-            // waypoint already satisfied
-            if (IsTrained) return;
-        
-            var vel = new Vector2(Rigidbody.velocity.x, Rigidbody.velocity.z).magnitude;
-            
-            if (_reachedWaypointIds.Contains(waypointIdentifier))
-                Brain.Score -= vel;    
-            
-            var maxId = _reachedWaypointIds.Count > 0 ? _reachedWaypointIds.Max() : 0;
-
-            // when the reached waypoint is the next e.g. 0 = maxId (no waypoints), waypointIdentifier = 1
-            // 0 + 1 == 1 -> true
-            // skipping a waypoint will not work
-            if (maxId + 1 == waypointIdentifier)
+            if (!IsTrained)
             {
-                _reachedWaypointIds.Add(waypointIdentifier);
-                Brain.Score += vel;
-            }
-            else if (maxId != waypointIdentifier)
-                Brain.Score -= vel;
+                var vel = new Vector2(Rigidbody.velocity.x, Rigidbody.velocity.z).magnitude;
 
-            // all waypoints reached
-            if (_reachedWaypointIds.Contains(lastWaypointIdentifier))
-                _reachedWaypointIds.Clear();
+                // waypoint already satisfied
+                if (ReachedWaypointId > waypointIdentifier)
+                    Brain.Score -= vel;
+
+                // when the reached waypoint is the next e.g. 0 = maxId (no waypoints), waypointIdentifier = 1
+                // 0 + 1 == 1 -> true
+                // skipping a waypoint will not work
+                if (ReachedWaypointId + 1 == waypointIdentifier)
+                    Brain.Score += vel;
+            }
+            
+            base.WaypointCrossed(waypointIdentifier, lastWaypointIdentifier);
         }
 
-        public override void CollectableGathered() {
+        public override void CollectableGathered()
+        {
             base.CollectableGathered();
             Brain.Score += new Vector2(Rigidbody.velocity.x, Rigidbody.velocity.z).magnitude / 2;
         }
@@ -96,7 +89,8 @@ namespace AgentImpl
         public override void ObstacleCollided()
         {
             base.ObstacleCollided();
-            Brain.Score -= new Vector2(Rigidbody.velocity.x, Rigidbody.velocity.z).magnitude / 2; 
+            //Destroy(Rigidbody);
+            Brain.Score -= new Vector2(Rigidbody.velocity.x, Rigidbody.velocity.z).magnitude / 2;
         }
 
         public override void SetValues(Agent agent)
@@ -104,7 +98,7 @@ namespace AgentImpl
             base.SetValues(agent);
             var neuralNetAgent = agent as NeuralNetAgent;
             if (neuralNetAgent == null) return;
-            
+
             BrainAsset = neuralNetAgent.BrainAsset;
             IsTrained = neuralNetAgent.IsTrained;
         }

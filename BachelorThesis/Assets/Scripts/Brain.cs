@@ -1,6 +1,8 @@
 ﻿using System;
 using System.IO;
 using AgentData;
+using AgentData.Actions;
+using AgentData.Base;
 using Extensions;
 using NNSharp.DataTypes;
 using NNSharp.IO;
@@ -8,7 +10,6 @@ using NNSharp.Models;
 using NNSharp.SequentialBased.SequentialExecutors;
 using Train;
 using UnityEngine;
-using Action = AgentData.Action;
 using Random = UnityEngine.Random;
 
 public class Brain
@@ -69,18 +70,18 @@ public class Brain
         _model.SetWeights(_layers, _weights);
     }
 
-    public Action Think(Percept percept)
+    public NeuralNetAction Think(IPercept percept)
     {
         var data = percept.ToDoubleArray();
         if (data.Length != _model.GetInputDimension().c)
             throw new ArgumentOutOfRangeException(nameof(ArgumentOutOfRangeException),
                 $"Percept count should be {_model.GetInputDimension().c}, but is {data.Length}, check if the " +
-                $"input layer in DefaultLayer is set to the right value (currently: {_layers[0]}");
+                $"input layer in DefaultLayer is set to the right value (currently: {_layers[0]})");
 
         var input = new Data2D(1, 1, _layers[0], 1);
         input.SetData(data);
         var result = (Data2D) _model.ExecuteNetwork(input);
-        return new Action(result.ToDoubleArray(_layers));
+        return new NeuralNetAction(result.ToDoubleArray(_layers));
     }
 
     public void Mutate(float mutationRate)

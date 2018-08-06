@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using AgentData;
+using AgentData.Base;
 using Newtonsoft.Json;
 
 public class RecordManager
@@ -16,7 +17,7 @@ public class RecordManager
         _writer.Close();
     }
 
-    public void SaveDecision(Percept percept, Action action)
+    public void SaveDecision(IPercept percept, IAction action)
     {
         var json = JsonConvert.SerializeObject(percept.ToDoubleArray());
         _writer.WriteLine(json);

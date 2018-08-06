@@ -1,72 +1,94 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Train;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Environment
 {
     public class EnvironmentManager : MonoBehaviour
     {
         public static EnvironmentManager Instance;
-        public GameObject ObstaclePrefab;
-        public GameObject CollectablePrefab;
-        public int ObstacleCount = 20;
-        public float ObstacleMinDist = 1.5f;
-        public int CollectableCount = 20;
-        public float CollectableMinDist = 1.5f;
+        public GameObject[] ObstaclesPrefab;
+        public GameObject[] CollectablesPrefab;
+        public GameObject WaypointsPrefab;
+        public WaypointBehaviour[] Waypoints;
+        public float EnvironmentalSpace = 1.5f;
+        public SpawnType ObstacleSpawnType;
+        public SpawnType CollectableSpawnType;
 
-        private GameObject[] _obstacles;
-        private GameObject[] _oldObstacles;
-        
-        private GameObject[] _collectables;
         private Mesh _mesh;
+        private readonly List<Vector3> _occupiedPositions = new List<Vector3>();
 
-        
         private void Awake()
         {
             if (Instance) return;
             Instance = this;
+            Waypoints = WaypointsPrefab.GetComponentsInChildren<WaypointBehaviour>();
         }
 
         private void Start()
         {
             _mesh = GetComponent<MeshFilter>().mesh;
-            _obstacles = new GameObject[ObstacleCount];
-            _collectables = new GameObject[CollectableCount];
             if (TrainManager.Instance) return;
             SpawnEnvironmentals();
         }
-        
+
         public void SpawnEnvironmentals()
         {
-            InstantiateEnvironmentalesOnMesh(ObstaclePrefab, ref _obstacles, ObstacleMinDist);
-            InstantiateEnvironmentalesOnMesh(CollectablePrefab, ref _collectables, CollectableMinDist);
+            ChangeSpawnType(ObstaclesPrefab, ObstacleSpawnType);
+            ChangeSpawnType(CollectablesPrefab, CollectableSpawnType);
+            _occupiedPositions.Clear();
         }
 
+        private void ChangeSpawnType(GameObject[] groupsPrefab, SpawnType spawnType)
+        {
+            foreach (var groupPrefab in groupsPrefab)
+                groupPrefab.SetActive(false);
+            
+            if (spawnType == SpawnType.None) return;
+
+            var group = groupsPrefab[0];
+            
+            if (spawnType == SpawnType.PseudoDynamic)
+                group = groupsPrefab[Random.Range(0, 3)];
+
+            group.SetActive(true);
+            
+            // if active spawntype, enable also all child environmentals (disabled collectables)
+            foreach (var child in group.transform)
+            {
+                var childTransform = (Transform) child;
+                childTransform.gameObject.SetActive(true);
+                
+                // if static add to occupiedPositions
+                if (spawnType == SpawnType.Static)
+                    _occupiedPositions.Add(childTransform.position);
+            }
+
+            // if dynamic spawntype, reposition environmentals 
+            if (spawnType == SpawnType.Dynamic)
+                InstantiateEnvironmentalesOnMesh(group, EnvironmentalSpace);
+        }
 
         /// <summary>
         /// https://forum.unity.com/threads/random-instantiate-on-surface-of-mesh.11153/#post-78718
         /// </summary>
-        private void InstantiateEnvironmentalesOnMesh(GameObject prefab, ref GameObject[] environmentals, float minDistance)
+        private void InstantiateEnvironmentalesOnMesh(GameObject groupPrefab, float minSpace)
         {
-            for (var i = 0; i < environmentals.Length; i++)
+            foreach (var environmental in groupPrefab.transform)
             {
-                var randTriPoint = GetRandomPosition();
-            
-                // when one of the previously placed obstacles is to close on the current on, retry
-                if (_obstacles.Concat(_collectables).Any(x =>
-                    x != null && Vector3.Distance(x.transform.position, randTriPoint) < minDistance))
-                {
-                    i--;
-                    continue;
-                }
-            
-                if (environmentals[i] == null) {
-                    environmentals[i] = Instantiate(prefab, randTriPoint, Quaternion.identity);
-                    environmentals[i].transform.parent = transform;
-                }
-                else
-                    environmentals[i].transform.position = randTriPoint;
+                Vector3 randPos;
 
+                do // when one of the previously placed obstacles is to close on the current on, retry
+                    randPos = GetRandomPosition();
+                while (_occupiedPositions.Any(x => Vector3.Distance(x, randPos) < minSpace));
+                
+                // after getting random pos, add this to occupied positions
+                _occupiedPositions.Add(randPos);
+
+                var envTransform = (Transform) environmental;
+                envTransform.position = randPos;
             }
         }
 
@@ -74,19 +96,27 @@ namespace Environment
         {
             // get random triangle
             var randomTriangle = Random.Range(0, _mesh.triangles.Length / 3) * 3;
-            
+
             // get points representing random triangle and translate them into world points
             var triA = transform.TransformPoint(_mesh.vertices[_mesh.triangles[randomTriangle]]);
-            var triB = transform.TransformPoint(_mesh.vertices[_mesh.triangles[randomTriangle+1]]);
-            var triC = transform.TransformPoint(_mesh.vertices[_mesh.triangles[randomTriangle+2]]);
-            
+            var triB = transform.TransformPoint(_mesh.vertices[_mesh.triangles[randomTriangle + 1]]);
+            var triC = transform.TransformPoint(_mesh.vertices[_mesh.triangles[randomTriangle + 2]]);
+
             // get random offsets to allow variance when getting a point
             var randA = Random.value;
             var randB = Random.value;
             var randC = Random.value;
-            
+
             // calculate random point by normalising the result with the sum of all random values
-            return (randA * triA + randB * triB + randC * triC) / (randA + randB + randC);    
+            return (randA * triA + randB * triB + randC * triC) / (randA + randB + randC);
         }
+    }
+
+    public enum SpawnType
+    {
+        None,
+        Static,
+        PseudoDynamic,
+        Dynamic
     }
 }

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using System.Net.Mime;
 using AgentImpl;
 using Environment;
 using NNSharp.IO;
@@ -21,9 +20,9 @@ namespace Train
         public Transform SpawnPoint;
         public Text Label;
 
-        [Header("Hyperparams")] 
-        public int PopulationSize = 1000;
-        public int GenerationCount = 1000;
+        [Header("Hyperparams")] public int PopulationSize = 1000;
+        public int SubPopulationSize = 100;
+        public int GenerationCount = 10000;
         public int LifespanMillis = 10000;
         public int LimitLifespanMillis = 120000;
         public float MutationRate = 0.01f;
@@ -31,39 +30,30 @@ namespace Train
         public double UniformCrossoverProbability = 0.5f;
         public bool EliteSelection;
 
-        [Header("Gen Information")]
-        public int Generation;
+        [Header("Gen Information")] public int Generation;
         public float TopScore;
         public int LifetimeMillis;
 
-        [Header("Sub Gen Information")] 
-        public float SubTopScore;
+        [Header("Sub Gen Information")] public float SubTopScore;
 
-        [Header("Others")] 
-        public UnityEngine.Object TrainModelAsset;
+        [Header("Others")] public UnityEngine.Object TrainModelAsset;
         public string ExportPath = "./Exports/";
         public string ImportPath = "./Exports/[FolderName]";
-        public bool ShowSensors;
         public float TimeScale = 1;
 
         public NeuralNetAgent BestAgent { get; private set; }
         public SequentialModel DefaultModel => new ReaderKerasModel(_trainModelPath).GetSequentialExecutor();
 
-        [HideInInspector]
-        [SerializeField]
-        private string _fileName;
-        [HideInInspector]
-        [SerializeField]
-        private string _trainModelPath;
-        
+        [HideInInspector] [SerializeField] private string _fileName;
+        [HideInInspector] [SerializeField] private string _trainModelPath;
+
         private NeuralNetAgent[] _agents;
         private Brain[] _brains;
         private Logger _logger;
-        private int _subPopulationSize = 100;
         private int _subGenerationCount;
         private int _subGeneration;
         private int _initialSubPopulationSize;
-    
+
         private void Awake()
         {
             if (!Instance)
@@ -72,37 +62,38 @@ namespace Train
 
         private void OnValidate()
         {
-            #if UNITY_EDITOR
+#if UNITY_EDITOR
             _fileName = Path.GetFileName(AssetDatabase.GetAssetPath(TrainModelAsset));
-            #endif
+#endif
         }
 
         private void Start()
-        {            
+        {
             Time.timeScale = TimeScale;
             _trainModelPath = $"{Application.dataPath}/StreamingAssets/{_fileName}";
             _logger = new Logger(new TrainLogger("log.txt"));
-        
+            EnvironmentManager.Instance.SpawnEnvironmentals();
+
             // setup brains
             _brains = new Brain[PopulationSize];
-        
+
             // train from scratch
             if (string.IsNullOrEmpty(ImportPath))
                 for (var i = 0; i < _brains.Length; i++)
                     _brains[i] = new Brain();
-        
+
             // pretrain
             else if (Directory.Exists(ImportPath))
                 _brains = SerializationUtils.LoadBrains(PopulationSize, ImportPath);
-        
+
             // Import path not existing
             else
                 throw new DirectoryNotFoundException();
 
             // calculate the number of sub generations (adds 1 if integer division is not possible w/o remaining)
-            _subGenerationCount = PopulationSize / _subPopulationSize;
-            _subGenerationCount += PopulationSize % _subPopulationSize > 0 ? 1 : 0;
-            _initialSubPopulationSize = _subPopulationSize;
+            _subGenerationCount = PopulationSize / SubPopulationSize;
+            _subGenerationCount += PopulationSize % SubPopulationSize > 0 ? 1 : 0;
+            _initialSubPopulationSize = SubPopulationSize;
         }
 
         private void FixedUpdate()
@@ -111,19 +102,18 @@ namespace Train
             if (_agents == null)
             {
                 SpawnAgents();
-                EnvironmentManager.Instance.SpawnEnvironmentals();
             }
 
-            LifetimeMillis += (int)(Time.fixedDeltaTime * 1000);
+            LifetimeMillis += (int) (Time.fixedDeltaTime * 1000);
             BestAgent = _agents.OrderByDescending(x => x.Brain.Score).FirstOrDefault();
-    
+
             if (BestAgent != null)
                 SubTopScore = BestAgent.Brain.Score;
-            
-            Label.text = $"Generation: {(float)Generation/10:0.0}/{GenerationCount/10}\n" +
-                         $"Lifespan: {(float)LifespanMillis/1000:0.00} s\n" +
+
+            Label.text = $"Generation: {(float) Generation / 100:0.0}/{GenerationCount / 100}\n" +
+                         $"Lifespan: {(float) LifespanMillis / 1000:0.00} s\n" +
                          $"Topscore: {TopScore:0.00}\n" +
-                         $"Lifetime: {(float)LifetimeMillis/1000:0.00} s\n" +
+                         $"Lifetime: {(float) LifetimeMillis / 1000:0.00} s\n" +
                          $"Sub-Topscore: {SubTopScore:0.00}";
 
             // Subgeneration is completed
@@ -136,28 +126,30 @@ namespace Train
                 LifetimeMillis = 0;
                 _logger.Log(LogType.Log,
                     $"{DateTime.Now:yyy-MM-dd-HH-mm-ss}" +
-                    $"-gen_{(float)Generation/10:000.0}" +
-                    $"-maxlifespan_{(float)LifespanMillis/1000:0000}" +
+                    $"-gen_{(float) Generation / 1000:000.0}" +
+                    $"-maxlifespan_{(float) LifespanMillis / 1000:0000}" +
                     $"-topscore_{TopScore:00000.0000}" +
                     $"-subtopscore_{SubTopScore:00000.0000}");
 
                 _subGeneration++;
-                Generation += (int)((float)_subPopulationSize / PopulationSize * 10);
+                Generation += (int)((float) SubPopulationSize / PopulationSize * 100);
             }
 
             // Generation is completed
             if (_subGeneration == _subGenerationCount)
             {
-                if (Generation % 100 == 0)
+                if (Generation % 1000 == 0)
                     SerializationUtils.SaveBrains(_brains, Generation, LifespanMillis, ExportPath);
                 if (Generation >= GenerationCount)
                     FinishTraining();
-            
+
                 _brains = Repopulate();
                 _subGeneration = 0;
-                _subPopulationSize = _initialSubPopulationSize;
+                SubPopulationSize = _initialSubPopulationSize;
                 if (LifespanMillis < LimitLifespanMillis)
                     LifespanMillis += 2000;
+                
+                EnvironmentManager.Instance.SpawnEnvironmentals();
             }
         }
 
@@ -168,12 +160,13 @@ namespace Train
             var newBrains = new Brain[PopulationSize];
             var i = 0;
 
-            if (EliteSelection) {
+            if (EliteSelection)
+            {
                 newBrains[0] = _brains.OrderByDescending(x => x.Score).FirstOrDefault();
                 newBrains[0].Score = 0;
                 i++;
             }
-        
+
             for (; i < PopulationSize; i += 2)
             {
                 var leftBrain = SelectBrainOnProbability();
@@ -219,21 +212,21 @@ namespace Train
 
             return null;
         }
-    
+
         private void SpawnAgents()
         {
-            var remainder = PopulationSize % _subPopulationSize;
+            var remainder = PopulationSize % SubPopulationSize;
 
             if (_subGeneration == _subGenerationCount - 1)
-                _subPopulationSize = remainder == 0 ? _subPopulationSize : remainder;
+                SubPopulationSize = remainder == 0 ? SubPopulationSize : remainder;
 
-            _agents = new NeuralNetAgent[_subPopulationSize];
+            _agents = new NeuralNetAgent[SubPopulationSize];
 
-            for (var i = 0; i < _subPopulationSize; i++)
+            for (var i = 0; i < SubPopulationSize; i++)
             {
                 var agentGameObject = Instantiate(AgentPrefab, SpawnPoint);
-                _agents[i] = agentGameObject.GetComponent<AgentImpl.Agent>() as NeuralNetAgent;
-                _agents[i].Brain = _brains[_subPopulationSize * _subGeneration + i];
+                _agents[i] = agentGameObject.GetComponent<Agent>() as NeuralNetAgent;
+                _agents[i].Brain = _brains[SubPopulationSize * _subGeneration + i];
             }
         }
 
@@ -244,7 +237,7 @@ namespace Train
 
             _agents = null;
         }
-    
+
         private static void FinishTraining()
         {
 #if UNITY_EDITOR

@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Runtime.InteropServices.ComTypes;
+﻿using System.Collections.Generic;
+using AgentData.Sensors;
 using AgentImpl;
-using Environment;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace Editor
 {
@@ -30,18 +27,18 @@ namespace Editor
         private void OnSceneGUI()
         {
             _agent = target as Agent;
-            if (_agent == null) return;
+            if (_agent == null || !(_agent.Sensor is FieldOfViewSensor)) return;
 
             Handles.color = Color.white;
             Handles.DrawWireArc(_agent.transform.position, Vector3.up, Vector3.forward, 360,
-                _agent.Sensor.ViewRadius);
-            var viewAngleA = DirFromAngle(-_agent.Sensor.ViewAngle / 2, false);
-            var viewAngleB = DirFromAngle(_agent.Sensor.ViewAngle / 2, false);
+                ((FieldOfViewSensor) _agent.Sensor).ViewRadius);
+            var viewAngleA = DirFromAngle(-((FieldOfViewSensor) _agent.Sensor).ViewAngle / 2, false);
+            var viewAngleB = DirFromAngle(((FieldOfViewSensor) _agent.Sensor).ViewAngle / 2, false);
 
             Handles.DrawLine(_agent.transform.position,
-                _agent.transform.position + viewAngleA * _agent.Sensor.ViewRadius);
+                _agent.transform.position + viewAngleA * ((FieldOfViewSensor) _agent.Sensor).ViewAngle);
             Handles.DrawLine(_agent.transform.position,
-                _agent.transform.position + viewAngleB * _agent.Sensor.ViewRadius);
+                _agent.transform.position + viewAngleB * ((FieldOfViewSensor) _agent.Sensor).ViewAngle);
 
             if (_agent.VisibleAgents != null)
             {

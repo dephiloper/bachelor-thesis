@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
+using AgentData.Actions;
 using Car;
 using Environment;
 using Extensions;
@@ -8,31 +9,53 @@ namespace AgentImpl
 {
     public class PathFindingAgent : Agent
     {
-        [Header(nameof(PathFindingAgent))]
-        public GameObject WaypointsPrefab;
-        
         private int _waypointId = 1;
         private readonly Dictionary<int, Vector2> _idToWaypointDict = new Dictionary<int, Vector2>();
 
         private void Start()
         {
-            foreach (var waypoint in WaypointsPrefab.GetComponentsInChildren<WaypointBehaviour>())
+            foreach (var waypoint in EnvironmentManager.Instance.Waypoints)
                 _idToWaypointDict.Add(waypoint.WaypointIdentifier, waypoint.transform.position.ToVector2());
         }
 
         protected override void Compute()
         {
+            if (!GameManager.Instance.StartRace) return;
+            
             base.Compute();
             var target = FindNextTarget();
-            Rigidbody.AddForce(SteeringBehaviour.Seek(transform.position, target, Rigidbody.velocity,
-                Speed), ForceMode.Acceleration);
-            AdjustRotation();
+            var relativeDir = transform.InverseTransformPoint(target);
+            var steer = (relativeDir.x / relativeDir.magnitude);
+
+            RaycastHit hit;
+            var acc = 1f;
+
+            if (OnTrack) {
+                Debug.DrawRay(transform.position, transform.forward * 5, Color.magenta);
+                if (Physics.Raycast(transform.position, transform.forward, out hit, 5f,
+                    LayerMask.GetMask("Wall", "Obstacle")))
+                {
+                    if (LayerMask.GetMask("Obstacle") ==
+                        (LayerMask.GetMask("Obstacle") | (1 << hit.collider.gameObject.layer)))
+                        steer -= 0.2f;
+                    else
+                        acc = hit.distance.Map(5, 0, 0.6f, -0.5f);
+                }
+            }
+
+
+        PerformAction(new PlayerAction(steer, acc, false));
+
+
+/*            Rigidbody.AddForce(transform.forward * Speed/2, ForceMode.Acceleration);
+
+            
+            Rigidbody.MoveRotation(Quaternion.Euler(transform.rotation.eulerAngles + transform.up * TurnSpeed * steer));*/
         }
 
-        private void AdjustRotation()
+        public override void SetValues(Agent agent)
         {
-            var angle = Mathf.Atan2(Rigidbody.velocity.z, Rigidbody.velocity.x) * Mathf.Rad2Deg + 270f;
-            transform.rotation = Quaternion.AngleAxis(angle, Vector3.down);
+            base.SetValues(agent);
         }
 
         private Vector3 FindNextTarget()
@@ -45,15 +68,6 @@ namespace AgentImpl
                 _waypointId = 1;
 
             return _idToWaypointDict[_waypointId].ToVector3();
-        }
-        
-        public override void SetValues(Agent agent)
-        {
-            base.SetValues(agent);
-            var pathFindingAgent = agent as PathFindingAgent;
-            if (pathFindingAgent == null) return;
-            
-            WaypointsPrefab = pathFindingAgent.WaypointsPrefab;
         }
     }
 }
