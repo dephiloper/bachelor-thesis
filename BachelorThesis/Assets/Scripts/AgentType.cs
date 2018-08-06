@@ -5,7 +5,7 @@ public enum AgentType
 {
     Player,
     PlayerVr,
-    StateMachine,
+    SteeringBehaviour,
     PathFinding,
     NeuralNet
 }
@@ -18,8 +18,8 @@ public static class AgentTypeMethods
         {
             case AgentType.Player: return new PlayerAgent();
             case AgentType.PlayerVr: return new PlayerAgent();
-            case AgentType.StateMachine: return new PlayerAgent();
-            case AgentType.PathFinding: return new PathFindingAgent();
+            case AgentType.SteeringBehaviour: return new PlayerAgent();
+            case AgentType.PathFinding: return new SteeringBehaviourAgent();
             case AgentType.NeuralNet: return new NeuralNetAgent();
             default: throw new ArgumentOutOfRangeException(nameof(agentType), agentType, null);
         }

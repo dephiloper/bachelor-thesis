@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
-using Car;
+using System;
+using System.Collections.Generic;
+using System.Security.Cryptography.X509Certificates;
+using AgentData.Actions;
 using Environment;
 using Extensions;
 using UnityEngine;
@@ -21,15 +23,38 @@ namespace AgentImpl
         {
             base.Compute();
             var target = FindNextTarget();
-            Rigidbody.AddForce(SteeringBehaviour.Seek(transform.position, target, Rigidbody.velocity,
-                Speed), ForceMode.Acceleration);
-            AdjustRotation();
+            var relativeDir = transform.InverseTransformPoint(target);
+            var steer = (relativeDir.x / relativeDir.magnitude);
+
+            RaycastHit hit;
+            var acc = 1f;
+
+            if (OnTrack) {
+                Debug.DrawRay(transform.position, transform.forward * 5, Color.magenta);
+                if (Physics.Raycast(transform.position, transform.forward, out hit, 5f,
+                    LayerMask.GetMask("Wall", "Obstacle")))
+                {
+                    if (LayerMask.GetMask("Obstacle") ==
+                        (LayerMask.GetMask("Obstacle") | (1 << hit.collider.gameObject.layer)))
+                        steer -= 0.2f;
+                    else
+                        acc = hit.distance.Map(5, 0, 0.6f, -0.5f);
+                }
+            }
+
+
+        PerformAction(new PlayerAction(steer, acc, false));
+
+
+/*            Rigidbody.AddForce(transform.forward * Speed/2, ForceMode.Acceleration);
+
+            
+            Rigidbody.MoveRotation(Quaternion.Euler(transform.rotation.eulerAngles + transform.up * TurnSpeed * steer));*/
         }
 
-        private void AdjustRotation()
+        public override void SetValues(Agent agent)
         {
-            var angle = Mathf.Atan2(Rigidbody.velocity.z, Rigidbody.velocity.x) * Mathf.Rad2Deg + 270f;
-            transform.rotation = Quaternion.AngleAxis(angle, Vector3.down);
+            base.SetValues(agent);
         }
 
         private Vector3 FindNextTarget()
