@@ -19,6 +19,8 @@ namespace AgentImpl
 
         protected override void Compute()
         {
+            if (!GameManager.Instance.StartRace) return;
+            
             base.Compute();
             var target = FindNextTarget();
             Rigidbody.AddForce(SteeringBehaviour.Seek(transform.position, target, Rigidbody.velocity,

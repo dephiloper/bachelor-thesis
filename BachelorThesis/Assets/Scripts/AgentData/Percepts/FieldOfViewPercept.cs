@@ -106,7 +106,7 @@ namespace AgentData.Percepts
                 .Take(AgentCount)
                 .ToList();*/
 
-            _normalizedVisibleAgents = Enumerable.Repeat(Vector2.zero, VisibleAgents.Count).ToList();
+            _normalizedVisibleAgents = Enumerable.Repeat(Vector2.zero, AgentCount).ToList();
 
             _normalizedVisibleCollectables = VisibleCollectables
                 .Select(c =>

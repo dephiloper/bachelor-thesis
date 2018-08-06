@@ -52,7 +52,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\DotCollider.cs" />
     <Compile Include="Assets\Extensions\MathExtensionMethods.cs" />
     <Compile Include="Assets\Extensions\NNSharpExtensions.cs" />
     <Compile Include="Assets\Scripts\AgentData\Actions\NeuralNetAction.cs" />
@@ -80,19 +79,29 @@
     <Compile Include="Assets\Scripts\Environment\ObstacleBehaviour.cs" />
     <Compile Include="Assets\Scripts\Environment\OrderScript.cs" />
     <Compile Include="Assets\Scripts\Environment\WaypointBehaviour.cs" />
+    <Compile Include="Assets\Scripts\GameManager.cs" />
     <Compile Include="Assets\Scripts\RecordManager.cs" />
     <Compile Include="Assets\Scripts\SerializationUtils.cs" />
     <Compile Include="Assets\Scripts\Tests\ExtensionMethodsTest.cs" />
     <Compile Include="Assets\Scripts\Train\TrainLogger.cs" />
     <Compile Include="Assets\Scripts\Train\TrainManager.cs" />
+    <None Include="Assets\StreamingAssets\2018-07-24-19_44-46-900900-gen_12000-score_419.67-brain.txt" />
     <None Include="Assets\Packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.xml" />
     <None Include="Assets\StreamingAssets\2018-07-18-04_20-06-461743-gen_600-score_419,45-brain.txt" />
+    <None Include="Assets\StreamingAssets\2018-07-23-08_48-14-757732-gen_17000-score_437.08-brain.txt" />
+    <None Include="Assets\StreamingAssets\2018-08-06-17_48-11-134309-gen_18000-score_204.14-brain.txt" />
     <None Include="Assets\StreamingAssets\2018-07-17-15_04-29-360104-gen_900-score_418,53-brain.txt" />
+    <None Include="Assets\StreamingAssets\2018-07-23-06_40-28-750925-gen_16000-score_437.95-brain.txt" />
     <None Include="Assets\StreamingAssets\2018-07-17-15_04-29-365092-gen_900-score_405,81-brain.txt" />
+    <None Include="Assets\StreamingAssets\2018-07-29-09_18-26-745650-gen_16000-score_598.75-brain.txt" />
     <None Include="Assets\StreamingAssets\2018-07-17-15_04-29-387032-gen_900-score_389,82-brain.txt" />
     <None Include="Assets\StreamingAssets\2018-07-17-15_04-29-379053-gen_900-score_394,11-brain.txt" />
+    <None Include="Assets\StreamingAssets\2018-08-06-16_03-32-421114-gen_17000-score_217.99-brain.txt" />
     <None Include="Assets\StreamingAssets\2018-07-17-15_36-05-167725-gen_900-score_414,86-brain.txt" />
     <None Include="Assets\StreamingAssets\2018-07-18-04_20-09-353880-gen_600-score_438,99-brain.txt" />
+    <None Include="Assets\StreamingAssets\2018-08-06-17_48-11-132528-gen_18000-score_218.77-brain.txt" />
+    <None Include="Assets\StreamingAssets\2018-07-23-08_48-14-760260-gen_17000-score_408.26-brain.txt" />
+    <None Include="Assets\StreamingAssets\2018-07-23-08_48-14-757732-gen_17000-score_437.08-brain 1.txt" />
     <None Include="Assets\StreamingAssets\2018-07-17-15_04-29-372072-gen_900-score_396,82-brain.txt" />
     <Reference Include="UnityEditor.StandardEvents">
       <HintPath>/Users/Philipp/Development/University/bachelor-thesis-prep/BachelorThesis/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>

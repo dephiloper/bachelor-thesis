@@ -34,7 +34,7 @@ def load_data():
 
 # create model
 model = Sequential()
-model.add(Dense(units=16, activation='relu', input_dim=31))
+model.add(Dense(units=20, activation='relu', input_dim=37))
 model.add(Dense(units=2, activation='tanh'))
 
 model.compile(loss='mse', optimizer='adam')

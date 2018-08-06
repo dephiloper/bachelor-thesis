@@ -13,14 +13,14 @@ namespace AgentData.Percepts
     public class DistanceOnlyPercept : IPercept
     {
         [SerializeField] private List<double> _normalizedWallDistances;
-        [SerializeField] private List<double> _normalizedAgentDistances;
+        [SerializeField] private List<double> _normalizedObstacleDistances;
         [SerializeField] private List<double> _normalizedCollectableDistances;
         [SerializeField] private Vector3 _normalizedVelocity;
 
         private readonly Agent _agent;
         private readonly DistanceOnlySensor _sensor;
         private readonly List<double> _wallDistances;
-        private readonly List<double> _agentDistances;
+        private readonly List<double> _obstacleDistances;
         private readonly List<double> _collectableDistances;
 
         public DistanceOnlyPercept(Agent agent, DistanceOnlySensor sensor, params List<double>[] distancesList)
@@ -29,7 +29,7 @@ namespace AgentData.Percepts
             _sensor = sensor;
             _wallDistances = distancesList[0];
             _collectableDistances = distancesList[1];
-            _agentDistances = distancesList[2];
+            _obstacleDistances = distancesList[2];
         }
 
         /// <summary>
@@ -40,10 +40,10 @@ namespace AgentData.Percepts
         {
             var arr = new List<double> {_normalizedVelocity.x, _normalizedVelocity.z};
             arr.AddRange(_normalizedWallDistances);
-            arr.AddRange(_normalizedAgentDistances);
+            arr.AddRange(_normalizedObstacleDistances);
             arr.AddRange(_normalizedCollectableDistances);
-            arr.Add(_agent.OnTrack ? 1 : -1);
-            arr.Add(_agent.RightDirection ? 1 : -1);
+            arr.Add(_agent.OnTrack ? 0 : 1);
+            arr.Add(_agent.RightDirection ? 0 : 1);
             return arr.ToArray();
         }
 
@@ -61,7 +61,7 @@ namespace AgentData.Percepts
                 .Select(dist => dist / _sensor.Range)
                 .ToList();
 
-            _normalizedAgentDistances = _agentDistances
+            _normalizedObstacleDistances = _obstacleDistances
                 .Select(dist => dist / _sensor.Range)
                 .ToList();
 
@@ -70,7 +70,9 @@ namespace AgentData.Percepts
                 .ToList();
 
 
-            //Debug.Log(string.Join(",",_normalizedCollectableDistances.Select(i => $"{i:0.00}")));
+            //Debug.Log(string.Join(",",_normalizedWallDistances.Select(i => $"{i:0.00}")));
+            //Debug.Log(_agent.OnTrack);
+            //Debug.Log(_agent.RightDirection);
             //Debug.Log($"vel: {_normalizedVelocity}");
         }
     }
