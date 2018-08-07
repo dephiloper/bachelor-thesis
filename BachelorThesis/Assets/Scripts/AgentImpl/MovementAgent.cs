@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace AgentImpl
 {
-    public class SteeringBehaviourAgent : Agent
+    public class MovementAgent : Agent
     {
         private int _waypointId = 1;
         private readonly Dictionary<int, Vector2> _idToWaypointDict = new Dictionary<int, Vector2>();

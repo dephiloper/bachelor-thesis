@@ -146,7 +146,7 @@ namespace AgentImpl
 
             if (TrainManager.Instance)
                     Sensor.Show = true;
-            else
+            else if (Label)
                 Label.text = $"{Speed:0.00} km/h\nLap {CurrentLap}\nPlace {Place}";
         }
 

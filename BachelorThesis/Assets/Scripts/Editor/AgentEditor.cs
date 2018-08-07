@@ -14,6 +14,7 @@ namespace Editor
         public override void OnInspectorGUI()
         {
             base.OnInspectorGUI();
+            
             var agent = target as PlayerAgent;
             if (agent == null) return;
 

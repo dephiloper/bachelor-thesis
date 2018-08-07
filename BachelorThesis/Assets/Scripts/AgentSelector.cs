@@ -26,13 +26,13 @@ public class AgentSelector : MonoBehaviour
                 newAgent = gameObject.AddComponent<PlayerAgent>();
                 break;
             case AgentType.PlayerVr:
-                newAgent = gameObject.AddComponent<PlayerAgent>();
+                newAgent = gameObject.AddComponent<PlayerVrAgent>();
                 break;
-            case AgentType.SteeringBehaviour:
-                newAgent = gameObject.AddComponent<SteeringBehaviourAgent>();
+            case AgentType.Movement:
+                newAgent = gameObject.AddComponent<MovementAgent>();
                 break;
-            case AgentType.PathFinding:
-                newAgent = gameObject.AddComponent<PathFindingAgent>();
+            case AgentType.DecisionMaking:
+                newAgent = gameObject.AddComponent<DecisionMakingAgent>();
                 break;
             case AgentType.NeuralNet:
                 newAgent = gameObject.AddComponent<NeuralNetAgent>();

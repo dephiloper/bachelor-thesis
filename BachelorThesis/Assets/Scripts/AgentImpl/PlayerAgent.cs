@@ -1,5 +1,4 @@
-﻿using AgentData;
-using AgentData.Actions;
+﻿using AgentData.Actions;
 using UnityEngine;
 
 namespace AgentImpl
@@ -18,6 +17,8 @@ namespace AgentImpl
         [HideInInspector]
         public int HAxisIndex;
 
+        protected float HAxisValue;
+
 
         private RecordManager _recordManager;
 
@@ -32,9 +33,9 @@ namespace AgentImpl
             if (!GameManager.Instance.StartRace) return;
             
             base.Compute();
-            var hIput = IsDiscrete ? Input.GetAxisRaw(HAxis) : Input.GetAxis(HAxis);
+            HAxisValue = IsDiscrete ? Input.GetAxisRaw(HAxis) : Input.GetAxis(HAxis);
             var vIput = IsDiscrete ? Input.GetAxisRaw(VAxis) : Input.GetAxis(VAxis);
-            var action = new PlayerAction(hIput, vIput, IsDiscrete);
+            var action = new PlayerAction(HAxisValue, vIput, IsDiscrete);
             PerformAction(action);
             _recordManager?.SaveDecision(Percept, action);
         }
