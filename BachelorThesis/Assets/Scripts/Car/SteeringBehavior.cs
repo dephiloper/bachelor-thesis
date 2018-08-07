@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Car
 {
-    public static class SteeringBehaviour
+    public static class SteeringBehavior
     {
         public static Vector3 Seek(Vector3 position, Vector3 target, Vector3 velocity, float maxSpeed)
         {

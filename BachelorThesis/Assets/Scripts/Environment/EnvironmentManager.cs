@@ -11,11 +11,13 @@ namespace Environment
         public static EnvironmentManager Instance;
         public GameObject[] ObstaclesPrefab;
         public GameObject[] CollectablesPrefab;
-        public GameObject WaypointsPrefab;
-        public WaypointBehaviour[] Waypoints;
+        public GameObject SectionsPefab;
+        public SectionBehavior[] Sections;
         public float EnvironmentalSpace = 1.5f;
         public SpawnType ObstacleSpawnType;
         public SpawnType CollectableSpawnType;
+        public int TrackNumber = 0;
+        
 
         private Mesh _mesh;
         private readonly List<Vector3> _occupiedPositions = new List<Vector3>();
@@ -24,7 +26,7 @@ namespace Environment
         {
             if (Instance) return;
             Instance = this;
-            Waypoints = WaypointsPrefab.GetComponentsInChildren<WaypointBehaviour>();
+            Sections = SectionsPefab.GetComponentsInChildren<SectionBehavior>();
         }
 
         private void Start()
@@ -43,15 +45,20 @@ namespace Environment
 
         private void ChangeSpawnType(GameObject[] groupsPrefab, SpawnType spawnType)
         {
+            if (spawnType == SpawnType.Ignore) return;
+            
             foreach (var groupPrefab in groupsPrefab)
                 groupPrefab.SetActive(false);
             
             if (spawnType == SpawnType.None) return;
 
-            var group = groupsPrefab[0];
-            
+            var group = groupsPrefab[TrackNumber];
+
             if (spawnType == SpawnType.PseudoDynamic)
-                group = groupsPrefab[Random.Range(0, 3)];
+            {
+                TrackNumber = Random.Range(0, 3);
+                group = groupsPrefab[TrackNumber];
+            }
 
             group.SetActive(true);
             
@@ -117,6 +124,7 @@ namespace Environment
         None,
         Static,
         PseudoDynamic,
-        Dynamic
+        Dynamic,
+        Ignore
     }
 }

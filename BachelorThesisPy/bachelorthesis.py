@@ -40,10 +40,10 @@ model.add(Dense(units=2, activation='tanh'))
 model.compile(loss='mse', optimizer='adam')
 
 # save train model
-wrt = js.JSONwriter(model, "train_model.json")
-wrt.save()
+#wrt = js.JSONwriter(model, "train_model.json")
+#wrt.save()
 
-sys.exit(0)
+#sys.exit(0)
 
 x, y = load_data()
 train_count = int(len(x) * 0.8)

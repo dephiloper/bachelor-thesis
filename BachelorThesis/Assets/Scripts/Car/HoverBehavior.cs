@@ -2,7 +2,7 @@
 
 namespace Car
 {
-    public class HoverBehaviour : MonoBehaviour
+    public class HoverBehavior : MonoBehaviour
     {
         [SerializeField] private float _hoverForce = 15f;
 

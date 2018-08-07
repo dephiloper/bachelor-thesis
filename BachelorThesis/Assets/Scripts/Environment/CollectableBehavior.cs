@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Environment
 {
-    public class CollectableBehaviour : MonoBehaviour
+    public class CollectableBehavior : MonoBehaviour
     {
         private const float RotationSpeed = 50;
 
