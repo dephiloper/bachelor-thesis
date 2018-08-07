@@ -41,11 +41,11 @@ namespace AgentImpl
 
         protected IPercept Percept { get; private set; }
         protected Rigidbody Rigidbody;
+        protected int SpeedIncreaseTime { get; private set; }
 
         private const float BackwardSpeedReduction = 0.2f;
 
         private int _frames;
-        private int _speedIncreaseTime;
         
         private void Awake()
         {
@@ -76,19 +76,19 @@ namespace AgentImpl
             Speed = OnTrack ? MaxSpeed : MaxSpeed / 4f;
             Speed *= Rigidbody.drag * 2;
 
-            if (_speedIncreaseTime > 0)
+            if (SpeedIncreaseTime > 0)
             {
                 Speed *= SpeedIncreaseFactor;
-                _speedIncreaseTime -= (int) (Time.fixedDeltaTime * 1000);
+                SpeedIncreaseTime -= (int) (Time.fixedDeltaTime * 1000);
             }
             else
-                _speedIncreaseTime = 0;
+                SpeedIncreaseTime = 0;
         }
 
         private bool DetermineDirection()
         {
             var nextWaypoint =
-                EnvironmentManager.Instance.Waypoints.FirstOrDefault(x =>
+                EnvironmentManager.Instance.Sections.FirstOrDefault(x =>
                     x.WaypointIdentifier == ReachedWaypointId + 1);
 
             if (!nextWaypoint) throw new NullReferenceException("There should always be a next waypoint.");
@@ -109,14 +109,14 @@ namespace AgentImpl
 
             if (action.AccelerateForward)
             {
-                velocity = SteeringBehaviour.Seek(transform.position,
+                velocity = SteeringBehavior.Seek(transform.position,
                     transform.position + transform.forward,
                     Rigidbody.velocity, Speed);
             }
 
             if (action.AccelerateBackward)
             {
-                velocity = SteeringBehaviour.Seek(transform.position,
+                velocity = SteeringBehavior.Seek(transform.position,
                                transform.position - transform.forward,
                                Rigidbody.velocity, Speed) * BackwardSpeedReduction;
             }
@@ -161,7 +161,7 @@ namespace AgentImpl
             return false;
         }
 
-        public virtual void CollectableGathered() => _speedIncreaseTime += 2000;
+        public virtual void CollectableGathered() => SpeedIncreaseTime += 2000;
 
         public virtual void ObstacleCollided()
         {

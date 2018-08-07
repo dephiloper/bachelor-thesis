@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using AgentData.Actions;
 using Car;
 using Environment;
@@ -9,65 +11,68 @@ namespace AgentImpl
 {
     public class DecisionMakingAgent : Agent
     {
+        public float Acc;
+        
         private int _waypointId = 1;
-        private readonly Dictionary<int, Vector2> _idToWaypointDict = new Dictionary<int, Vector2>();
+        private readonly Dictionary<int, Waypoint> _idToWaypointDict = new Dictionary<int, Waypoint>();
 
         private void Start()
         {
-            foreach (var waypoint in EnvironmentManager.Instance.Waypoints)
-                _idToWaypointDict.Add(waypoint.WaypointIdentifier, waypoint.transform.position.ToVector2());
+            foreach (var section in EnvironmentManager.Instance.Sections) {
+                    _idToWaypointDict.Add(section.WaypointIdentifier,
+                        section.transform.GetComponentsInChildren<Waypoint>()[EnvironmentManager.Instance.TrackNumber]);
+            }
         }
 
         protected override void Compute()
         {
             if (!GameManager.Instance.StartRace) return;
-            
+
             base.Compute();
             var target = FindNextTarget();
-            var relativeDir = transform.InverseTransformPoint(target);
-            var steer = (relativeDir.x / relativeDir.magnitude);
+            var relativeDir = transform.InverseTransformPoint(target.transform.position);
+            var steer = (relativeDir.x / relativeDir.magnitude) * 2f;
 
+            if (steer > 0.05f)
+                steer = 1;
+            else if (steer < -0.05f)
+                steer = -1;
+            else
+                steer = 0;
+            
+            
+            /*var acc = 1f;
+
+            Debug.DrawRay(transform.position, transform.forward * 3, Color.magenta);
             RaycastHit hit;
-            var acc = 1f;
-
-            if (OnTrack) {
-                Debug.DrawRay(transform.position, transform.forward * 5, Color.magenta);
-                if (Physics.Raycast(transform.position, transform.forward, out hit, 5f,
-                    LayerMask.GetMask("Wall", "Obstacle")))
-                {
-                    if (LayerMask.GetMask("Obstacle") ==
-                        (LayerMask.GetMask("Obstacle") | (1 << hit.collider.gameObject.layer)))
-                        steer -= 0.2f;
-                    else
-                        acc = hit.distance.Map(5, 0, 0.6f, -0.5f);
-                }
+            if (Physics.Raycast(transform.position, transform.forward, out hit, 3f,
+                LayerMask.GetMask("Wall")))
+            {
+                acc = hit.distance.Map(5, 0, 0.8f, 0.2f);
             }
 
+            print(acc);*/
 
-        PerformAction(new PlayerAction(steer, acc, false));
-
-
-/*            Rigidbody.AddForce(transform.forward * Speed/2, ForceMode.Acceleration);
-
+            Acc = target.Acceleration;
+            if (SpeedIncreaseTime == 0)
+                Acc *= SpeedIncreaseFactor;
             
-            Rigidbody.MoveRotation(Quaternion.Euler(transform.rotation.eulerAngles + transform.up * TurnSpeed * steer));*/
+            Acc = Acc > 1 ? 1f : Acc;
+            
+
+            PerformAction(new PlayerAction(steer, Acc, false));
         }
 
-        public override void SetValues(Agent agent)
-        {
-            base.SetValues(agent);
-        }
-
-        private Vector3 FindNextTarget()
+        private Waypoint FindNextTarget()
         {
             var pos = new Vector2(transform.position.x, transform.position.z);
-            if (Vector2.Distance(pos, _idToWaypointDict[_waypointId]) < 2f)
+            if (Vector2.Distance(pos, _idToWaypointDict[_waypointId].transform.position.ToVector2()) < 2f)
                 _waypointId++;
 
             if (_waypointId == _idToWaypointDict.Count)
                 _waypointId = 1;
 
-            return _idToWaypointDict[_waypointId].ToVector3();
+            return _idToWaypointDict[_waypointId];
         }
     }
 }

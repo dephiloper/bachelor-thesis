@@ -13,8 +13,8 @@ namespace AgentImpl
 
         private void Start()
         {
-            foreach (var waypoint in EnvironmentManager.Instance.Waypoints)
-                _idToWaypointDict.Add(waypoint.WaypointIdentifier, waypoint.transform.position.ToVector2());
+            foreach (var section in EnvironmentManager.Instance.Sections)
+                _idToWaypointDict.Add(section.WaypointIdentifier, section.transform.GetChild(0).position.ToVector2());
         }
 
         protected override void Compute()
@@ -23,7 +23,7 @@ namespace AgentImpl
             
             base.Compute();
             var target = FindNextTarget();
-            Rigidbody.AddForce(SteeringBehaviour.Seek(transform.position, target, Rigidbody.velocity,
+            Rigidbody.AddForce(SteeringBehavior.Seek(transform.position, target, Rigidbody.velocity,
                 Speed), ForceMode.Acceleration);
             AdjustRotation();
         }

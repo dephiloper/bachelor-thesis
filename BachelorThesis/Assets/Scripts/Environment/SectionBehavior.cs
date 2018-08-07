@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Environment
 {
-    public class WaypointBehaviour : MonoBehaviour
+    public class SectionBehavior : MonoBehaviour
     {
         public int WaypointIdentifier;
 
