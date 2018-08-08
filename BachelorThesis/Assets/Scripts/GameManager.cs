@@ -34,6 +34,19 @@ public class GameManager : MonoBehaviour {
 
         for (var i = 0; i < orderedAgents.Count; i++)
             orderedAgents[i].Place = i + 1;
+
+        var winner = _agents.FirstOrDefault(x => x.CurrentLap >= 3);
+        
+        if (winner != null)
+        {
+            print($"The winner is {winner.transform.name}");
+            
+#if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+#else
+                Application.Quit();
+#endif
+        }
     }
 
     private void UpdateStartCounter()
