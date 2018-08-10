@@ -2507,9 +2507,9 @@ MonoBehaviour:
   DistToNextWaypoint: 0
   CurrentLap: 0
   Place: 0
-  BrainAsset: {fileID: 102900000, guid: cb8a4a358def04e558fc1518d14cc525, type: 3}
+  BrainAsset: {fileID: 102900000, guid: b32ec6d6c7a0a49638eaf65839ba4560, type: 3}
   IsTrained: 0
-  _fileName: model2.json
+  _fileName: modelx.json
 --- !u!65 &134664508
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -17518,7 +17518,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 277e4c94ffb044bf198730ff9ca08d7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Vehicle: {fileID: 134664505}
+  Vehicle: {fileID: 1656438279}
   SmoothRotationSpeed: 3.5
 --- !u!4 &806791499
 Transform:
@@ -28567,7 +28567,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1242054125
 Transform:
   m_ObjectHideFlags: 0
@@ -29871,7 +29871,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1289331756
 Transform:
   m_ObjectHideFlags: 0
@@ -30752,7 +30752,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1323436632
 Transform:
   m_ObjectHideFlags: 0
@@ -30819,7 +30819,7 @@ MonoBehaviour:
   CurrentLap: 0
   Place: 0
   IsDiscrete: 1
-  Record: 0
+  Record: 1
   VAxis: VerticalP0
   HAxis: HorizontalP0
   VAxisIndex: 7
@@ -33219,8 +33219,8 @@ MonoBehaviour:
   SectionsPefab: {fileID: 554225101}
   Sections: []
   EnvironmentalSpace: 1
-  ObstacleSpawnType: 1
-  CollectableSpawnType: 1
+  ObstacleSpawnType: 0
+  CollectableSpawnType: 0
   TrackNumber: 0
 --- !u!64 &1423459909
 MeshCollider:
@@ -38144,7 +38144,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1656438279}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 13.07, y: 0.745, z: -1.43}
+  m_LocalPosition: {x: 12.6, y: 0.745, z: -1.43}
   m_LocalScale: {x: 0.79999995, y: 0.79999995, z: 0.79999995}
   m_Children:
   - {fileID: 726996448}
@@ -38171,11 +38171,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1656438279}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 05a05260beb54efab979015f509920aa, type: 3}
+  m_Script: {fileID: 11500000, guid: 786e652db6a94814a86cf1b18ecc8dee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Label: {fileID: 0}
-  MaxSpeed: 3.75
+  Label: {fileID: 562720593}
+  MaxSpeed: 4
   MaxTurnSpeed: 1.8
   Score: 0
   Speed: 0
@@ -38190,6 +38190,9 @@ MonoBehaviour:
   DistToNextWaypoint: 0
   CurrentLap: 0
   Place: 0
+  BrainAsset: {fileID: 102900000, guid: 56643387a30964e46a1ea81b7a79514d, type: 3}
+  IsTrained: 0
+  _fileName: 2018-08-08-18_48-00-177321-gen_1000-score_394.41-brain.txt
 --- !u!65 &1656438282
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -38213,8 +38216,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00430725568834aafa214727fcae4d94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Type: 2
-  _oldType: 2
+  Type: 4
+  _oldType: 4
   _isNew: 0
 --- !u!114 &1656438284
 MonoBehaviour:

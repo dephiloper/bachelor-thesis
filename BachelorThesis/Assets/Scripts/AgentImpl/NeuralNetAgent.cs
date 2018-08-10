@@ -50,8 +50,9 @@ namespace AgentImpl
             PerformAction(action);
             UpdateEditorProps();
 
-            //if (!OnTrack)
-                //Brain.Score -= 0.1f;
+            if (!OnTrack)
+                //Destroy(Rigidbody);
+                Brain.Score -= 0.01f;
         }
 
         protected override void UpdateEditorProps()

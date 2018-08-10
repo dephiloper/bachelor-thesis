@@ -19,7 +19,7 @@ public static class SerializationUtils
 
         while (loadedBrains != count)
         {
-            foreach (var file in Directory.GetFiles(path, "*brain.txt"))
+            foreach (var file in Directory.GetFiles(path, "*brain.txt").Concat(Directory.GetFiles(path, "*.json")))
             {
                 brains[loadedBrains] = Brain.Import(file);
                 loadedBrains++;
