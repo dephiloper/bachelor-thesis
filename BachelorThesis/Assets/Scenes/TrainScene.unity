@@ -2264,9 +2264,8 @@ MonoBehaviour:
   SectionsPefab: {fileID: 1759052184}
   Sections: []
   EnvironmentalSpace: 1
-  ObstacleSpawnType: 1
-  CollectableSpawnType: 1
-  TrackNumber: 0
+  ObstacleSpawnType: 2
+  CollectableSpawnType: 2
 --- !u!64 &132088000
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -37556,11 +37555,11 @@ MonoBehaviour:
     type: 2}
   SpawnPoint: {fileID: 1859602264}
   Label: {fileID: 1206140229}
-  PopulationSize: 300
-  SubPopulationSize: 60
+  PopulationSize: 100
+  SubPopulationSize: 50
   GenerationCount: 20000
   LifespanMillis: 120000
-  LimitLifespanMillis: 130000
+  LimitLifespanMillis: 120000
   MutationRate: 0.01
   CrossoverProbabilty: 0.6
   UniformCrossoverProbability: 0.5
@@ -37571,9 +37570,9 @@ MonoBehaviour:
   SubTopScore: 0
   TrainModelAsset: {fileID: 102900000, guid: cb8a4a358def04e558fc1518d14cc525, type: 3}
   ExportPath: ./Exports/
-  ImportPath: ./Exports/Top/
-  TimeScale: 2
-  _fileName: model2.json
+  ImportPath: ./Exports/2018-08-11-12-02-19-Brains/
+  TimeScale: 1
+  _fileName: train-model.json
   _trainModelPath: /StreamingAssets/plain_model.json
 --- !u!1 &2109354350
 GameObject:

@@ -23,15 +23,18 @@ namespace AgentImpl
             
             base.Compute();
             var target = FindNextTarget();
-            Rigidbody.AddForce(SteeringBehavior.Seek(transform.position, target, Rigidbody.velocity,
-                Speed), ForceMode.Acceleration);
+            var steering = SteeringBehavior.Seek(transform.position, target, Rigidbody.velocity,
+                Speed);
+            print(steering);
+            
+            Rigidbody.AddForce(steering, ForceMode.Acceleration);
             AdjustRotation();
         }
 
         private void AdjustRotation()
         {
             var angle = Mathf.Atan2(Rigidbody.velocity.z, Rigidbody.velocity.x) * Mathf.Rad2Deg + 270f;
-            transform.rotation = Quaternion.AngleAxis(angle, Vector3.down);
+            transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.AngleAxis(angle, Vector3.down), Time.time * 0.005f);
         }
 
         private Vector3 FindNextTarget()

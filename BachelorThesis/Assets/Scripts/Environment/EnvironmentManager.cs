@@ -16,7 +16,7 @@ namespace Environment
         public float EnvironmentalSpace = 1.5f;
         public SpawnType ObstacleSpawnType;
         public SpawnType CollectableSpawnType;
-        public int TrackNumber = 0;
+        private int _trackNumber = 0;
         
 
         private Mesh _mesh;
@@ -52,12 +52,12 @@ namespace Environment
             
             if (spawnType == SpawnType.None) return;
 
-            var group = groupsPrefab[TrackNumber];
+            var group = groupsPrefab[_trackNumber];
 
             if (spawnType == SpawnType.PseudoDynamic)
             {
-                TrackNumber = Random.Range(0, 3);
-                group = groupsPrefab[TrackNumber];
+                _trackNumber = Random.Range(0, 3);
+                group = groupsPrefab[_trackNumber];
             }
 
             group.SetActive(true);

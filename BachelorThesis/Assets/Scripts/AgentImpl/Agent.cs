@@ -11,6 +11,7 @@ using Extensions;
 using Train;
 using UnityEngine;
 using UnityEngine.UI;
+using Random = System.Random;
 
 namespace AgentImpl
 {
@@ -25,7 +26,7 @@ namespace AgentImpl
         public int Score;
         public float Speed;
         public float TurnSpeed;
-        public bool RightDirection;
+        public bool RightDirection = true;
 
         // Change the SensorType here
         public Sensor Sensor = new DistanceOnlySensor();
@@ -147,7 +148,7 @@ namespace AgentImpl
             if (TrainManager.Instance)
                     Sensor.Show = true;
             else if (Label)
-                Label.text = $"{Speed:0.00} km/h\nLap {CurrentLap}\nPlace {Place}";
+                Label.text = $"{GetType().Name}\n{Speed:0.00} km/h\nLap {CurrentLap}\nPlace {Place}";
         }
 
         private bool IsOnTrack()
@@ -161,7 +162,11 @@ namespace AgentImpl
             return false;
         }
 
-        public virtual void CollectableGathered() => SpeedIncreaseTime += 2000;
+        public virtual void CollectableGathered()
+        {
+            if (TrainManager.Instance && UnityEngine.Random.value < 0.5f)
+                SpeedIncreaseTime += 2000;
+        }    
 
         public virtual void ObstacleCollided()
         {
