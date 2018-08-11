@@ -2,6 +2,7 @@
 using System.Linq;
 using AgentImpl;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour {
@@ -11,6 +12,7 @@ public class GameManager : MonoBehaviour {
     public Text StartCounterLabel;
     public GameObject StartLight;
     public bool StartRace { private set; get; }
+    public GameObject FinishPanel;
     
     private List<Agent> _agents;
     private int _startCounter = 3;    
@@ -23,7 +25,8 @@ public class GameManager : MonoBehaviour {
     private void Start()
     {
         _agents = GetComponentsInChildren<Agent>().ToList();
-        
+        Time.timeScale = 1f;        
+
         if (!_agents.FirstOrDefault(x => x.GetComponent<PlayerVrAgent>()))
             InvokeRepeating(nameof(UpdateStartCounter), 5, 1);
     }
@@ -47,14 +50,16 @@ public class GameManager : MonoBehaviour {
         
         if (winner != null)
         {
-            print($"The winner is {winner.transform.name}");
-            
-#if UNITY_EDITOR
-            UnityEditor.EditorApplication.isPlaying = false;
-#else
-                Application.Quit();
-#endif
+            Time.timeScale = 0.3f;
+            FinishPanel.GetComponentInChildren<Text>().text = $"{winner.name} wins!\nWait for restart...";
+            FinishPanel.SetActive(true);
+            Invoke(nameof(RestartGame), 3);
         }
+    }
+
+    private void RestartGame()
+    {
+        SceneManager.LoadScene("MenuScene"); 
     }
 
     private void UpdateStartCounter()

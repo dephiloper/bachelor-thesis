@@ -36,8 +36,6 @@ public class VrPositionAdjustment : MonoBehaviour {
 	{		
 		HandlePadUnclicked(sender, e);
 		
-		print(e.padX);
-		
 		if (e.padX > 0.6)
 			_moveLeft = true;
 		else if (e.padX < -0.6)
@@ -55,13 +53,13 @@ public class VrPositionAdjustment : MonoBehaviour {
 		if (_controller.padPressed)
 		{
 			if (_moveLeft)
-				VrCamera.position += new Vector3(0.005f, 0, 0);
+				VrCamera.position += new Vector3(0.001f, 0, 0);
 			if (_moveRight)
-				VrCamera.position -= new Vector3(0.005f, 0, 0);
+				VrCamera.position -= new Vector3(0.001f, 0, 0);
 			if (_moveUp)
-				VrCamera.position += new Vector3(0, 0.005f, 0);
+				VrCamera.position += new Vector3(0, 0.001f, 0);
 			if (_moveDown)
-				VrCamera.position -= new Vector3(0, 0.005f, 0);
+				VrCamera.position -= new Vector3(0, 0.001f, 0);
 		}
 	}
 }

@@ -20,7 +20,7 @@ namespace AgentImpl
         {
             foreach (var section in EnvironmentManager.Instance.Sections) {
                     _idToWaypointDict.Add(section.WaypointIdentifier,
-                        section.transform.GetComponentsInChildren<Waypoint>()[EnvironmentManager.Instance.TrackNumber]);
+                        section.transform.GetComponentInChildren<Waypoint>());
             }
         }
 

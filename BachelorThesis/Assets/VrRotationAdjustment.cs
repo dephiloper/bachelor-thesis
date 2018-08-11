@@ -53,13 +53,13 @@ public class VrRotationAdjustment : MonoBehaviour {
 		if (_controller.padPressed) {
 		
 		if (_moveForward)
-			VrCamera.position += new Vector3(0, 0, 0.005f);
+			VrCamera.position += new Vector3(0, 0, 0.001f);
 		if (_moveBackward)
-			VrCamera.position -= new Vector3(0, 0, 0.005f);
+			VrCamera.position -= new Vector3(0, 0, 0.001f);
 		if (_rotateLeft)
-			VrCamera.Rotate(0,0.5f,0);
+			VrCamera.Rotate(0,-0.25f,0);
 		if (_rotateRight)
-			VrCamera.Rotate(0,-0.5f,0);
+			VrCamera.Rotate(0,0.25f,0);
 			
 		}
 	}

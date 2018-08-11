@@ -7,7 +7,7 @@ namespace Environment
     {
         public int WaypointIdentifier;
 
-        private void OnTriggerEnter(Collider other)
+        private void OnTriggerExit(Collider other)
         {
             var agent = other.GetComponent<Agent>();
         

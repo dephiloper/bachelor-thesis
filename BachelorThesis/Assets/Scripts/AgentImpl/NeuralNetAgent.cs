@@ -8,6 +8,7 @@ using AgentData.Sensors;
 using Train;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace AgentImpl
 {
@@ -16,6 +17,8 @@ namespace AgentImpl
         [Header(nameof(NeuralNetAgent))] public UnityEngine.Object BrainAsset;
         public bool IsTrained;
         [SerializeField] [HideInInspector] private string _fileName;
+        private int _wrongDirCounter;
+        private int _toSlowCounter;
 
         public Brain Brain { get; set; }
 
@@ -50,8 +53,27 @@ namespace AgentImpl
             PerformAction(action);
             UpdateEditorProps();
 
-            //if (!OnTrack)
-                //Brain.Score -= 0.1f;
+            if (TrainManager.Instance) {
+                if (!RightDirection) {
+                    _wrongDirCounter++;
+                    if (_wrongDirCounter > 200)
+                        Destroy(Rigidbody);
+                }
+                else
+                    _wrongDirCounter = 0;
+    
+                if (Speed < 1.5)
+                {
+                    _toSlowCounter++;
+                    if (_toSlowCounter > 200)
+                        Destroy(Rigidbody);
+                }
+                else
+                    _toSlowCounter = 0;
+            }
+            if (!OnTrack)
+                //Destroy(Rigidbody);
+                Brain.Score -= 0.01f;
         }
 
         protected override void UpdateEditorProps()
