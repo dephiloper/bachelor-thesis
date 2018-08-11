@@ -62,11 +62,11 @@ namespace AgentImpl
         {
             UpdateEditorProps();
 
-            if (_frames % 5 == 0) 
-            {
+            //if (_frames % 5 == 0) 
+            //{
                 Percept = Sensor.PerceiveEnvironment();
                 Percept.Normalize();
-            }
+            //}
             if (_frames % 30 == 0)
                 OnTrack = IsOnTrack();
 
@@ -147,7 +147,7 @@ namespace AgentImpl
             if (TrainManager.Instance)
                     Sensor.Show = true;
             else if (Label)
-                Label.text = $"{Speed:0.00} km/h\nLap {CurrentLap}\nPlace {Place}";
+                Label.text = $"{GetType().Name}\n{Speed:0.00} km/h\nLap {CurrentLap}\nPlace {Place}";
         }
 
         private bool IsOnTrack()

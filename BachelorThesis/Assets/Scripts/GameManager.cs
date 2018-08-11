@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour {
     public static GameManager Instance;
 
     public Text StartCounterLabel;
+    public GameObject StartLight;
     public bool StartRace { private set; get; }
     
     private List<Agent> _agents;
@@ -22,7 +23,14 @@ public class GameManager : MonoBehaviour {
     private void Start()
     {
         _agents = GetComponentsInChildren<Agent>().ToList();
-        InvokeRepeating(nameof(UpdateStartCounter), 5, 1);
+        
+        if (!_agents.FirstOrDefault(x => x.GetComponent<PlayerVrAgent>()))
+            InvokeRepeating(nameof(UpdateStartCounter), 5, 1);
+    }
+
+    public void FinishSetup()
+    {
+        InvokeRepeating(nameof(UpdateStartCounter), 2, 1);
     }
 
     private void Update()
@@ -51,11 +59,13 @@ public class GameManager : MonoBehaviour {
 
     private void UpdateStartCounter()
     {
+        StartLight.transform.GetChild(3-_startCounter).GetComponent<MeshRenderer>().material.color = Color.green;
         _startCounter--;
         StartCounterLabel.text = _startCounter.ToString();
 
         if (_startCounter == 0)
         {
+            Destroy(StartLight);
             StartRace = true;
             Destroy(StartCounterLabel);
             CancelInvoke(nameof(UpdateStartCounter));
