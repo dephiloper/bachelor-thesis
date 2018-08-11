@@ -164,8 +164,8 @@ namespace AgentImpl
 
         public virtual void CollectableGathered()
         {
-            if (TrainManager.Instance && UnityEngine.Random.value < 0.5f)
-                SpeedIncreaseTime += 2000;
+            //if (TrainManager.Instance && UnityEngine.Random.value < 0.5f)
+            SpeedIncreaseTime += 2000;
         }    
 
         public virtual void ObstacleCollided()

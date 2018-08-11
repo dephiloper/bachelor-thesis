@@ -85,13 +85,15 @@
      <Compile Include="Assets\Scripts\GameManager.cs" />
      <Compile Include="Assets\Scripts\RecordManager.cs" />
      <Compile Include="Assets\Scripts\SerializationUtils.cs" />
+     <Compile Include="Assets\Scripts\StartSceneScript.cs" />
      <Compile Include="Assets\Scripts\Tests\ExtensionMethodsTest.cs" />
      <Compile Include="Assets\Scripts\Train\TrainLogger.cs" />
      <Compile Include="Assets\Scripts\Train\TrainManager.cs" />
-     <Compile Include="Assets\StartSceneScript.cs" />
      <Compile Include="Assets\Waypoint.cs" />
      <None Include="Assets\StreamingAssets\test.txt" />
      <None Include="Assets\StreamingAssets\2018-08-11-08_15-51-042843-gen_6000-score_554,53-brain.txt" />
+     <None Include="Assets\StreamingAssets\2018-08-11-15_40-52-050441-gen_2000-score_491.43-brain.txt" />
+     <None Include="Assets\StreamingAssets\2018-08-11-15_40-52-051758-gen_2000-score_485.77-brain.txt" />
      <None Include="Assets\StreamingAssets\3000-557.txt" />
      <None Include="Assets\StreamingAssets\2018-08-11-12_02-19-993305-gen_2000-score_480.36-brain.txt" />
      <None Include="Assets\StreamingAssets\2018-08-11-12_02-19-980653-gen_2000-score_495.34-brain.txt" />

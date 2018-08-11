@@ -2264,7 +2264,7 @@ MonoBehaviour:
   SectionsPefab: {fileID: 1759052184}
   Sections: []
   EnvironmentalSpace: 1
-  ObstacleSpawnType: 2
+  ObstacleSpawnType: 0
   CollectableSpawnType: 2
 --- !u!64 &132088000
 MeshCollider:

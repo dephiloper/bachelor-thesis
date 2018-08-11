@@ -2429,9 +2429,9 @@ MonoBehaviour:
   DistToNextWaypoint: 0
   CurrentLap: 0
   Place: 0
-  BrainAsset: {fileID: 102900000, guid: 26117113bc5464edb80e639b123bd851, type: 3}
+  BrainAsset: {fileID: 102900000, guid: 28a268e13fdf6441f80fafd32e2f80aa, type: 3}
   IsTrained: 0
-  _fileName: 2018-08-11-12_02-19-980653-gen_2000-score_495.34-brain.txt
+  _fileName: 2018-08-11-15_40-52-050441-gen_2000-score_491.43-brain.txt
 --- !u!65 &134664508
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -8066,7 +8066,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 430499618}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.25, y: 0, z: 0}
+  m_LocalPosition: {x: -0.28, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1614698784}
@@ -8966,7 +8966,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 473917581}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.225, y: 0, z: 0}
+  m_LocalPosition: {x: -0.29, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 569052458}
@@ -10765,7 +10765,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &550463547
 RectTransform:
   m_ObjectHideFlags: 0
@@ -27414,7 +27414,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1291375905
 Transform:
   m_ObjectHideFlags: 0
@@ -30438,7 +30438,7 @@ MonoBehaviour:
   Sections: []
   EnvironmentalSpace: 1
   ObstacleSpawnType: 0
-  CollectableSpawnType: 4
+  CollectableSpawnType: 2
 --- !u!64 &1423459909
 MeshCollider:
   m_ObjectHideFlags: 0
