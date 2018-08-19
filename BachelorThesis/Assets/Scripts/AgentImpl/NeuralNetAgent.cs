@@ -31,7 +31,7 @@ namespace AgentImpl
 
         private void Start()
         {
-            var modelPath = $"{Application.dataPath}/StreamingAssets/{_fileName}";
+            var modelPath = $"{Application.streamingAssetsPath}/{_fileName}";
             if (!string.IsNullOrEmpty(_fileName))
             {
                 Brain = Brain.Import(modelPath);
@@ -53,24 +53,6 @@ namespace AgentImpl
             PerformAction(action);
             UpdateEditorProps();
 
-            if (TrainManager.Instance) {
-                if (!RightDirection) {
-                    _wrongDirCounter++;
-                    if (_wrongDirCounter > 200)
-                        Destroy(Rigidbody);
-                }
-                else
-                    _wrongDirCounter = 0;
-    
-                if (Speed < 1.5)
-                {
-                    _toSlowCounter++;
-                    if (_toSlowCounter > 200)
-                        Destroy(Rigidbody);
-                }
-                else
-                    _toSlowCounter = 0;
-            }
             if (!OnTrack)
                 //Destroy(Rigidbody);
                 Brain.Score -= 0.01f;

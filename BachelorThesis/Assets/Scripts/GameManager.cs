@@ -17,7 +17,9 @@ public class GameManager : MonoBehaviour {
     public GameObject FinishPanel;
     
     private List<Agent> _agents;
-    private int _startCounter = 3;    
+    private int _startCounter = 3;
+    private bool _winnerSet;
+    
     private void Awake()
     {
         if (!Instance)
@@ -40,6 +42,8 @@ public class GameManager : MonoBehaviour {
 
     private void Update()
     {
+        if (_winnerSet) return;
+        
         var orderedAgents = _agents.OrderByDescending(x => x.CurrentLap)
             .ThenByDescending(x => x.ReachedWaypointId)
             .ThenBy(x => x.DistToNextWaypoint)
@@ -56,6 +60,7 @@ public class GameManager : MonoBehaviour {
             FinishPanel.GetComponentInChildren<Text>().text = $"{winner.name} wins!\nWait for restart...";
             FinishPanel.SetActive(true);
             Invoke(nameof(RestartGame), 3);
+            _winnerSet = true;
         }
     }
 
