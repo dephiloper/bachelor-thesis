@@ -12,7 +12,7 @@ EditorBuildSettings:
     path: Assets/Scenes/TrainScene.unity
     guid: 2147b59c23c3f4614be8d7c13b577971
   - enabled: 0
-    path: Assets/Scenes/PlaySceneObstacle.unity
+    path: Assets/Scenes/PlaySceneObstacles.unity
     guid: e763100a0e29e4161bd1753c0782e0ae
   - enabled: 1
     path: Assets/Scenes/PlayScene.unity
@@ -20,4 +20,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/PlaySceneVr.unity
     guid: 872a965a74243ae488e1367304b10ad0
+  - enabled: 1
+    path: Assets/Scenes/PlaySceneNoEnvs.unity
+    guid: b5268d63e6d36664e8720d719a0acfd4
+  - enabled: 1
+    path: Assets/Scenes/PlaySceneVrNoEnvs.unity
+    guid: 2753aaea7d4534b41a918074e472a7b3
   m_configObjects: {}

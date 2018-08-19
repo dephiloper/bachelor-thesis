@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using AgentImpl;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.XR;
 
 public class GameManager : MonoBehaviour {
     
@@ -25,7 +27,7 @@ public class GameManager : MonoBehaviour {
     private void Start()
     {
         _agents = GetComponentsInChildren<Agent>().ToList();
-        Time.timeScale = 1f;        
+        Time.timeScale = 1f;
 
         if (!_agents.FirstOrDefault(x => x.GetComponent<PlayerVrAgent>()))
             InvokeRepeating(nameof(UpdateStartCounter), 5, 1);
